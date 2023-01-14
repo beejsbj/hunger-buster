@@ -1,10 +1,12 @@
 <script setup>
+import { useCounterStore } from "../stores/counter.js";
+console.log( useCounterStore )
 defineProps({
   msg: {
     type: String,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 </script>
 
 <template>
@@ -13,8 +15,13 @@ defineProps({
     <h3>
       You’ve successfully created a project with
       <a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a> +
-      <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>.
+      <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>
     </h3>
+  </div>
+  <div>
+    <button @click="useCounterStore.increment">
+      count {{ useCounterStore.count }}
+    </button>
   </div>
 </template>
 
