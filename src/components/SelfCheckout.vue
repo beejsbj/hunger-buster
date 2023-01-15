@@ -2,15 +2,12 @@
 // import { ref, reactive } from "vue";
 import { useCartStore } from "../stores/counter.js";
 const cart = useCartStore();
-
-
 </script>
 
 <template>
-
 	<form @submit.prevent="cart.add()" id="e4p" autocomplete="off">
 		<!-- vue watch this scope -->
-		<div class="input-field">	
+		<div class="input-field">
 			<label for="name"> Enter Name of item </label>
 			<input
 				required
@@ -35,7 +32,7 @@ const cart = useCartStore();
 			<input type="number" id="quantity" v-model="cart.item.quantity" />
 		</div>
 		<button>Add Item</button>
-		<output :class="{ hideOpacity: !cart.item.items[0] }">
+		<output>
 			<table class="styled-table">
 				<thead>
 					<tr>
@@ -47,7 +44,7 @@ const cart = useCartStore();
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(item, i) in cart.item.items">
+					<tr v-for="(item, i) in cart.items">
 						<td>{{ i + 1 }}</td>
 						<td>{{ item.name }}</td>
 						<td>${{ item.price }}</td>

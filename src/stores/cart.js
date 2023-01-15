@@ -6,16 +6,18 @@ export const useCartStore = defineStore("cart", () => {
 		name: "",
 		price: 0,
 		quantity: 0,
-		items: [],
+
 	});
+
+	const items = reactive([]);
 
 
 	function total() {
-		return item.items.reduce(function (total, item) {
+		return items.reduce(function (total, item) {
 			return total + item.total;
 		}, 0);
 	}
-	
+
 	function add() {
 		if (!item.quantity) item.quantity = 1;
 		let item = {
@@ -24,10 +26,10 @@ export const useCartStore = defineStore("cart", () => {
 			quantity: item.quantity,
 			total: item.price * item.quantity,
 		};
-		item.items.push(item);
+		items.push(item);
 		item.price = "";
 		item.quantity = "";
 	}
 
-	return { item, total, add };
+	return { item, items, total, add };
 });
