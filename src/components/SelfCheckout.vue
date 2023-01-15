@@ -8,8 +8,14 @@ const item = reactive({
 		quantity: 0,
 	});
 
+const name = ref(null);
+
+function reFocus(){
+	name.value.focus();
+}
+
 const cart = useCartStore();
-console.log(cart.items);
+
 </script>
 
 <template>
@@ -22,6 +28,7 @@ console.log(cart.items);
 				type="text"
 				id="name"
 				v-model="item.name"
+				ref="name"
 			/>
 		</div>
 		<div class="input-field">
@@ -43,7 +50,7 @@ console.log(cart.items);
 			/>
 		</div>
 
-		<button>Add Item</button>
+		<button @click="reFocus()">Add Item</button>
 		<output>
 			<table class="styled-table">
 				<thead>

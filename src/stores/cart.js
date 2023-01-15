@@ -28,9 +28,9 @@ export const useCartStore = defineStore("cart", () => {
 		};
 		items.push(record);
 		item.name = "";
-		item.price = "";
-		item.quantity = "";
-		console.log(items);
+		item.price = 0;
+		item.quantity = 0;
+
 
 	}
 
