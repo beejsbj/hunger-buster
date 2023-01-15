@@ -1,20 +1,17 @@
 <script setup>
-  import SimpleMath from '../components/SimpleMath.vue'
+  import HelloWorld from '../components/HelloWorld.vue';
+  import { useCounterStore } from "../stores/counter.js";
+  const counter = useCounterStore();
 </script>
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <HelloWorld msg=" this is About" />  </div>
 
-
+    <div class="counter">
+    {{  counter.count }}
   </div>
 </template>
 
 <style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: grid;
-    align-items: center;
-  }
-}
+
 </style>
