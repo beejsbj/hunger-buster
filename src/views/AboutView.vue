@@ -1,7 +1,7 @@
 <script setup>
 import HelloWorld from "../components/HelloWorld.vue";
-import { useCounterStore } from "../stores/counter.js";
-const counter = useCounterStore();
+import { useCartStore } from "../stores/cart.js";
+const cart = useCartStore();
 </script>
 
 <template>
@@ -9,9 +9,9 @@ const counter = useCounterStore();
     <HelloWorld msg=" this is About" />
   </div>
 
-  <div class="counter">
-    {{ counter.count }}
-  </div>
+  <h3 class="cart">
+    Total: {{ cart.total }}
+  </h3>
 </template>
 
 <style></style>

@@ -2,34 +2,37 @@ import { ref, computed, reactive } from "vue";
 import { defineStore } from "pinia";
 
 export const useCartStore = defineStore("cart", () => {
-	const item = reactive({
-		name: "",
-		price: 0,
-		quantity: 0,
-
-	});
+	
 
 	const items = reactive([]);
 
-
-	function total() {
+	const total = computed(function () {
 		return items.reduce(function (total, item) {
 			return total + item.total;
 		}, 0);
-	}
+	});
 
-	function add() {
+	// function total() {
+	// 	return items.reduce(function (total, item) {
+	// 		return total + item.total;
+	// 	}, 0);
+	// }
+
+	function add(item) {
 		if (!item.quantity) item.quantity = 1;
-		let item = {
+		let record = {
 			name: item.name,
 			price: item.price,
 			quantity: item.quantity,
 			total: item.price * item.quantity,
 		};
-		items.push(item);
+		items.push(record);
+		item.name = "";
 		item.price = "";
 		item.quantity = "";
+		console.log(items);
+
 	}
 
-	return { item, items, total, add };
+	return { items, total, add };
 });

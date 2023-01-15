@@ -3,7 +3,7 @@ import SelfCheckout from "../components/SelfCheckout.vue";
 </script>
 <template>
 	<div>
-		<SelfCheckout msg="Self Checkout"> </SelfCheckout>
+		<SelfCheckout> </SelfCheckout>
 	</div>
 </template>
 

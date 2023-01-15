@@ -1,20 +1,27 @@
 <script setup>
-// import { ref, reactive } from "vue";
-import { useCartStore } from "../stores/counter.js";
+import { ref, reactive } from "vue";
+import { useCartStore } from "../stores/cart.js";
+
+const item = reactive({
+		name: "",
+		price: 0,
+		quantity: 0,
+	});
+
 const cart = useCartStore();
+console.log(cart.items);
 </script>
 
 <template>
-	<form @submit.prevent="cart.add()" id="e4p" autocomplete="off">
-		<!-- vue watch this scope -->
+	<h1>Self Checkout</h1>
+	<form @submit.prevent="cart.add(item)" id="e4p" autocomplete="off">
 		<div class="input-field">
 			<label for="name"> Enter Name of item </label>
 			<input
 				required
 				type="text"
 				id="name"
-				v-model="cart.item.name"
-				ref="name"
+				v-model="item.name"
 			/>
 		</div>
 		<div class="input-field">
@@ -23,14 +30,19 @@ const cart = useCartStore();
 				required
 				type="number"
 				id="price"
-				v-model="cart.item.price"
+				v-model="item.price"
 				ref="price"
 			/>
 		</div>
 		<div class="input-field">
 			<label for="quantity"> Enter Quantity of item </label>
-			<input type="number" id="quantity" v-model="cart.item.quantity" />
+			<input 
+				type="number" 
+				id="quantity" 
+				v-model="item.quantity" 
+			/>
 		</div>
+
 		<button>Add Item</button>
 		<output>
 			<table class="styled-table">
@@ -58,7 +70,7 @@ const cart = useCartStore();
 						<td></td>
 						<td></td>
 						<td>Total:</td>
-						<td>${{ total() }}</td>
+						<td>${{ cart.total }}</td>
 					</tr>
 				</tfoot>
 			</table>
