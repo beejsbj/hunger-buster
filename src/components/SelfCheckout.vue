@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive } from "vue";
-import { useCartStore } from "../stores/cart.js";
+import { useShopStore } from "../stores/shop.js";
 
 const item = reactive({
 		name: "",
@@ -14,13 +14,13 @@ function reFocus(){
 	name.value.focus();
 }
 
-const cart = useCartStore();
+const shop = useShopStore();
 
 </script>
 
 <template>
 	<h1>Self Checkout</h1>
-	<form @submit.prevent="cart.add(item)" id="e4p" autocomplete="off">
+	<form @submit.prevent="shop.add(item)" id="e4p" autocomplete="off">
 		<div class="input-field">
 			<label for="name"> Enter Name of item </label>
 			<input
@@ -63,7 +63,7 @@ const cart = useCartStore();
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(item, i) in cart.items">
+					<tr v-for="(item, i) in shop.cart">
 						<td>{{ i + 1 }}</td>
 						<td>{{ item.name }}</td>
 						<td>${{ item.price }}</td>
@@ -77,7 +77,7 @@ const cart = useCartStore();
 						<td></td>
 						<td></td>
 						<td>Total:</td>
-						<td>${{ cart.total }}</td>
+						<td>${{ shop.total }}</td>
 					</tr>
 				</tfoot>
 			</table>
@@ -107,13 +107,12 @@ body {
 
 a,
 button {
-	color: hsla(153, 47%, 53%, 1);
+	color: salmon;
 }
 
 button {
 	background: none;
 	border: solid 1px;
-	border-radius: 2em;
 	font: inherit;
 	padding: 0.75em 2em;
 	cursor: pointer;

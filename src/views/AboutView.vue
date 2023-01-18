@@ -1,16 +1,16 @@
 <script setup>
-import HelloWorld from "../components/HelloWorld.vue";
-import { useCartStore } from "../stores/cart.js";
-const cart = useCartStore();
+import { useShopStore } from "../stores/shop.js";
+import itemsData from '../assets/static-data/items.json'
+
+const shop = useShopStore();
 </script>
 
 <template>
   <div class="about">
-    <HelloWorld msg=" this is About" />
   </div>
-
-  <h3 class="cart">
-    Total: {{ cart.total }}
+  {{items}}
+  <h3 class="shop">
+    Total: {{ shop.total }}
   </h3>
 </template>
 

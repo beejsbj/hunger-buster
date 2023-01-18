@@ -1,0 +1,27 @@
+[
+	{
+		"name": "Banana",
+		"price": 1.5,
+		"image": "https://assets.shop.loblaws.ca/products/20175355001/b3/en/front/20175355001_front_a06_@2.png"
+	},
+	{
+		"name": "Orange",
+		"price": 2.5,
+		"image": "https://www.mistercoffee.com/wp-content/uploads/2016/08/product-09.jpg"
+	},
+	{
+		"name": "Apple",
+		"price": 1.2,
+		"image": "https://product-images.metro.ca/images/h17/h85/10379029184542.jpg"
+	},
+	{
+		"name": "Tomato",
+		"price": 4,
+		"image": "https://images.costcobusinessdelivery.com/ImageDelivery/imageService?profileId=12027981&itemId=1025003&recipeName=680"
+	},
+	{
+		"name": "Onion",
+		"price": 3.6,
+		"image": "https://storage.googleapis.com/images-sof-prd-9fa6b8b.sof.prd.v8.commerce.mi9cloud.com/product-images/detail/00000000040822.jpg"
+	}
+]

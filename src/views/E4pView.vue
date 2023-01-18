@@ -1,9 +1,9 @@
 <script setup>
-import SelfCheckout from "../components/SelfCheckout.vue";
+import AddItem from "../components/AddItem.vue";
 </script>
 <template>
 	<div>
-		<SelfCheckout> </SelfCheckout>
+		<AddItem> </AddItem>
 	</div>
 </template>
 
