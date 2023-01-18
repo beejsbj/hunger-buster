@@ -18,7 +18,9 @@ const shop = useShopStore();
 		</thead>
 		<tbody>
 			<tr v-for="(item, i) in shop.list.cart">
-				<td>{{ i + 1 }}</td>
+				<td>
+					<picture><img :src="item.image" alt="" /></picture>
+				</td>
 				<td>{{ item.name }}</td>
 				<td>${{ item.price }}</td>
 				<td>
@@ -32,16 +34,6 @@ const shop = useShopStore();
 				</td>
 			</tr>
 		</tbody>
-		<tfoot>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td>Total:</td>
-				<td>${{ shop.total }}</td>
-				<td></td>
-			</tr>
-		</tfoot>
 	</table>
 </template>
 
@@ -54,9 +46,10 @@ tr {
 	display: grid;
 	grid-template-columns: 0.8fr 1fr 1fr 1fr 1fr 1fr;
 	gap: 5px;
+	align-items: center;
 }
 tr > * {
-	padding: 10px;
+	/*	padding: 10px;*/
 }
 
 thead,

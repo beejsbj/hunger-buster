@@ -62,6 +62,7 @@ export const useShopStore = defineStore("shop", () => {
 				name: item.name,
 				price: item.price,
 				quantity: 1,
+				image: item.image,
 			});
 		}
 		saveCart();
