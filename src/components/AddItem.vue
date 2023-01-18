@@ -7,16 +7,14 @@ const shop = useShopStore();
 const router = useRouter();
 
 const item = reactive({
-		name: "",
-		price: "",
-		image: "",
-	});
+	name: "",
+	price: "",
+	image: "",
+});
 
-
-function redirect(){
-	router.push( { path: `item/${item.name}` } )
+function redirect() {
+	router.push({ path: `item/${item.name}` });
 }
-
 </script>
 
 <template>
@@ -49,16 +47,14 @@ function redirect(){
 			<label for="image"> Enter Image of item </label>
 			<input
 				placeholder="Image url"
-				type="text" 
-				id="image" 
-				v-model="item.image" 
+				type="text"
+				id="image"
+				v-model="item.image"
 			/>
 		</div>
 
 		<button @click="redirect()">Add Item</button>
-		<output>
-
-		</output>
+		<output> </output>
 	</form>
 </template>
 

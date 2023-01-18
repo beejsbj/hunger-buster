@@ -3,27 +3,36 @@ import { RouterLink, RouterView, useRoute } from "vue-router";
 import { useShopStore } from "./stores/shop.js";
 import { useInterfaceStore } from "./stores/interface.js";
 
-
 const route = useRoute();
 const shop = useShopStore();
 const ui = useInterfaceStore();
 
-
-// var cartCount = shop.cart.length;
+// var cartCount = shop.list.cart.length;
 </script>
 
 <template>
 	<header>
 		<inner-column>
-			<button @click="ui.toggleMenu">{{ui.mainMenuOpen ? 'close' : 'open'}}</button>
-			<nav class="site-menu" :class="{ 'menu-open': ui.mainMenuOpen, 'menu-close': !ui.mainMenuOpen }">
+			<button @click="ui.toggleMenu">
+				{{ ui.mainMenuOpen ? "close" : "open" }}
+			</button>
+			<nav
+				class="site-menu"
+				:class="{
+					'menu-open': ui.mainMenuOpen,
+					'menu-close': !ui.mainMenuOpen,
+				}"
+			>
 				<RouterLink to="/">Home</RouterLink>
 				<RouterLink to="/about">About</RouterLink>
 				<RouterLink to="/e4p">Add Item</RouterLink>
 				<RouterLink to="/items">Items</RouterLink>
-				<RouterLink to="/cart" class="cart">Cart 
-					<span :class="{cartCount: shop.cart.length}">{{shop.cart.length}}</span
-				></RouterLink>
+				<RouterLink to="/cart" class="cart"
+					>Cart
+					<span :class="{ cartCount: shop.list.cart.length }">{{
+						shop.list.cart.length
+					}}</span></RouterLink
+				>
 			</nav>
 		</inner-column>
 	</header>
@@ -59,7 +68,6 @@ nav.site-menu {
 
 .cart {
 	position: relative;
-	
 }
 .cart span {
 	display: none;
@@ -68,13 +76,12 @@ nav.site-menu {
 .cart .cartCount {
 	display: initial;
 	font-size: 0.8em;
-/*	vertical-align: super;*/
+	/*	vertical-align: super;*/
 	background: yellowgreen;
 	color: black;
 	position: absolute;
 	top: -10px;
 	right: -5px;
-
 }
 
 nav.menu-close {

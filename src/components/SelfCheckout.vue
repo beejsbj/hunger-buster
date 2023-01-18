@@ -3,19 +3,18 @@ import { ref, reactive } from "vue";
 import { useShopStore } from "../stores/shop.js";
 
 const item = reactive({
-		name: "",
-		price: 0,
-		quantity: 0,
-	});
+	name: "",
+	price: 0,
+	quantity: 0,
+});
 
 const name = ref(null);
 
-function reFocus(){
+function reFocus() {
 	name.value.focus();
 }
 
 const shop = useShopStore();
-
 </script>
 
 <template>
@@ -23,13 +22,7 @@ const shop = useShopStore();
 	<form @submit.prevent="shop.add(item)" id="e4p" autocomplete="off">
 		<div class="input-field">
 			<label for="name"> Enter Name of item </label>
-			<input
-				required
-				type="text"
-				id="name"
-				v-model="item.name"
-				ref="name"
-			/>
+			<input required type="text" id="name" v-model="item.name" ref="name" />
 		</div>
 		<div class="input-field">
 			<label for="price"> Enter Price of item </label>
@@ -43,11 +36,7 @@ const shop = useShopStore();
 		</div>
 		<div class="input-field">
 			<label for="quantity"> Enter Quantity of item </label>
-			<input 
-				type="number" 
-				id="quantity" 
-				v-model="item.quantity" 
-			/>
+			<input type="number" id="quantity" v-model="item.quantity" />
 		</div>
 
 		<button @click="reFocus()">Add Item</button>
@@ -63,7 +52,7 @@ const shop = useShopStore();
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(item, i) in shop.cart">
+					<tr v-for="(item, i) in shop.list.cart">
 						<td>{{ i + 1 }}</td>
 						<td>{{ item.name }}</td>
 						<td>${{ item.price }}</td>

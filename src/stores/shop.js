@@ -2,19 +2,22 @@ import { ref, computed, reactive } from "vue";
 import { defineStore } from "pinia";
 import itemsData from "../assets/static-data/items.json";
 
-
-
 export const useShopStore = defineStore("shop", () => {
-	if (!loadItems()){
+	if (!loadItems()) {
 		localStorage.setItem("items", JSON.stringify(itemsData));
 	}
-	const items = loadItems();
-	const cart = loadCart() ? reactive(loadCart()) : reactive([]);
+
+	const list = reactive({
+		items: loadItems(),
+		cart: loadCart() ? reactive(loadCart()) : reactive([]),
+	});
 
 	const total = computed(function () {
-		return cart.reduce(function (total, item) {
-			return total + item.total;
-		}, 0).toFixed(2);
+		return list.cart
+			.reduce(function (total, item) {
+				return total + item.total;
+			}, 0)
+			.toFixed(2);
 	});
 
 	function addNewItem(item) {
@@ -39,18 +42,18 @@ export const useShopStore = defineStore("shop", () => {
 			quantity: item.quantity,
 			total: item.price * item.quantity,
 		};
-		cart.push(record);
+		list.cart.push(record);
 		saveCart();
 	}
 
-	function remove(junk) {
-		cart.filter(function(item) {
-		    return item != junk;
-		})
+	function remove(id) {
+		list.cart = list.cart.filter(function (item) {
+			return item != id;
+		});
 	}
 
 	function saveItems() {
-		localStorage.setItem("items", JSON.stringify(items));
+		localStorage.setItem("items", JSON.stringify(list.items));
 	}
 
 	function loadItems() {
@@ -59,7 +62,7 @@ export const useShopStore = defineStore("shop", () => {
 	}
 
 	function saveCart() {
-		localStorage.setItem("cart", JSON.stringify(cart));
+		localStorage.setItem("cart", JSON.stringify(list.cart));
 	}
 
 	function loadCart() {
@@ -67,5 +70,5 @@ export const useShopStore = defineStore("shop", () => {
 		return JSON.parse(cartStr);
 	}
 
-	return { items, cart, total, add, addNewItem, remove };
+	return { list, total, add, addNewItem, remove };
 });

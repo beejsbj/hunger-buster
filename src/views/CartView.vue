@@ -17,13 +17,15 @@ const shop = useShopStore();
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(item, i) in shop.cart">
+      <tr v-for="(item, i) in shop.list.cart">
         <td>{{ i + 1 }}</td>
         <td>{{ item.name }}</td>
         <td>${{ item.price }}</td>
         <td>{{ item.quantity }}</td>
         <td>${{ item.total }}</td>
-        <td><button @click="shop.remove(item)">Remove</button></td>
+        <td>
+          <button @click="shop.remove(item)">Remove</button>
+        </td>
       </tr>
     </tbody>
     <tfoot>
@@ -59,7 +61,7 @@ tfoot {
 }
 
 tbody tr:nth-of-type(even) {
-  background-color: hsla(209, 39%, 48%, 1.00);
+  background-color: hsla(209, 39%, 48%, 1);
 }
 
 .flex-list {
