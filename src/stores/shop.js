@@ -3,10 +3,9 @@ import { defineStore } from "pinia";
 import itemsData from "../assets/static-data/items.json";
 import { v4 as uuid } from "uuid";
 
-itemsData.map((item) => (item.id = uuid()));
-
 export const useShopStore = defineStore("shop", () => {
 	if (!loadItems()) {
+		itemsData.map((item) => (item.id = uuid()));
 		localStorage.setItem("items", JSON.stringify(itemsData));
 	}
 
@@ -82,10 +81,10 @@ export const useShopStore = defineStore("shop", () => {
 
 	function quantityDecrement(item) {
 		item.quantity--;
-		saveCart();
 		if (item.quantity < 1) {
-			remove(item.id);
+			remove(item);
 		}
+		saveCart();
 	}
 
 	function saveItems() {

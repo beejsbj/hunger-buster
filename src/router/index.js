@@ -18,12 +18,12 @@ const router = createRouter({
 			component: () => import("../views/AboutView.vue"),
 		},
 		{
-			path: "/e4p",
-			name: "AddItem",
+			path: "/create",
+			name: "CreateItem",
 			// route level code-splitting
 			// this generates a separate chunk (About.[hash].js) for this route
 			// which is lazy-loaded when the route is visited.
-			component: () => import("../views/E4pView.vue"),
+			component: () => import("../views/CreateItemView.vue"),
 		},
 		{
 			path: "/items",
@@ -34,7 +34,7 @@ const router = createRouter({
 			component: () => import("../views/ItemsView.vue"),
 		},
 		{
-			path: "/item/:name",
+			path: "/item/:id",
 			name: "Item",
 			// route level code-splitting
 			// this generates a separate chunk (About.[hash].js) for this route
