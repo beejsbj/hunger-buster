@@ -1,6 +1,9 @@
 import { ref, computed, reactive } from "vue";
 import { defineStore } from "pinia";
 import itemsData from "../assets/static-data/items.json";
+import { v4 as uuid } from "uuid";
+
+itemsData.map((item) => (item.id = uuid()));
 
 export const useShopStore = defineStore("shop", () => {
 	if (!loadItems()) {
@@ -15,17 +18,18 @@ export const useShopStore = defineStore("shop", () => {
 	const total = computed(function () {
 		return list.cart
 			.reduce(function (total, item) {
-				return total + item.total;
+				return total + item.price * item.quantity;
 			}, 0)
 			.toFixed(2);
 	});
 
-	function addNewItem(item) {
+	function create(item) {
 		if (!item.image) item.image = "https://peprojects.dev/images/square.jpg";
 		let record = {
 			name: item.name,
 			price: item.price,
 			image: item.image,
+			id: uuid(),
 		};
 		items.push(record);
 		item.name = "";
@@ -34,22 +38,53 @@ export const useShopStore = defineStore("shop", () => {
 		saveItems();
 	}
 
-	function add(item) {
-		if (!item.quantity) item.quantity = 1;
-		let record = {
-			name: item.name,
-			price: item.price,
-			quantity: item.quantity,
-			total: item.price * item.quantity,
-		};
-		list.cart.push(record);
+	function erase(id) {
+		list.items = list.items.filter(function (item) {
+			return item.id != id;
+		});
 		saveCart();
 	}
 
-	function remove(id) {
-		list.cart = list.cart.filter(function (item) {
-			return item != id;
+	function findInCart(item) {
+		return list.cart.find(function (cartItem) {
+			return cartItem.id == item.id;
 		});
+	}
+
+	function add(item) {
+		let found = findInCart(item);
+		if (found) {
+			quantityIncrement(found);
+		} else {
+			list.cart.push({
+				//push item object into cart
+				id: item.id,
+				name: item.name,
+				price: item.price,
+				quantity: 1,
+			});
+		}
+		saveCart();
+	}
+
+	function remove(item) {
+		list.cart = list.cart.filter(function (cartItem) {
+			return cartItem.id != item.id;
+		});
+		saveCart();
+	}
+
+	function quantityIncrement(item) {
+		item.quantity++;
+		saveCart();
+	}
+
+	function quantityDecrement(item) {
+		item.quantity--;
+		saveCart();
+		if (item.quantity < 1) {
+			remove(item.id);
+		}
 	}
 
 	function saveItems() {
@@ -70,5 +105,14 @@ export const useShopStore = defineStore("shop", () => {
 		return JSON.parse(cartStr);
 	}
 
-	return { list, total, add, addNewItem, remove };
+	return {
+		list,
+		total,
+		create,
+		erase,
+		add,
+		remove,
+		quantityIncrement,
+		quantityDecrement,
+	};
 });

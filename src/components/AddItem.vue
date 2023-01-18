@@ -19,7 +19,7 @@ function redirect() {
 
 <template>
 	<h1>Add a New item to store</h1>
-	<form @submit.prevent="shop.addNewItem(item)" autocomplete="off">
+	<form @submit.prevent="shop.create(item)" autocomplete="off">
 		<div class="input-field">
 			<label for="name"> Enter Name of item </label>
 			<input
@@ -46,7 +46,7 @@ function redirect() {
 		<div class="input-field">
 			<label for="image"> Enter Image of item </label>
 			<input
-				placeholder="Image url"
+				placeholder="optional Image url"
 				type="text"
 				id="image"
 				v-model="item.image"
