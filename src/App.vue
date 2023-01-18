@@ -1,9 +1,13 @@
 <script setup>
 import { RouterLink, RouterView, useRoute } from "vue-router";
 import { useShopStore } from "./stores/shop.js";
+import { useInterfaceStore } from "./stores/interface.js";
+
 
 const route = useRoute();
 const shop = useShopStore();
+const ui = useInterfaceStore();
+
 
 // var cartCount = shop.cart.length;
 </script>
@@ -11,7 +15,8 @@ const shop = useShopStore();
 <template>
 	<header>
 		<inner-column>
-			<nav class="site-menu">
+			<button @click="ui.toggleMenu">{{ui.mainMenuOpen ? 'close' : 'open'}}</button>
+			<nav class="site-menu" :class="{ 'menu-open': ui.mainMenuOpen, 'menu-close': !ui.mainMenuOpen }">
 				<RouterLink to="/">Home</RouterLink>
 				<RouterLink to="/about">About</RouterLink>
 				<RouterLink to="/e4p">Add Item</RouterLink>
@@ -40,6 +45,7 @@ const shop = useShopStore();
 <style>
 nav.site-menu {
 	display: flex;
+	flex-wrap: wrap;
 	gap: 10px;
 }
 
@@ -69,5 +75,9 @@ nav.site-menu {
 	top: -10px;
 	right: -5px;
 
+}
+
+nav.menu-close {
+	display: none;
 }
 </style>

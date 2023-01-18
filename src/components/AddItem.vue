@@ -1,6 +1,10 @@
 <script setup>
 import { ref, reactive } from "vue";
+import { useRouter } from "vue-router";
 import { useShopStore } from "../stores/shop.js";
+
+const shop = useShopStore();
+const router = useRouter();
 
 const item = reactive({
 		name: "",
@@ -10,10 +14,8 @@ const item = reactive({
 
 
 function redirect(){
-	window.location.href = `item/${item.name}`
+	router.push( { path: `item/${item.name}` } )
 }
-
-const shop = useShopStore();
 
 </script>
 
