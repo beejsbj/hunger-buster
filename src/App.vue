@@ -6,8 +6,6 @@ import { useInterfaceStore } from "./stores/interface.js";
 const route = useRoute();
 const shop = useShopStore();
 const ui = useInterfaceStore();
-
-// var cartCount = shop.list.cart.length;
 </script>
 
 <template>
@@ -25,7 +23,7 @@ const ui = useInterfaceStore();
 			>
 				<RouterLink to="/">Home</RouterLink>
 				<RouterLink to="/about">About</RouterLink>
-				<RouterLink to="/e4p">Add Item</RouterLink>
+				<RouterLink to="/create">Create Item</RouterLink>
 				<RouterLink to="/items">Items</RouterLink>
 				<RouterLink to="/cart" class="cart"
 					>Cart

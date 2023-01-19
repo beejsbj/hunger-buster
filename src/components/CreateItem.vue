@@ -1,25 +1,34 @@
 <script setup>
-import { ref, reactive } from "vue";
-import { useRouter } from "vue-router";
+import { reactive } from "vue";
 import { useShopStore } from "../stores/shop.js";
+import { v4 as uuid } from "uuid";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const shop = useShopStore();
-const router = useRouter();
 
 const item = reactive({
 	name: "",
 	price: "",
 	image: "",
+	id: uuid(),
 });
 
-function redirect() {
-	router.push({ path: `item/${item.name}` });
+function redirect(item) {
+	router.push({ path: `item/${item.id}` });
 }
 </script>
 
 <template>
 	<h1>Add a New item to store</h1>
-	<form @submit.prevent="shop.create(item)" autocomplete="off">
+	<form
+		@submit.prevent="
+			shop.create(item);
+			redirect(item);
+		"
+		autocomplete="off"
+	>
 		<div class="input-field">
 			<label for="name"> Enter Name of item </label>
 			<input
@@ -53,7 +62,7 @@ function redirect() {
 			/>
 		</div>
 
-		<button @click="redirect()">Add Item</button>
+		<button>Add Item</button>
 		<output> </output>
 	</form>
 </template>

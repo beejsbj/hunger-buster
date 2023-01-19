@@ -17,7 +17,7 @@ const shop = useShopStore();
 			</tr>
 		</thead>
 		<tbody>
-			<tr v-for="(item, i) in shop.list.cart">
+			<tr v-for="item in shop.list.cart">
 				<td>
 					<picture><img :src="item.image" alt="" /></picture>
 				</td>
@@ -44,13 +44,13 @@ table {
 
 tr {
 	display: grid;
-	grid-template-columns: 0.8fr 1fr 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 0.5fr;
 	gap: 5px;
 	align-items: center;
 }
-tr > * {
-	/*	padding: 10px;*/
-}
+/*tr > * {
+		padding: 10px;
+}*/
 
 thead,
 tfoot {

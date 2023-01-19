@@ -23,14 +23,15 @@ export const useShopStore = defineStore("shop", () => {
 	});
 
 	function create(item) {
-		if (!item.image) item.image = "https://peprojects.dev/images/square.jpg";
 		let record = {
 			name: item.name,
 			price: item.price,
-			image: item.image,
-			id: uuid(),
+			image: item.image
+				? item.image
+				: "https://peprojects.dev/images/square.jpg",
+			id: item.id,
 		};
-		items.push(record);
+		list.items.push(record);
 		item.name = "";
 		item.price = 0;
 		item.image = "";

@@ -4,10 +4,10 @@ import { useShopStore } from "../stores/shop.js";
 
 const route = useRoute();
 const shop = useShopStore();
-
-const item = shop.list.items.filter(function (item) {
-  return item.name == route.params.name;
-})[0];
+console.log(route.params.id);
+const item = shop.list.items.find(function (item) {
+  return item.id == route.params.id;
+});
 </script>
 
 <template>
@@ -21,7 +21,7 @@ const item = shop.list.items.filter(function (item) {
     <div>
       <p>${{ item.price }}</p>
       <button @click="shop.add(item)">Add to Cart</button>
-      <a href="item/" :href="item.name">MORE</a>
+      <button @click="shop.erase(item)">Remove Item</button>
     </div>
   </item-card>
 </template>
