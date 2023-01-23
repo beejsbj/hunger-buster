@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "pinia": "^2.0.28",
+    "slug": "^8.2.2",
     "uuid": "^9.0.0",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
@@ -23,6 +24,8 @@
     "eslint": "^8.22.0",
     "eslint-plugin-vue": "^9.3.0",
     "prettier": "^2.7.1",
-    "vite": "^4.0.0"
+    "sass": "^1.57.1",
+    "scss": "^0.2.4",
+    "vite": "^4.0.4"
   }
 }
