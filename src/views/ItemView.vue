@@ -16,7 +16,6 @@ function redirect() {
 </script>
 
 <template>
-  {{ item }}
   <item-card>
     <h2 class="attention-voice">
       {{ item.name }}
