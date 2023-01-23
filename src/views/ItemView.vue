@@ -1,16 +1,22 @@
 <script setup>
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { useShopStore } from "../stores/shop.js";
 
 const route = useRoute();
+const router = useRouter();
 const shop = useShopStore();
-console.log(route.params.id);
+
 const item = shop.list.items.find(function (item) {
-  return item.id == route.params.id;
+  return route.params.slug == item.id || route.params.slug == item.slug;
 });
+
+function redirect() {
+  router.push({ path: `/items` });
+}
 </script>
 
 <template>
+  {{ item }}
   <item-card>
     <h2 class="attention-voice">
       {{ item.name }}
@@ -21,7 +27,14 @@ const item = shop.list.items.find(function (item) {
     <div>
       <p>${{ item.price }}</p>
       <button @click="shop.add(item)">Add to Cart</button>
-      <button @click="shop.erase(item)">Remove Item</button>
+      <button
+        @click="
+          shop.erase(item);
+          redirect();
+        "
+      >
+        Remove Item
+      </button>
     </div>
   </item-card>
 </template>
