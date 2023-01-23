@@ -1,11 +1,11 @@
-import { ref, computed, reactive } from "vue";
+import { ref, computed, reactive, watch, onMounted } from "vue";
 import { defineStore } from "pinia";
 import itemsData from "../assets/static-data/items.json";
 import { v4 as uuid } from "uuid";
+import slug from "slug";
 
 export const useShopStore = defineStore("shop", () => {
 	if (!loadItems()) {
-		itemsData.map((item) => (item.id = uuid()));
 		localStorage.setItem("items", JSON.stringify(itemsData));
 	}
 
@@ -30,19 +30,18 @@ export const useShopStore = defineStore("shop", () => {
 				? item.image
 				: "https://peprojects.dev/images/square.jpg",
 			id: item.id,
+			slug: item.slug,
 		};
 		list.items.push(record);
 		item.name = "";
 		item.price = 0;
 		item.image = "";
-		saveItems();
 	}
 
-	function erase(id) {
-		list.items = list.items.filter(function (item) {
-			return item.id != id;
+	function erase(item) {
+		list.items = list.items.filter(function (storeItem) {
+			return storeItem.id != item.id;
 		});
-		saveCart();
 	}
 
 	function findInCart(item) {
@@ -56,8 +55,9 @@ export const useShopStore = defineStore("shop", () => {
 		if (found) {
 			quantityIncrement(found);
 		} else {
+			//push item object into cart
+			let record = item;
 			list.cart.push({
-				//push item object into cart
 				id: item.id,
 				name: item.name,
 				price: item.price,
@@ -65,19 +65,16 @@ export const useShopStore = defineStore("shop", () => {
 				image: item.image,
 			});
 		}
-		saveCart();
 	}
 
 	function remove(item) {
 		list.cart = list.cart.filter(function (cartItem) {
 			return cartItem.id != item.id;
 		});
-		saveCart();
 	}
 
 	function quantityIncrement(item) {
 		item.quantity++;
-		saveCart();
 	}
 
 	function quantityDecrement(item) {
@@ -85,11 +82,11 @@ export const useShopStore = defineStore("shop", () => {
 		if (item.quantity < 1) {
 			remove(item);
 		}
-		saveCart();
 	}
 
 	function saveItems() {
 		localStorage.setItem("items", JSON.stringify(list.items));
+		console.log("Items Saved");
 	}
 
 	function loadItems() {
@@ -99,12 +96,22 @@ export const useShopStore = defineStore("shop", () => {
 
 	function saveCart() {
 		localStorage.setItem("cart", JSON.stringify(list.cart));
+		console.log("Cart saved");
 	}
 
 	function loadCart() {
 		var cartStr = localStorage.getItem("cart");
 		return JSON.parse(cartStr);
 	}
+
+	watch(list, function () {
+		saveCart();
+		saveItems();
+	});
+
+	onMounted(function () {
+		console.log("loaded");
+	});
 
 	return {
 		list,
