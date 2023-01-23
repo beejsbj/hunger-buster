@@ -1,7 +1,6 @@
 <script setup>
 import { reactive } from "vue";
 import { useShopStore } from "../stores/shop.js";
-import { v4 as uuid } from "uuid";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -12,11 +11,12 @@ const item = reactive({
 	name: "",
 	price: "",
 	image: "",
-	id: uuid(),
 });
 
-function redirect(item) {
-	router.push({ path: `item/${item.id}` });
+function redirect() {
+	// get slug of recently added item
+	let slug = shop.list.items[shop.list.items.length - 1].slug;
+	router.push({ path: `item/${slug}` });
 }
 </script>
 
@@ -25,7 +25,7 @@ function redirect(item) {
 	<form
 		@submit.prevent="
 			shop.create(item);
-			redirect(item);
+			redirect();
 		"
 		autocomplete="off"
 	>
