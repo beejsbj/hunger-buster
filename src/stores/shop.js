@@ -29,8 +29,8 @@ export const useShopStore = defineStore("shop", () => {
 			image: item.image
 				? item.image
 				: "https://peprojects.dev/images/square.jpg",
-			id: item.id,
-			slug: item.slug,
+			id: uuid(),
+			slug: slug(item.name),
 		};
 		list.items.push(record);
 		item.name = "";
