@@ -98,16 +98,9 @@ export const useShopStore = defineStore("shop", () => {
 		console.log("Items Saved");
 	}
 
-	async function loadItems() {
-		// localStorage.setItem("items", JSON.stringify(itemsData));
-		var itemsStr = localStorage.getItem("items");
-		if (itemsStr) {
-			return JSON.parse(itemsStr);
-		}
-		const data = await fetch(
-			"https://raw.githubusercontent.com/perpetual-education/restaurants-data/main/data.json"
-		);
-		return await data.json();
+	function loadRestaurants() {
+		var restaurantsStr = localStorage.getItem("restaurants");
+		return JSON.parse(restaurantsStr);
 	}
 
 	function saveCart() {
