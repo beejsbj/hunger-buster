@@ -20,34 +20,27 @@ const router = createRouter({
 		{
 			path: "/restaurants",
 			name: "Restaurants",
-			// route level code-splitting
-			// this generates a separate chunk (About.[hash].js) for this route
-			// which is lazy-loaded when the route is visited.
 			component: () => import("../views/RestaurantsView.vue"),
 		},
 		{
 			path: "/restaurants/:category",
 			name: "RestaurantsCategory",
-			// route level code-splitting
-			// this generates a separate chunk (About.[hash].js) for this route
-			// which is lazy-loaded when the route is visited.
 			component: () => import("../views/CategoryView.vue"),
 		},
 		{
-			path: "/restaurant/",
+			path: "/restaurant/:slug",
 			name: "Restaurant",
-			// route level code-splitting
-			// this generates a separate chunk (About.[hash].js) for this route
-			// which is lazy-loaded when the route is visited.
 			component: () => import("../views/RestaurantView.vue"),
 		},
 		{
-			path: "restaurant/cart",
+			path: "/restaurant/cart",
 			name: "RestaurantCart",
-			// route level code-splitting
-			// this generates a separate chunk (About.[hash].js) for this route
-			// which is lazy-loaded when the route is visited.
-			component: () => import("../views/CartView.vue"),
+			component: () => import("../views/RestaurantCartView.vue"),
+		},
+		{
+			path: "/restaurant/item",
+			name: "RestaurantItem",
+			component: () => import("../views/RestaurantItemView.vue"),
 		},
 	],
 });
