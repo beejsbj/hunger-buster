@@ -7,45 +7,62 @@ const route = useRoute();
 const router = useRouter();
 const shop = useShopStore();
 
-const item = shop.list.items.find(function (item) {
-  return route.params.slug == item.id || route.params.slug == item.slug;
+const restaurant = shop.list.restaurants.find(function (restaurant) {
+	return (
+		route.params.slug == restaurant.id || route.params.slug == restaurant.slug
+	);
 });
-
-function redirect() {
-  router.push({ path: `/items` });
-}
 </script>
 
 <template>
-  <item-card>
-    <h2 class="attention-voice">
-      {{ item.name }}
-    </h2>
-    <picture>
-      <img :src="item.image" alt="" />
-    </picture>
-    <div>
-      <p>${{ item.price }}</p>
-      <button @click="shop.add(item)">Add to Cart</button>
-      <button
-        @click="
-          shop.erase(item);
-          redirect();
-        "
-      >
-        Remove Item
-      </button>
-    </div>
-  </item-card>
+	<restaurant-card>
+		<h2 class="loud-voice">
+			{{ restaurant.name }}
+		</h2>
+		<h3 class="attention-voice">{{ "$".repeat(restaurant.priceLevel) }}</h3>
+		<picture>
+			<img
+				:src="restaurant.image ?? 'https://peprojects.dev/images/square.jpg'"
+				alt="https://peprojects.dev/images/square.jpg"
+			/>
+		</picture>
+		<menu-items>
+			<ul>
+				<li v-for="item in restaurant.menuItems">
+					<item-card>
+						<h4>{{ item.name }}</h4>
+						<picture>
+							<img
+								:src="item.image ?? 'https://peprojects.dev/images/square.jpg'"
+								alt="https://peprojects.dev/images/square.jpg"
+							/>
+						</picture>
+
+						<p>${{ item.price }}</p>
+						<a :href="`${restaurant.slug}/${item.slug}`">MORE</a>
+					</item-card>
+				</li>
+			</ul>
+		</menu-items>
+	</restaurant-card>
 </template>
 
 <style scoped>
-item-card {
-  display: grid;
-  gap: 5px;
+restaurant-card {
+	display: grid;
+	gap: 5px;
 }
-item-card div {
-  display: flex;
-  justify-content: space-between;
+restaurant-card div {
+	display: flex;
+	justify-content: space-between;
+}
+
+item-card {
+	display: grid;
+	grid-template-columns: 1fr 0.3fr;
+}
+
+a {
+	color: salmon;
 }
 </style>
