@@ -1,5 +1,6 @@
 <script setup>
 import { useRoute, useRouter } from "vue-router";
+
 import { useShopStore } from "../stores/shop.js";
 
 const route = useRoute();

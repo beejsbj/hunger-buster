@@ -17,7 +17,7 @@ const shop = useShopStore();
         <div>
           <p>${{ item.price }}</p>
           <button @click="shop.add(item)">Add to Cart</button>
-          <a :href="'item/' + item.id">MORE</a>
+          <a :href="'item/' + item.slug">MORE</a>
         </div>
       </item-card>
     </li>
