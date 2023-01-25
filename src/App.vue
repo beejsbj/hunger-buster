@@ -22,14 +22,14 @@ const ui = useInterfaceStore();
 				>
 					<RouterLink to="/">Home</RouterLink>
 					<RouterLink to="/about">About</RouterLink>
-					<RouterLink to="/create">Create Item</RouterLink>
-					<RouterLink to="/items">Items</RouterLink>
-					<RouterLink to="/cart" class="cart"
+					<!-- <RouterLink to="/create">Create Item</RouterLink> -->
+					<RouterLink to="/restaurants">Restaurants</RouterLink>
+					<!-- <RouterLink to="/cart" class="cart"
 						>Cart
 						<span :class="{ cartCount: shop.list.cart.length }">{{
 							shop.list.cart.length
 						}}</span></RouterLink
-					>
+					> -->
 				</nav>
 			</site-menu>
 		</inner-column>
