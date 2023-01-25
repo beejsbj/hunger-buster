@@ -4,6 +4,19 @@ import itemsData from "../assets/static-data/items.json";
 import { v4 as uuid } from "uuid";
 import slug from "slug";
 
+if (!localStorage.restaurants) {
+	const data = fetch(
+		"https://raw.githubusercontent.com/perpetual-education/restaurants-data/main/data.json"
+	);
+	data
+		.then(function (data) {
+			return data.json();
+		})
+		.then(function (json) {
+			localStorage.restaurants = JSON.stringify(json);
+		});
+}
+
 export const useShopStore = defineStore("shop", () => {
 	const list = reactive({
 		items: loadItems(),
