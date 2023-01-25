@@ -17,20 +17,20 @@ const shop = useShopStore();
 			</tr>
 		</thead>
 		<tbody>
-			<tr v-for="item in shop.list.cart">
+			<tr v-for="restaurant in shop.list.cart">
 				<td>
-					<picture><img :src="item.image" alt="" /></picture>
+					<picture><img :src="restaurant.image" alt="" /></picture>
 				</td>
-				<td>{{ item.name }}</td>
-				<td>${{ item.price }}</td>
+				<td>{{ restaurant.name }}</td>
+				<td>${{ restaurant.price }}</td>
 				<td>
-					<button @click="shop.quantityDecrement(item)">-</button>
-					{{ item.quantity }}
-					<button @click="shop.quantityIncrement(item)">+</button>
+					<button @click="shop.quantityDecrement(restaurant)">-</button>
+					{{ restaurant.quantity }}
+					<button @click="shop.quantityIncrement(restaurant)">+</button>
 				</td>
-				<td>${{ item.price * item.quantity }}</td>
+				<td>${{ restaurant.price * restaurant.quantity }}</td>
 				<td>
-					<button @click="shop.remove(item)">Remove</button>
+					<button @click="shop.remove(restaurant)">Remove</button>
 				</td>
 			</tr>
 		</tbody>
@@ -46,7 +46,7 @@ tr {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 0.5fr;
 	gap: 5px;
-	align-items: center;
+	align-restaurants: center;
 }
 /*tr > * {
 		padding: 10px;
