@@ -5,10 +5,6 @@ import { v4 as uuid } from "uuid";
 import slug from "slug";
 
 export const useShopStore = defineStore("shop", () => {
-	if (!loadItems()) {
-		localStorage.setItem("items", JSON.stringify(itemsData));
-	}
-
 	const list = reactive({
 		items: loadItems(),
 		cart: loadCart() ? reactive(loadCart()) : reactive([]),
@@ -89,9 +85,16 @@ export const useShopStore = defineStore("shop", () => {
 		console.log("Items Saved");
 	}
 
-	function loadItems() {
+	async function loadItems() {
+		// localStorage.setItem("items", JSON.stringify(itemsData));
 		var itemsStr = localStorage.getItem("items");
-		return JSON.parse(itemsStr);
+		if (itemsStr) {
+			return JSON.parse(itemsStr);
+		}
+		const data = await fetch(
+			"https://raw.githubusercontent.com/perpetual-education/restaurants-data/main/data.json"
+		);
+		return await data.json();
 	}
 
 	function saveCart() {
