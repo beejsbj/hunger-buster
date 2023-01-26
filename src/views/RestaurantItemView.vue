@@ -19,6 +19,17 @@
 	});
 	const item = reactive(foundItem);
 </script>
+
+<template>
+	<pre>
+		<code>
+			{{ item }}
+		</code>
+	</pre>
+	<item-card>
+		<h1 class="loud-voice">{{ restaurant.name }}: {{ item.name }}</h1>
+		<p>${{ item.price }}</p>
+
 		<required-options v-if="item.requiredOptions">
 			<h2 class="attention-voice">Required Options</h2>
 			<ul
