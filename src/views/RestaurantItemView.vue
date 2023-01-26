@@ -80,3 +80,30 @@
 				</li>
 			</ul>
 		</extra-options>
+<style scoped>
+	restaurant-card {
+		display: grid;
+		gap: 5px;
+	}
+	restaurant-card div {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	item-card {
+		display: grid;
+		/*	grid-template-columns: 1fr 0.3fr;*/
+		gap: 10px;
+	}
+
+	a {
+		color: salmon;
+	}
+	h3 span {
+		color: red;
+		font-size: 10px;
+	}
+	item-card > *:nth-child(odd) {
+		background-color: rgba(0, 0, 0, 0.4);
+	}
+</style>
