@@ -4,38 +4,38 @@ import { useRoute } from "vue-router";
 const route = useRoute();
 
 const shop = useShopStore();
-const filtered = shop.list.items.filter(function (item) {
-	return item.category.includes(route.params.category);
+const filtered = shop.list.restaurants.filter(function (restaurant) {
+	return restaurant.category.includes(route.params.category);
 });
 </script>
 
 <template>
-	<h2 class="attention-voice">Items</h2>
+	<h2 class="attention-voice">Restaurants</h2>
 	<ul>
-		<li v-for="item in filtered">
-			<item-card>
+		<li v-for="restaurant in filtered">
+			<restaurant-card>
 				<h3 class="solid-voice">
-					{{ item.name }}
+					{{ restaurant.name }}
 				</h3>
 				<picture>
-					<img :src="item.image" alt="" />
+					<img :src="restaurant.image" alt="" />
 				</picture>
 				<div>
-					<p>${{ item.price }}</p>
-					<button @click="shop.add(item)">Add to Cart</button>
-					<a :href="'/item/' + item.slug">MORE</a>
+					<p>${{ restaurant.price }}</p>
+					<button @click="shop.add(restaurant)">Add to Cart</button>
+					<a :href="'/restaurant/' + restaurant.slug">MORE</a>
 				</div>
-			</item-card>
+			</restaurant-card>
 		</li>
 	</ul>
 </template>
 
 <style scoped>
-item-card {
+restaurant-card {
 	display: grid;
 	gap: 5px;
 }
-item-card div {
+restaurant-card div {
 	display: flex;
 	justify-content: space-between;
 }
