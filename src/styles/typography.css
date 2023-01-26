@@ -1,7 +1,7 @@
 /* Should we pull in @fonts here? */
 /* don't think you can... might have to be higher up (the top of) the food chain! */
 
-.loud-voice	{
+.loud-voice {
 	font-family: sans-serif;
 	font-size: clamp(36px, 5vw, 60px);
 }
@@ -11,17 +11,19 @@
 	}
 }
 
-.attention-voice	{
+.attention-voice {
 	font-family: sans-serif;
 	font-size: 30px;
 }
-.solid-voice	{
+.solid-voice {
 	font-family: sans-serif;
 	font-size: 20px;
 	font-weight: 700;
 }
 
-.calm-voice, p, li {
+.calm-voice,
+p,
+li {
 	font-family: sans-serif;
 	font-size: 1rem;
 	line-height: 1.4;
@@ -47,7 +49,8 @@ h2 + p {
 }
 
 code {
+	display: block;
 	font-family: monospace;
 	font-size: 1.1em;
-	color: green;
+	color: yellow;
 }
