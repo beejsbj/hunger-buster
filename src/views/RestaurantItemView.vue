@@ -80,6 +80,13 @@
 				</li>
 			</ul>
 		</extra-options>
+
+		<div>
+			<button>Add Item to Cart</button>
+		</div>
+	</item-card>
+</template>
+
 <style scoped>
 	restaurant-card {
 		display: grid;

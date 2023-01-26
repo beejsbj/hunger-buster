@@ -1,10 +1,10 @@
 <script setup>
-import { RouterLink, RouterView, useRoute } from "vue-router";
-import { useShopStore } from "./stores/shop.js";
-import { useInterfaceStore } from "./stores/interface.js";
-const route = useRoute();
-const shop = useShopStore();
-const ui = useInterfaceStore();
+	import { RouterLink, RouterView, useRoute } from "vue-router";
+	import { useShopStore } from "./stores/shop.js";
+	import { useInterfaceStore } from "./stores/interface.js";
+	const route = useRoute();
+	const shop = useShopStore();
+	const ui = useInterfaceStore();
 </script>
 
 <template>
@@ -35,7 +35,10 @@ const ui = useInterfaceStore();
 		</inner-column>
 	</header>
 
-	<main class="outlet" :class="route.name">
+	<main
+		class="outlet"
+		:class="route.name"
+	>
 		<section>
 			<inner-column>
 				<RouterView />
@@ -50,56 +53,56 @@ const ui = useInterfaceStore();
 </template>
 
 <style lang="scss">
-site-menu {
-	overflow: hidden;
-	display: block;
-	button {
-		display: none;
-		@media (max-width: 450px) {
-			display: initial;
-		}
-	}
-	nav {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 10px;
-		transition: 0.2s;
-		transform: translateX(0%);
-		@media (max-width: 450px) {
-			&.menu-close {
-				transform: translateX(-100%);
-			}
-			&.menu-open {
-				// display: none;
-				transform: translateX(0%);
+	site-menu {
+		overflow: hidden;
+		display: block;
+		button {
+			display: none;
+			@media (max-width: 450px) {
+				display: initial;
 			}
 		}
-
-		a {
-			padding: 10px;
-
-			&.router-link-active {
-				background-color: salmon;
-			}
-			&.cart {
-				position: relative;
-
-				span {
-					display: none;
+		nav {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+			transition: 0.2s;
+			transform: translateX(0%);
+			@media (max-width: 450px) {
+				&.menu-close {
+					transform: translateX(-100%);
 				}
-
-				.cartCount {
-					display: initial;
-					font-size: 0.8em;
-					/*	vertical-align: super;*/
-					background: yellowgreen;
-					color: black;
-					position: absolute;
-					top: -10px;
-					right: -5px;
+				&.menu-open {
+					// display: none;
+					transform: translateX(0%);
 				}
 			}
+
+			a {
+				padding: 10px;
+
+				&.router-link-active {
+					background-color: salmon;
+				}
+				&.cart {
+					position: relative;
+
+					span {
+						display: none;
+					}
+
+					.cartCount {
+						display: initial;
+						font-size: 0.8em;
+						/*	vertical-align: super;*/
+						background: yellowgreen;
+						color: black;
+						position: absolute;
+						top: -10px;
+						right: -5px;
+					}
+				}
+			}
 		}
 	}
-}
 </style>

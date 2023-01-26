@@ -19,83 +19,81 @@ if (!localStorage.restaurants) {
 
 export const useShopStore = defineStore("shop", () => {
 	const list = reactive({
-		items: loadItems(),
+		restaurants: loadRestaurants(),
 		cart: loadCart() ? reactive(loadCart()) : reactive([]),
 	});
 
 	const total = computed(function () {
 		return list.cart
-			.reduce(function (total, item) {
-				return total + item.price * item.quantity;
+			.reduce(function (total, restaurant) {
+				return total + restaurant.price * restaurant.quantity;
 			}, 0)
 			.toFixed(2);
 	});
 
-	function create(item) {
+	function create(restaurant) {
 		let record = {
-			name: item.name,
-			price: item.price,
-			image: item.image
-				? item.image
-				: "https://peprojects.dev/images/square.jpg",
+			name: restaurant.name,
+			price: restaurant.price,
+			image: restaurant.image,
 			id: uuid(),
-			slug: slug(item.name),
+			slug: slug(restaurant.name),
 		};
-		list.items.push(record);
-		item.name = "";
-		item.price = 0;
-		item.image = "";
+		list.restaurants.push(record);
+		restaurant.name = "";
+		restaurant.price = 0;
+		restaurant.image = "";
 	}
 
-	function erase(item) {
-		list.items = list.items.filter(function (storeItem) {
-			return storeItem.id != item.id;
+	function erase(restaurant) {
+		list.restaurants = list.restaurants.filter(function (storeItem) {
+			return storeItem.id != restaurant.id;
 		});
 	}
 
-	function findInCart(item) {
+	function findInCart(restaurant) {
 		return list.cart.find(function (cartItem) {
-			return cartItem.id == item.id;
+			return cartItem.id == restaurant.id;
 		});
 	}
 
-	function add(item) {
-		let found = findInCart(item);
+	function add(restaurant) {
+		let found = findInCart(restaurant);
 		if (found) {
 			quantityIncrement(found);
 		} else {
-			//push item object into cart
-			let record = item;
+			//push restaurant object into cart
+			let record = restaurant;
 			list.cart.push({
-				id: item.id,
-				name: item.name,
-				price: item.price,
+				id: restaurant.id,
+				name: restaurant.name,
+				price: restaurant.price,
 				quantity: 1,
-				image: item.image,
+				image: restaurant.image,
 			});
 		}
 	}
 
-	function remove(item) {
+	function remove(restaurant) {
 		list.cart = list.cart.filter(function (cartItem) {
-			return cartItem.id != item.id;
+			return cartItem.id != restaurant.id;
 		});
 	}
 
-	function quantityIncrement(item) {
-		item.quantity++;
+	function quantityIncrement(restaurant) {
+		restaurant.quantity++;
 	}
 
-	function quantityDecrement(item) {
-		item.quantity--;
-		if (item.quantity < 1) {
-			remove(item);
+	function quantityDecrement(restaurant) {
+		restaurant.quantity--;
+		if (restaurant.quantity < 1) {
+			remove(restaurant);
 		}
 	}
 
-	function saveItems() {
-		localStorage.setItem("items", JSON.stringify(list.items));
-		console.log("Items Saved");
+	function saveRestaurants() {
+		localStorage.setItem("restaurants", JSON.stringify(list.restaurants));
+		console.log("Restaurants Saved");
 	}
 
 	function loadRestaurants() {
@@ -115,7 +113,7 @@ export const useShopStore = defineStore("shop", () => {
 
 	watch(list, function () {
 		saveCart();
-		saveItems();
+		saveRestaurants();
 	});
 
 	onMounted(function () {
