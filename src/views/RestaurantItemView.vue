@@ -1,88 +1,100 @@
 <script setup>
 	import { reactive } from "vue";
-	import { useRoute } from "vue-router";
+	import { useRoute, useRouter } from "vue-router";
 	import { useShopStore } from "../stores/shop.js";
 
 	const route = useRoute();
+	const router = useRouter();
 	const shop = useShopStore();
 
-	const restaurant = shop.list.restaurants.find(function (restaurant) {
+	const restaurant = shop.restaurants.find(function (restaurant) {
 		return (
-			route.params.slug == restaurant.id ||
-			route.params.slug == restaurant.slug
+			route.params.restaurantSlug == restaurant.id ||
+			route.params.restaurantSlug == restaurant.slug
 		);
 	});
-	const foundItem = restaurant.menuItems.find(function (item) {
+	const item = restaurant.menuItems.find(function (item) {
 		return (
 			route.params.itemSlug == item.id || route.params.itemSlug == item.slug
 		);
 	});
-	const item = reactive(foundItem);
+
+	function redirect() {
+		router.push({
+			path: `/${route.params.restaurantSlug}/cart`,
+		});
+	}
+
+	const selections = reactive({});
+	function addSelections() {
+		item.selections = selections;
+	}
 </script>
 
 <template>
 	<pre>
 		<code>
-			{{ item }}
+			<!-- {{ item }} -->
 		</code>
 	</pre>
 	<item-card>
 		<h1 class="loud-voice">{{ restaurant.name }}: {{ item.name }}</h1>
 		<p>${{ item.price }}</p>
+		<picture>
+			<img
+				:src="item.image"
+				alt=""
+			/>
+		</picture>
 
-		<required-options v-if="item.requiredOptions">
-			<h2 class="attention-voice">Required Options</h2>
-			<ul
-				class="radio-list"
-				v-for="(options, key) in item.requiredOptions"
+		<ul class="options">
+			<li
+				class="options-card"
+				v-for="option in item.options"
 			>
-				<h3 class="solid-voice">
-					Please Select {{ key }}
-					<span>required</span>
-					{{ selected }}
-				</h3>
-				<li
-					class="radio-item"
-					v-for="option in options"
-				>
-					<label :for="option.name">
-						{{ option.name ?? option }}
-					</label>
-					<input
-						required
-						:v-model="selected"
-						:name="key"
-						type="radio"
-						:value="option.name"
-					/>
-				</li>
-			</ul>
-		</required-options>
-
-		<extra-options v-if="item.extraOptions">
-			<h2 class="attention-voice">Extra Options</h2>
-			<ul
-				class="radio-list"
-				v-for="(options, key) in item.extraOptions"
-			>
-				<h3 class="solid-voice">Please Select {{ key }}</h3>
-				<li
-					class="radio-item"
-					v-for="option in options"
-				>
-					<label :for="option.name">{{ option.name }}</label>
-					<input
-						:v-model="selected"
-						:name="key"
-						type="checkbox"
-						:value="option.name"
-					/>
-				</li>
-			</ul>
-		</extra-options>
-
+				<h2 class="attention-voice">
+					Please Select the {{ option.name }}
+					<span v-if="option.required">required</span>
+				</h2>
+				<ul class="choices">
+					<li
+						class="choice"
+						v-for="choice in option.choices"
+					>
+						<label for="">
+							{{ choice.name }}
+						</label>
+						<input
+							v-if="option.required"
+							:name="option.name"
+							type="radio"
+							:value="[choice.name, choice.priceIncrease ?? 0]"
+							v-model="selections[option.name]"
+							required
+						/>
+						<input
+							v-if="!option.required"
+							:name="option.name"
+							type="checkbox"
+							:true-value="[choice.name, choice.priceIncrease ?? 0]"
+							false-value=""
+							v-model="selections[option.name]"
+						/>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		{{ selections }}
 		<div>
-			<button>Add Item to Cart</button>
+			<button
+				@click="
+					shop.add(item, restaurant);
+					redirect();
+					addSelections();
+				"
+			>
+				Add Item to Cart
+			</button>
 		</div>
 	</item-card>
 </template>
@@ -106,11 +118,12 @@
 	a {
 		color: salmon;
 	}
-	h3 span {
+	span {
+		display: block;
 		color: red;
-		font-size: 10px;
+		font-size: 14px;
 	}
-	item-card > *:nth-child(odd) {
+	.options > *:nth-child(odd) {
 		background-color: rgba(0, 0, 0, 0.4);
 	}
 </style>
