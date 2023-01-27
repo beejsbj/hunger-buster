@@ -17,3 +17,18 @@ export const useUserStore = defineStore("user", () => {
 			profile.favoriteRestaurants.push(restaurant);
 		}
 	}
+	function favoriteItem(item) {
+		if (profile.favoriteItems.includes(item)) {
+			let index = profile.favoriteItems.indexOf(item);
+			profile.favoriteItems.splice(index, 1);
+		} else {
+			profile.favoriteItems.push(item);
+		}
+	}
+
+	return {
+		profile,
+		favoriteRestaurant,
+		favoriteItem,
+	};
+});

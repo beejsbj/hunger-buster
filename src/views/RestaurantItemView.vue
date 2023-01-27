@@ -2,6 +2,8 @@
 	import { reactive } from "vue";
 	import { useRoute, useRouter } from "vue-router";
 	import { useShopStore } from "../stores/shop.js";
+	import { useUserStore } from "../stores/user.js";
+	const user = useUserStore();
 
 	const route = useRoute();
 	const router = useRouter();
@@ -32,14 +34,20 @@
 </script>
 
 <template>
-	<pre>
-		<code>
-			<!-- {{ item }} -->
-		</code>
-	</pre>
 	<item-card>
 		<h1 class="loud-voice">{{ restaurant.name }}: {{ item.name }}</h1>
-		<p>${{ item.price }}</p>
+		<div>
+			<p>${{ item.price }}</p>
+
+			<button
+				@click="user.favoriteItem(item)"
+				:class="{
+					favorite: user.profile.favoriteItems.includes(item),
+				}"
+			>
+				Heart
+			</button>
+		</div>
 		<picture>
 			<img
 				:src="item.image"
@@ -68,17 +76,15 @@
 							v-if="option.required"
 							:name="option.name"
 							type="radio"
-							:value="[choice.name, choice.priceIncrease ?? 0]"
+							:value="true ? { choice: choice.name } : ''"
 							v-model="selections[option.name]"
 							required
 						/>
 						<input
 							v-if="!option.required"
-							:name="option.name"
 							type="checkbox"
-							:true-value="[choice.name, choice.priceIncrease ?? 0]"
-							false-value=""
-							v-model="selections[option.name]"
+							:value="true ? { choice: choice.name } : ''"
+							v-model="selections"
 						/>
 					</li>
 				</ul>
@@ -89,8 +95,9 @@
 			<button
 				@click="
 					shop.add(item, restaurant);
-					redirect();
+
 					addSelections();
+					redirect();
 				"
 			>
 				Add Item to Cart
@@ -115,6 +122,11 @@
 		gap: 10px;
 	}
 
+	item-card > div {
+		display: flex;
+		justify-content: space-between;
+	}
+
 	a {
 		color: salmon;
 	}
@@ -125,5 +137,8 @@
 	}
 	.options > *:nth-child(odd) {
 		background-color: rgba(0, 0, 0, 0.4);
+	}
+	button.favorite {
+		background: yellow;
 	}
 </style>
