@@ -28,17 +28,17 @@ const router = createRouter({
 			component: () => import("../views/CategoryView.vue"),
 		},
 		{
-			path: "/restaurant/:slug",
+			path: "/:restaurantSlug",
 			name: "Restaurant",
 			component: () => import("../views/RestaurantView.vue"),
 		},
 		{
-			path: "/restaurant/cart",
+			path: "/:restaurantSlug/cart",
 			name: "RestaurantCart",
 			component: () => import("../views/RestaurantCartView.vue"),
 		},
 		{
-			path: "/restaurant/:slug/:itemSlug",
+			path: "/:restaurantSlug/:itemSlug",
 			name: "RestaurantItem",
 			component: () => import("../views/RestaurantItemView.vue"),
 		},
