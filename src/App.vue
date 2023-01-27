@@ -22,6 +22,7 @@
 				>
 					<RouterLink to="/">Home</RouterLink>
 					<RouterLink to="/about">About</RouterLink>
+					<RouterLink to="/user">Profile</RouterLink>
 					<!-- <RouterLink to="/create">Create Item</RouterLink> -->
 					<RouterLink to="/restaurants">Restaurants</RouterLink>
 					<!-- <RouterLink to="/cart" class="cart"
