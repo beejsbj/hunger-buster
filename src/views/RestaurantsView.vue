@@ -1,5 +1,7 @@
 <script setup>
 	import { useShopStore } from "../stores/shop.js";
+	import { useUserStore } from "../stores/user.js";
+	const user = useUserStore();
 	const shop = useShopStore();
 </script>
 
@@ -23,6 +25,15 @@
 				<div>
 					<p>{{ "$".repeat(restaurant.priceLevel) }}</p>
 					<a :href="'/' + restaurant.slug">MORE</a>
+					<button
+						:class="{
+							favorite:
+								user.profile.favoriteRestaurants.includes(restaurant),
+						}"
+						@click="user.favoriteRestaurant(restaurant)"
+					>
+						Heart
+					</button>
 				</div>
 			</restaurant-card>
 		</li>
@@ -44,5 +55,9 @@
 		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 
 		gap: 10px;
+	}
+
+	button.favorite {
+		background: yellow;
 	}
 </style>
