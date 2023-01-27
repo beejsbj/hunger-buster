@@ -1,5 +1,5 @@
 <script setup>
-	import { reactive } from "vue";
+	import { reactive, ref } from "vue";
 	import { useRoute, useRouter } from "vue-router";
 	import { useShopStore } from "../stores/shop.js";
 	import { useUserStore } from "../stores/user.js";
@@ -27,13 +27,23 @@
 		});
 	}
 
-	const selections = reactive({});
+	var selections = ref({});
+	const multiSelections = ref([]);
+
 	function addSelections() {
-		item.selections = selections;
+		var allSelections = Object.values(selections.value);
+		allSelections.push(...multiSelections.value);
+		item.selections = allSelections;
+		// return allSelections;
 	}
 </script>
 
 <template>
+	<pre>
+		<code>
+			{{item}}
+		</code>
+	</pre>
 	<item-card>
 		<h1 class="loud-voice">{{ restaurant.name }}: {{ item.name }}</h1>
 		<div>
@@ -70,27 +80,49 @@
 						v-for="choice in option.choices"
 					>
 						<label for="">
-							{{ choice.name }}
+							<span>{{ choice.name }}</span>
+							<span
+								class="price"
+								v-if="choice.priceIncrease"
+								>${{ choice.priceIncrease }}</span
+							>
 						</label>
 						<input
 							v-if="option.required"
 							:name="option.name"
 							type="radio"
-							:value="true ? { choice: choice.name } : ''"
+							:value="
+								true
+									? {
+											option: option.name,
+											choice: choice.name,
+											price: choice.priceIncrease,
+									  }
+									: ''
+							"
 							v-model="selections[option.name]"
 							required
 						/>
 						<input
 							v-if="!option.required"
 							type="checkbox"
-							:value="true ? { choice: choice.name } : ''"
-							v-model="selections"
+							:value="
+								true
+									? {
+											option: option.name,
+											choice: choice.name,
+											price: choice.priceIncrease,
+									  }
+									: ''
+							"
+							v-model="multiSelections"
 						/>
 					</li>
 				</ul>
 			</li>
 		</ul>
 		{{ selections }}
+		{{ multiSelections }}
 		<div>
 			<button
 				@click="
@@ -106,7 +138,7 @@
 	</item-card>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 	restaurant-card {
 		display: grid;
 		gap: 5px;
@@ -130,7 +162,7 @@
 	a {
 		color: salmon;
 	}
-	span {
+	h2 span {
 		display: block;
 		color: red;
 		font-size: 14px;
@@ -140,5 +172,19 @@
 	}
 	button.favorite {
 		background: yellow;
+	}
+	label {
+		display: grid;
+		.price {
+			color: green;
+		}
+	}
+
+	.choice {
+		display: flex;
+		justify-content: space-between;
+		input {
+			width: 20px;
+		}
 	}
 </style>
