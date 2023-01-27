@@ -1,17 +1,18 @@
 <script setup>
-import { useRoute, useRouter } from "vue-router";
+	import { useRoute, useRouter } from "vue-router";
 
-import { useShopStore } from "../stores/shop.js";
+	import { useShopStore } from "../stores/shop.js";
 
-const route = useRoute();
-const router = useRouter();
-const shop = useShopStore();
+	const route = useRoute();
+	const router = useRouter();
+	const shop = useShopStore();
 
-const restaurant = shop.list.restaurants.find(function (restaurant) {
-	return (
-		route.params.slug == restaurant.id || route.params.slug == restaurant.slug
-	);
-});
+	const restaurant = shop.restaurants.find(function (restaurant) {
+		return (
+			route.params.restaurantSlug == restaurant.id ||
+			route.params.restaurantSlug == restaurant.slug
+		);
+	});
 </script>
 
 <template>
@@ -20,9 +21,12 @@ const restaurant = shop.list.restaurants.find(function (restaurant) {
 			{{ restaurant.name }}
 		</h2>
 		<h3 class="attention-voice">{{ "$".repeat(restaurant.priceLevel) }}</h3>
+		<a href="/"></a>
 		<picture>
 			<img
-				:src="restaurant.image ?? 'https://peprojects.dev/images/square.jpg'"
+				:src="
+					restaurant.image ?? 'https://peprojects.dev/images/square.jpg'
+				"
 				alt="https://peprojects.dev/images/square.jpg"
 			/>
 		</picture>
@@ -33,7 +37,10 @@ const restaurant = shop.list.restaurants.find(function (restaurant) {
 						<h4>{{ item.name }}</h4>
 						<picture>
 							<img
-								:src="item.image ?? 'https://peprojects.dev/images/square.jpg'"
+								:src="
+									item.image ??
+									'https://peprojects.dev/images/square.jpg'
+								"
 								alt="https://peprojects.dev/images/square.jpg"
 							/>
 						</picture>
@@ -48,21 +55,21 @@ const restaurant = shop.list.restaurants.find(function (restaurant) {
 </template>
 
 <style scoped>
-restaurant-card {
-	display: grid;
-	gap: 5px;
-}
-restaurant-card div {
-	display: flex;
-	justify-content: space-between;
-}
+	restaurant-card {
+		display: grid;
+		gap: 5px;
+	}
+	restaurant-card div {
+		display: flex;
+		justify-content: space-between;
+	}
 
-item-card {
-	display: grid;
-	grid-template-columns: 1fr 0.3fr;
-}
+	item-card {
+		display: grid;
+		grid-template-columns: 1fr 0.3fr;
+	}
 
-a {
-	color: salmon;
-}
+	a {
+		color: salmon;
+	}
 </style>

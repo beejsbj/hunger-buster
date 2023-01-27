@@ -1,12 +1,12 @@
 <script setup>
-import { useShopStore } from "../stores/shop.js";
-const shop = useShopStore();
+	import { useShopStore } from "../stores/shop.js";
+	const shop = useShopStore();
 </script>
 
 <template>
 	<h2 class="attention-voice">Restaurants</h2>
 	<ul>
-		<li v-for="restaurant in shop.list.restaurants">
+		<li v-for="restaurant in shop.restaurants">
 			<restaurant-card>
 				<h3 class="solid-voice">
 					{{ restaurant.name }}
@@ -14,14 +14,15 @@ const shop = useShopStore();
 				<picture>
 					<img
 						:src="
-							restaurant.image ?? 'https://peprojects.dev/images/square.jpg'
+							restaurant.image ??
+							'https://peprojects.dev/images/square.jpg'
 						"
 						alt="https://peprojects.dev/images/square.jpg"
 					/>
 				</picture>
 				<div>
 					<p>{{ "$".repeat(restaurant.priceLevel) }}</p>
-					<a :href="'restaurant/' + restaurant.slug">MORE</a>
+					<a :href="'/' + restaurant.slug">MORE</a>
 				</div>
 			</restaurant-card>
 		</li>
@@ -29,19 +30,19 @@ const shop = useShopStore();
 </template>
 
 <style scoped>
-restaurant-card {
-	display: grid;
-	gap: 5px;
-}
-restaurant-card div {
-	display: flex;
-	justify-content: space-between;
-}
-ul {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	restaurant-card {
+		display: grid;
+		gap: 5px;
+	}
+	restaurant-card div {
+		display: flex;
+		justify-content: space-between;
+	}
+	ul {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 
-	gap: 10px;
-}
+		gap: 10px;
+	}
 </style>
