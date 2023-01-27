@@ -1,0 +1,558 @@
+[
+	{
+		"id": "abc123",
+		"name": "Taco Bell",
+		"priceLevel": "2",
+		"slug": "taco-bell",
+		"image": "https://shopsquareone.com/wp-content/uploads/2021/09/35920863f8f3b0cfe798866012ca1bca7d3f926c.png",
+		"categories": [
+			{
+				"name": "Lunch",
+				"id": "cat001"
+			},
+			{
+				"name": "Specialty items",
+				"id": "cat002"
+			},
+			{
+				"name": "Drinks",
+				"id": "cat003"
+			},
+			{
+				"name": "Dinner",
+				"id": "cat004"
+			},
+			{
+				"name": "Burrito",
+				"id": "cat005"
+			},
+			{
+				"name": "Dessert",
+				"id": "cat006"
+			}
+		],
+		"menuItems": [
+			{
+				"id": "1a",
+				"name": "Chalupa",
+				"image": "https://d1ralsognjng37.cloudfront.net/9b0e3fe9-fd6c-416c-86a8-abbe0347a680.jpeg",
+				"price": 4,
+				"slug": "chalupa",
+				"category": ["cat001", "cat002"]
+			},
+			{
+				"id": "1dda",
+				"name": "Soda",
+				"image": "https://d1ralsognjng37.cloudfront.net/b9516f6b-7880-4750-b35c-abcd28d5f331.jpeg",
+				"price": 2.5,
+				"slug": "soda",
+				"category": ["cat003"],
+				"options": [
+					{
+						"name": "flavor",
+						"required": true,
+						"choices": [
+							{
+								"name": "Mountain Dew"
+							},
+							{
+								"name": "Brisk"
+							},
+							{
+								"name": "Pepsi"
+							},
+							{
+								"name": "Coke Zero"
+							}
+						]
+					}
+				]
+			},
+			{
+				"id": "1b",
+				"name": "Burrito Supreme",
+				"price": 3.9,
+				"image": "https://d1ralsognjng37.cloudfront.net/ce9c8057-d84c-49a5-90b2-83cf847805b3.jpeg",
+				"slug": "burrito-supreme",
+				"category": ["cat002", "cat005"],
+				"options": [
+					{
+						"name": "protien",
+						"required": true,
+						"choices": [
+							{
+								"name": "Beef",
+								"calories": 420
+							},
+							{
+								"name": "Steak",
+								"calories": 400,
+								"priceIncrease": 1.2
+							}
+						]
+					},
+					{
+						"name": "protien",
+						"choices": [
+							{
+								"name": "Beef",
+								"calories": 420,
+								"priceIncrease": 1.3
+							},
+							{
+								"name": "Beans",
+								"calories": 320,
+								"priceIncrease": 1.3
+							},
+							{
+								"name": "Steak",
+								"calories": 400,
+								"priceIncrease": 1.5
+							}
+						]
+					},
+					{
+						"name": "addons",
+						"choices": [
+							{
+								"name": "Cheddar cheese",
+								"priceIncrease": 1.15
+							},
+							{
+								"name": "Reduced-fat sour cream",
+								"priceIncrease": 1.15
+							}
+						]
+					}
+				]
+			},
+			{
+				"id": "1sdfdda",
+				"name": "4pk Cinnabon Delights",
+				"image": "https://d1ralsognjng37.cloudfront.net/cdea7720-f1f5-4ced-846d-58a08c39fc4c.jpeg",
+				"price": 3.19,
+				"slug": "cinnabon-delights",
+				"category": ["cat006"]
+			}
+		]
+	},
+	{
+		"id": "de52f43456",
+		"name": "Chipotle",
+		"image": "https://shopsquareone.com/wp-content/uploads/2021/09/c721c08ce6d4372e3b46f8e9a4c90e4a1ab27f8b.png",
+		"priceLevel": "1",
+		"slug": "chipotle",
+		"categories": [
+			{
+				"name": "Lunch",
+				"id": "cat001"
+			},
+			{
+				"name": "Specialty items",
+				"id": "cat002"
+			},
+			{
+				"name": "Drinks",
+				"id": "cat003"
+			},
+			{
+				"name": "Dinner",
+				"id": "cat004"
+			},
+			{
+				"name": "Tacos",
+				"id": "cat005"
+			},
+			{
+				"name": "Dessert",
+				"id": "cat006"
+			},
+			{
+				"name": "Fries",
+				"id": "cat007"
+			}
+		],
+		"menuItems": [
+			{
+				"id": "1b",
+				"name": "Beef Soft Taco",
+				"image": "https://static.onecms.io/wp-content/uploads/sites/44/2019/08/26231059/5583206.jpg",
+				"price": 3.9,
+				"slug": "beef-soft-taco",
+				"category": ["cat001", "cat004", "cat005"],
+				"options": [
+					{
+						"name": "protien",
+						"choices": [
+							{
+								"name": "Beef",
+								"calories": 420,
+								"priceIncrease": 1.3
+							}
+						]
+					},
+					{
+						"name": "addons",
+						"choices": [
+							{
+								"name": "Cheddar cheese",
+								"priceIncrease": 1.15
+							}
+						]
+					}
+				]
+			},
+			{
+				"id": "14rbvcb",
+				"name": "Fries Supreme",
+				"image": "https://canadify.com/wp-content/uploads/2022/03/Taco-Bell-Canada-Adds-New-Spicy-Ranch-Fries-Supreme.jpg",
+				"price": 5.19,
+				"slug": "fries-supreme",
+				"category": ["cat001", "cat007"],
+				"options": [
+					{
+						"name": "protien",
+						"required": true,
+						"choices": [
+							{
+								"name": "Beef",
+								"calories": 420
+							},
+							{
+								"name": "Beans",
+								"calories": 400
+							}
+						]
+					},
+					{
+						"name": "protien",
+						"choices": [
+							{
+								"name": "Beef",
+								"calories": 420,
+								"priceIncrease": 1.3
+							},
+							{
+								"name": "Beans",
+								"calories": 420,
+								"priceIncrease": 1.3
+							}
+						]
+					},
+					{
+						"name": "addons",
+						"choices": [
+							{
+								"name": "Cheddar cheese",
+								"priceIncrease": 1.15
+							},
+							{
+								"name": "Nacho cheese sauce",
+								"priceIncrease": 1.15
+							}
+						]
+					}
+				]
+			}
+		]
+	},
+	{
+		"id": "def43456",
+		"name": "Chatime",
+		"image": "https://shopsquareone.com/wp-content/uploads/2021/09/ded478c109b673e1dd6c17a4eaffe9c5d3d085a9.png",
+		"priceLevel": "3",
+		"slug": "chatime",
+		"categories": [
+			{
+				"name": "Tea",
+				"id": "cat011"
+			},
+			{
+				"name": "Chatime Signatures",
+				"id": "cat022"
+			},
+			{
+				"name": "Fruit Tea",
+				"id": "cat033"
+			}
+		],
+		"menuItems": [
+			{
+				"id": "546hertbf",
+				"name": "Pearl Milk tea",
+				"image": "https://tb-static.uber.com/prod/image-proc/processed_images/67bc13588dc12ee4975654d4e5b7bdbe/5954bcb006b10dbfd0bc160f6370faf3.jpeg",
+				"price": 7.9,
+				"slug": "milk-tea",
+				"category": ["cat011", "cat022"],
+				"options": [
+					{
+						"name": "Size",
+						"required": true,
+						"choices": [
+							{
+								"name": "Large",
+								"priceIncrease": 0.6
+							},
+							{
+								"name": "Regular"
+							}
+						]
+					},
+					{
+						"name": "Ice/Temperature",
+						"required": true,
+						"choices": [
+							{
+								"name": "Hot"
+							},
+							{
+								"name": "No Ice"
+							},
+							{
+								"name": "Less Ice"
+							},
+							{
+								"name": "Normal Ice"
+							},
+							{
+								"name": "Extra Ice"
+							}
+						]
+					},
+					{
+						"name": "Base",
+						"required": true,
+						"choices": [
+							{
+								"name": "Milk Tea"
+							},
+							{
+								"name": "Fresh Milk"
+							},
+							{
+								"name": "Oat Milk",
+								"priceIncrease": 1.5
+							}
+						]
+					},
+					{
+						"name": "Sweetness",
+						"required": true,
+						"choices": [
+							{
+								"name": "No Sugar"
+							},
+							{
+								"name": "Min. Sugar"
+							},
+							{
+								"name": "30% Sugar"
+							},
+							{
+								"name": "50% Sugar"
+							},
+							{
+								"name": "80% Sugar"
+							},
+							{
+								"name": "100% Sugar"
+							},
+							{
+								"name": "50% Honey Sub"
+							},
+							{
+								"name": "100% Honey Sub"
+							}
+						]
+					},
+					{
+						"name": "topping",
+						"required": true,
+						"choices": [
+							{
+								"name": "Pearl"
+							},
+							{
+								"name": "Grass Jelly"
+							},
+							{
+								"name": "Pudding"
+							},
+							{
+								"name": "Popping Boba(Lychee)",
+								"priceIncrease": 1.5
+							},
+							{
+								"name": "Aloe Vera",
+								"priceIncrease": 1.25
+							},
+							{
+								"name": "Brown Sugar Pearl",
+								"priceIncrease": 1.25
+							}
+						]
+					},
+					{
+						"name": "extra topping",
+						"choices": [
+							{
+								"name": "Popping Boba(Lychee)",
+								"priceIncrease": 1.5
+							},
+							{
+								"name": "Aloe Vera",
+								"priceIncrease": 1.25
+							},
+							{
+								"name": "Brown Sugar Pearl",
+								"priceIncrease": 1.25
+							}
+						]
+					}
+				]
+			},
+			{
+				"id": "5463g5rvhertbf",
+				"name": "Mango Tea",
+				"image": "https://d1ralsognjng37.cloudfront.net/e143cf93-6c2a-44e4-86ab-bc37ef9e14b7.jpeg",
+				"price": 7.9,
+				"slug": "mango-tea",
+				"category": ["cat011", "cat033"],
+				"options": [
+					{
+						"name": "Size",
+						"required": true,
+						"choices": [
+							{
+								"name": "Large",
+								"priceIncrease": 0.6
+							},
+							{
+								"name": "Regular"
+							}
+						]
+					},
+					{
+						"name": "Ice",
+						"required": true,
+						"choices": [
+							{
+								"name": "No Ice"
+							},
+							{
+								"name": "Less Ice"
+							},
+							{
+								"name": "Normal Ice"
+							},
+							{
+								"name": "Extra Ice"
+							}
+						]
+					},
+					{
+						"name": "Tea Type",
+						"required": true,
+						"choices": [
+							{
+								"name": "Green Tea"
+							},
+							{
+								"name": "Black Tea"
+							}
+						]
+					},
+					{
+						"name": "Sweetness",
+						"required": true,
+						"choices": [
+							{
+								"name": "No Sugar"
+							},
+							{
+								"name": "Min. Sugar"
+							},
+							{
+								"name": "30% Sugar"
+							},
+							{
+								"name": "50% Sugar"
+							},
+							{
+								"name": "80% Sugar"
+							},
+							{
+								"name": "100% Sugar"
+							},
+							{
+								"name": "50% Honey Sub"
+							},
+							{
+								"name": "100% Honey Sub"
+							}
+						]
+					},
+					{
+						"name": "topping",
+						"required": true,
+						"choices": [
+							{
+								"name": "Pearl",
+								"priceIncrease": 0.9
+							},
+							{
+								"name": "Grass Jelly",
+								"priceIncrease": 0.9
+							},
+							{
+								"name": "Pudding",
+								"priceIncrease": 0.9
+							},
+							{
+								"name": "Popping Boba(Lychee)",
+								"priceIncrease": 1.5
+							},
+							{
+								"name": "Aloe Vera",
+								"priceIncrease": 1.25
+							},
+							{
+								"name": "Brown Sugar Pearl",
+								"priceIncrease": 1.25
+							}
+						]
+					},
+					{
+						"name": "extra topping",
+						"choices": [
+							{
+								"name": "Pearl",
+								"priceIncrease": 0.9
+							},
+							{
+								"name": "Grass Jelly",
+								"priceIncrease": 0.9
+							},
+							{
+								"name": "Pudding",
+								"priceIncrease": 0.9
+							},
+							{
+								"name": "Popping Boba(Lychee)",
+								"priceIncrease": 1.5
+							},
+							{
+								"name": "Aloe Vera",
+								"priceIncrease": 1.25
+							},
+							{
+								"name": "Brown Sugar Pearl",
+								"priceIncrease": 1.25
+							}
+						]
+					}
+				]
+			}
+		]
+	}
+]
