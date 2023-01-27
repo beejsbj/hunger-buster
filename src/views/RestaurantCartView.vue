@@ -20,20 +20,19 @@
 
 	restaurant.cart.map(function (item) {
 		let selectionTotal = 0;
-		for (const option in item.selections) {
-			selectionTotal += item.selections[option][1];
-		}
-		item.price += selectionTotal;
+		console.log(item.price);
+		item.selections.forEach(function (selection) {
+			if (selection.price) {
+				selectionTotal += selection.price;
+			}
+		});
+		item.totalPrice = item.price + selectionTotal;
 	});
 </script>
 
 <template>
 	<h3 class="attention-voice">Total: {{}}</h3>
-	<pre>
-		<code>
-			{{ restaurant.cart }}
-		</code>
-	</pre>
+
 	<table class="styled-table">
 		<thead>
 			<tr>
@@ -58,17 +57,17 @@
 					{{ item.name }}
 					<ul v-if="item.options">
 						<li v-for="selection in item.selections">
-							- {{ selection[0] }}: ${{ selection[1] }}+
+							- {{ selection.choice }}: ${{ selection.price }}+
 						</li>
 					</ul>
 				</td>
-				<td>${{ item.price }}</td>
+				<td>${{ item.totalPrice }}</td>
 				<td>
 					<!-- <button @click="shop.quantityDecrement(item)">-</button> -->
 					{{ item.quantity }}
 					<!-- <button @click="shop.quantityIncrement(item)">+</button> -->
 				</td>
-				<td>${{ item.price * item.quantity }}</td>
+				<td>${{ item.totalPrice * item.quantity }}</td>
 				<td>
 					<button @click="shop.remove(item, restaurant)">Remove</button>
 				</td>
