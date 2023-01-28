@@ -1,6 +1,7 @@
 <script setup>
 	import { useShopStore } from "../stores/shop.js";
 	import { useRoute, useRouter } from "vue-router";
+	import { computed } from "vue";
 	const route = useRoute();
 	const router = useRouter();
 
@@ -28,10 +29,18 @@
 		});
 		item.totalPrice = item.price + selectionTotal;
 	});
+
+	const total = computed(function () {
+		return restaurant.cart
+			.reduce(function (total, item) {
+				return total + item.price * item.quantity;
+			}, 0)
+			.toFixed(2);
+	});
 </script>
 
 <template>
-	<h3 class="attention-voice">Total: {{}}</h3>
+	<h3 class="attention-voice">Total: ${{ total }}</h3>
 
 	<table class="styled-table">
 		<thead>
@@ -57,15 +66,18 @@
 					{{ item.name }}
 					<ul v-if="item.options">
 						<li v-for="selection in item.selections">
-							- {{ selection.choice }}: ${{ selection.price }}+
+							- {{ selection.choice }}
+							<span v-if="selection.price"
+								>: ${{ selection.price }}+</span
+							>
 						</li>
 					</ul>
 				</td>
 				<td>${{ item.totalPrice }}</td>
 				<td>
-					<!-- <button @click="shop.quantityDecrement(item)">-</button> -->
+					<button @click="shop.quantityDecrement(item)">-</button>
 					{{ item.quantity }}
-					<!-- <button @click="shop.quantityIncrement(item)">+</button> -->
+					<button @click="shop.quantityIncrement(item)">+</button>
 				</td>
 				<td>${{ item.totalPrice * item.quantity }}</td>
 				<td>
