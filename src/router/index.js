@@ -24,7 +24,20 @@ const router = createRouter({
 			// this generates a separate chunk (About.[hash].js) for this route
 			// which is lazy-loaded when the route is visited.
 			component: () => import("../views/ProfileView.vue"),
+			children: [
+				{
+					path: "/user/favorites",
+					name: "userFavorites",
+					component: () => import("../components/Favorites.vue"),
+				},
+				{
+					path: "/user/about",
+					name: "UserAbout",
+					component: () => import("../components/UserAbout.vue"),
+				},
+			],
 		},
+
 		{
 			path: "/restaurants",
 			name: "Restaurants",
@@ -39,16 +52,28 @@ const router = createRouter({
 			path: "/:restaurantSlug",
 			name: "Restaurant",
 			component: () => import("../views/RestaurantView.vue"),
+			children: [
+				{
+					path: "/:restaurantSlug",
+					name: "Items",
+					component: () => import("../components/Items.vue"),
+				},
+				{
+					path: "/:restaurantSlug/cart",
+					name: "RestaurantCart",
+					component: () => import("../views/RestaurantCartView.vue"),
+				},
+				{
+					path: "/:restaurantSlug/:itemSlug",
+					name: "RestaurantItem",
+					component: () => import("../views/RestaurantItemView.vue"),
+				},
+			],
 		},
 		{
-			path: "/:restaurantSlug/cart",
-			name: "RestaurantCart",
-			component: () => import("../views/RestaurantCartView.vue"),
-		},
-		{
-			path: "/:restaurantSlug/:itemSlug",
-			name: "RestaurantItem",
-			component: () => import("../views/RestaurantItemView.vue"),
+			path: "/:pathMatch(.*)*",
+			name: "not-found",
+			component: () => import("../views/NotFound.vue"),
 		},
 	],
 });
