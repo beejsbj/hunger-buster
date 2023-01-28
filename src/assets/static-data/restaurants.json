@@ -394,6 +394,7 @@
 					},
 					{
 						"name": "extra topping",
+						"multiSelect": true,
 						"choices": [
 							{
 								"name": "Popping Boba(Lychee)",
