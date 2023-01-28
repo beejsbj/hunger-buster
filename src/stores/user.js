@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { reactive } from "vue";
+import { reactive, watch } from "vue";
 
 export const useUserStore = defineStore("user", () => {
 	const profile = reactive({
@@ -25,6 +25,14 @@ export const useUserStore = defineStore("user", () => {
 			profile.favoriteItems.push(item);
 		}
 	}
+
+	function saveProfile() {
+		localStorage.setItem("profile", JSON.stringify(profile));
+		console.log("Profile Saved");
+	}
+	watch(profile, function () {
+		saveProfile();
+	});
 
 	return {
 		profile,

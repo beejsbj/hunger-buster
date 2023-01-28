@@ -21,14 +21,6 @@ if (!localStorage.restaurants) {
 export const useShopStore = defineStore("shop", () => {
 	const restaurants = reactive(loadRestaurants());
 
-	// const total = computed(function () {
-	// 	return list.cart
-	// 		.reduce(function (total, restaurant) {
-	// 			return total + restaurant.price * restaurant.quantity;
-	// 		}, 0)
-	// 		.toFixed(2);
-	// });
-
 	function findInCart(item) {
 		return restaurant.id.find(function (cartItem) {
 			return cartItem.id == item.id;

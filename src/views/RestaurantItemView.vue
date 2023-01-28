@@ -1,5 +1,5 @@
 <script setup>
-	import { reactive, ref } from "vue";
+	import { ref } from "vue";
 	import { useRoute, useRouter } from "vue-router";
 	import { useShopStore } from "../stores/shop.js";
 	import { useUserStore } from "../stores/user.js";
@@ -39,11 +39,6 @@
 </script>
 
 <template>
-	<pre>
-		<code>
-			{{item}}
-		</code>
-	</pre>
 	<item-card>
 		<h1 class="loud-voice">{{ restaurant.name }}: {{ item.name }}</h1>
 		<div>

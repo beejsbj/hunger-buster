@@ -13,12 +13,6 @@
 		);
 	});
 
-	function redirect() {
-		router.push({
-			path: `${route.params.restaurantSlug}/cart`,
-		});
-	}
-
 	restaurant.cart.map(function (item) {
 		let selectionTotal = 0;
 		console.log(item.price);

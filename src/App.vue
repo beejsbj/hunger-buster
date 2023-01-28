@@ -21,7 +21,7 @@
 					}"
 				>
 					<RouterLink to="/">Home</RouterLink>
-					<RouterLink to="/about">About</RouterLink>
+					<!-- <RouterLink to="/about">About</RouterLink> -->
 					<RouterLink to="/user">Profile</RouterLink>
 					<!-- <RouterLink to="/create">Create Item</RouterLink> -->
 					<RouterLink to="/restaurants">Restaurants</RouterLink>
@@ -80,11 +80,6 @@
 			}
 
 			a {
-				padding: 10px;
-
-				&.router-link-active {
-					background-color: salmon;
-				}
 				&.cart {
 					position: relative;
 
