@@ -65,76 +65,76 @@
 			/>
 		</picture>
 
-		<ul class="options">
-			<li
-				class="options-card"
-				v-for="option in item.options"
-			>
-				<h2 class="attention-voice">
-					Please Select the {{ option.name }}
-					<span v-if="option.required">required</span>
-				</h2>
-				<ul class="choices">
-					<li
-						class="choice"
-						v-for="choice in option.choices"
-					>
-						<label for="">
-							<span>{{ choice.name }}</span>
-							<span
-								class="price"
-								v-if="choice.priceIncrease"
-								>${{ choice.priceIncrease }}</span
-							>
-						</label>
-						<input
-							v-if="option.required"
-							:name="option.name"
-							type="radio"
-							:value="
-								true
-									? {
-											option: option.name,
-											choice: choice.name,
-											price: choice.priceIncrease,
-									  }
-									: ''
-							"
-							v-model="selections[option.name]"
-							required
-						/>
-						<input
-							v-if="!option.required"
-							type="checkbox"
-							:value="
-								true
-									? {
-											option: option.name,
-											choice: choice.name,
-											price: choice.priceIncrease,
-									  }
-									: ''
-							"
-							v-model="multiSelections"
-						/>
-					</li>
-				</ul>
-			</li>
-		</ul>
-		{{ selections }}
-		{{ multiSelections }}
-		<div>
-			<button
-				@click="
-					shop.add(item, restaurant);
+		<form
+			@submit.prevent="
+				shop.add(item, restaurant);
 
-					addSelections();
-					redirect();
-				"
-			>
-				Add Item to Cart
-			</button>
-		</div>
+				addSelections();
+				redirect();
+			"
+		>
+			<ul class="options">
+				<li
+					class="options-card"
+					v-for="option in item.options"
+				>
+					<h2 class="attention-voice">
+						Please Select the {{ option.name }}
+						<span v-if="option.required">required</span>
+					</h2>
+					<ul class="choices">
+						<li
+							class="choice"
+							v-for="choice in option.choices"
+						>
+							<label for="">
+								<span>{{ choice.name }}</span>
+								<span
+									class="price"
+									v-if="choice.priceIncrease"
+									>${{ choice.priceIncrease }}</span
+								>
+							</label>
+							<input
+								v-if="option.required"
+								:name="option.name"
+								type="radio"
+								:value="
+									true
+										? {
+												option: option.name,
+												choice: choice.name,
+												price: choice.priceIncrease,
+										  }
+										: ''
+								"
+								v-model="selections[option.name]"
+								required
+							/>
+							<input
+								v-if="!option.required"
+								type="checkbox"
+								:value="
+									true
+										? {
+												option: option.name,
+												choice: choice.name,
+												price: choice.priceIncrease,
+										  }
+										: ''
+								"
+								v-model="multiSelections"
+							/>
+						</li>
+					</ul>
+				</li>
+			</ul>
+			{{ selections }}
+			{{ multiSelections }}
+			<div>
+				<button>Add Item to Cart</button>
+			</div>
+		</form>
 	</item-card>
 </template>
 
