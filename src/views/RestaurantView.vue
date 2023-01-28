@@ -4,7 +4,6 @@
 	import { useShopStore } from "../stores/shop.js";
 
 	const route = useRoute();
-	const router = useRouter();
 	const shop = useShopStore();
 
 	const restaurant = shop.restaurants.find(function (restaurant) {
@@ -16,60 +15,62 @@
 </script>
 
 <template>
-	<restaurant-card>
-		<h2 class="loud-voice">
-			{{ restaurant.name }}
-		</h2>
+	<header class="restaurant">
+		<nav class="restaurant-menu">
+			<RouterLink :to="'/' + restaurant.slug">Items</RouterLink>
+			<RouterLink
+				:to="'/' + restaurant.slug + '/cart'"
+				class="cart"
+			>
+				Cart
+				<span :class="{ cartCount: restaurant.cart.length }">
+					{{ restaurant.cart.length }}
+				</span>
+			</RouterLink>
+		</nav>
+		<restaurant-banner>
+			<h2 class="loud-voice">
+				{{ restaurant.name }}
+			</h2>
+			<picture>
+				<img
+					:src="
+						restaurant.image ?? 'https://peprojects.dev/images/square.jpg'
+					"
+					alt="https://peprojects.dev/images/square.jpg"
+				/>
+			</picture>
+		</restaurant-banner>
 		<h3 class="attention-voice">{{ "$".repeat(restaurant.priceLevel) }}</h3>
-		<a href="/"></a>
-		<picture>
-			<img
-				:src="
-					restaurant.image ?? 'https://peprojects.dev/images/square.jpg'
-				"
-				alt="https://peprojects.dev/images/square.jpg"
-			/>
-		</picture>
-		<menu-items>
-			<ul>
-				<li v-for="item in restaurant.menuItems">
-					<item-card>
-						<h4>{{ item.name }}</h4>
-						<picture>
-							<img
-								:src="
-									item.image ??
-									'https://peprojects.dev/images/square.jpg'
-								"
-								alt="https://peprojects.dev/images/square.jpg"
-							/>
-						</picture>
-
-						<p>${{ item.price }}</p>
-						<a :href="`${restaurant.slug}/${item.slug}`">MORE</a>
-					</item-card>
-				</li>
-			</ul>
-		</menu-items>
-	</restaurant-card>
+	</header>
+	<sub-view>
+		<RouterView />
+	</sub-view>
 </template>
 
-<style scoped>
-	restaurant-card {
-		display: grid;
-		gap: 5px;
-	}
-	restaurant-card div {
-		display: flex;
-		justify-content: space-between;
-	}
-
-	item-card {
+<style lang="scss" scoped>
+	restaurant-banner {
 		display: grid;
 		grid-template-columns: 1fr 0.3fr;
 	}
-
 	a {
-		color: salmon;
+		&.cart {
+			position: relative;
+
+			span {
+				display: none;
+			}
+
+			.cartCount {
+				display: initial;
+				font-size: 0.8em;
+				/*	vertical-align: super;*/
+				background: yellow;
+				color: black;
+				position: absolute;
+				top: -10px;
+				right: -5px;
+			}
+		}
 	}
 </style>
