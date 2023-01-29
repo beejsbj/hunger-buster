@@ -38,8 +38,13 @@ export const useShopStore = defineStore("shop", () => {
 			restaurants[id].cart = [];
 		}
 
-		item.quantity = 1;
-		restaurants[id].cart.push(item);
+		let record = {
+			...item,
+			quantity: 1,
+			id: uuid(),
+		};
+
+		restaurants[id].cart.push(record);
 	}
 
 	function remove(item, restaurant) {
