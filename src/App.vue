@@ -25,12 +25,11 @@
 					<RouterLink to="/user">Profile</RouterLink>
 					<!-- <RouterLink to="/create">Create Item</RouterLink> -->
 					<RouterLink to="/restaurants">Restaurants</RouterLink>
-					<!-- <RouterLink to="/cart" class="cart"
-						>Cart
-						<span :class="{ cartCount: shop.list.cart.length }">{{
-							shop.list.cart.length
-						}}</span></RouterLink
-					> -->
+					<RouterLink
+						to="/carts"
+						class="cart"
+						>Carts</RouterLink
+					>
 				</nav>
 			</site-menu>
 		</inner-column>
