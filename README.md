@@ -7,6 +7,7 @@
 -  [ ] Admin Login gives unique functionality like Adding new items
 -  [ ] Logo
 -  [ ] Full Styling
+   -  [] ??
 -  [ ] functionality to add a note for item
 -  [ ] Profile Dashboard
 -  [ ] Dynamic User Profiles
