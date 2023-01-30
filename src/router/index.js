@@ -1,5 +1,17 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import AboutView from "../views/AboutView.vue";
+import ProfileView from "../views/ProfileView.vue";
+import Favorites from "../components/Favorites.vue";
+import UserAbout from "../components/UserAbout.vue";
+import RestaurantsView from "../views/RestaurantsView.vue";
+import Carts from "../views/Carts.vue";
+import CategoryView from "../views/CategoryView.vue";
+import RestaurantView from "../views/RestaurantView.vue";
+import Items from "../components/Items.vue";
+import Cart from "../views/Cart.vue";
+import RestaurantItemView from "../views/RestaurantItemView.vue";
+import NotFound from "../views/NotFound.vue";
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,25 +27,22 @@ const router = createRouter({
 			// route level code-splitting
 			// this generates a separate chunk (About.[hash].js) for this route
 			// which is lazy-loaded when the route is visited.
-			component: () => import("../views/AboutView.vue"),
+			component: AboutView,
 		},
 		{
 			path: "/user",
 			name: "user",
-			// route level code-splitting
-			// this generates a separate chunk (About.[hash].js) for this route
-			// which is lazy-loaded when the route is visited.
-			component: () => import("../views/ProfileView.vue"),
+			component: ProfileView,
 			children: [
 				{
 					path: "/user/favorites",
 					name: "userFavorites",
-					component: () => import("../components/Favorites.vue"),
+					component: Favorites,
 				},
 				{
 					path: "/user/about",
 					name: "UserAbout",
-					component: () => import("../components/UserAbout.vue"),
+					component: UserAbout,
 				},
 			],
 		},
@@ -41,44 +50,44 @@ const router = createRouter({
 		{
 			path: "/restaurants",
 			name: "Restaurants",
-			component: () => import("../views/RestaurantsView.vue"),
+			component: RestaurantsView,
 		},
 		{
 			path: "/carts",
 			name: "carts",
-			component: () => import("../views/Carts.vue"),
+			component: Carts,
 		},
 		{
 			path: "/restaurants/:category",
 			name: "RestaurantsCategory",
-			component: () => import("../views/CategoryView.vue"),
+			component: CategoryView,
 		},
 		{
-			path: "/:restaurantSlug",
+			path: "/restaurant/:restaurantSlug",
 			name: "Restaurant",
-			component: () => import("../views/RestaurantView.vue"),
+			component: RestaurantView,
 			children: [
 				{
-					path: "/:restaurantSlug",
+					path: "/restaurant/:restaurantSlug",
 					name: "Items",
-					component: () => import("../components/Items.vue"),
+					component: Items,
 				},
 				{
-					path: "/:restaurantSlug/cart",
+					path: "/restaurant/:restaurantSlug/cart",
 					name: "RestaurantCart",
-					component: () => import("../views/RestaurantCartView.vue"),
+					component: Cart,
 				},
 				{
-					path: "/:restaurantSlug/:itemSlug",
+					path: "/restaurant/:restaurantSlug/:itemSlug",
 					name: "RestaurantItem",
-					component: () => import("../views/RestaurantItemView.vue"),
+					component: RestaurantItemView,
 				},
 			],
 		},
 		{
 			path: "/:pathMatch(.*)*",
 			name: "not-found",
-			component: () => import("../views/NotFound.vue"),
+			component: NotFound,
 		},
 	],
 });

@@ -9,37 +9,36 @@
 	const router = useRouter();
 	const shop = useShopStore();
 
+	defineProps({
+		item: Object,
+	});
+
 	const restaurant = shop.restaurants.find(function (restaurant) {
 		return (
 			route.params.restaurantSlug == restaurant.id ||
 			route.params.restaurantSlug == restaurant.slug
 		);
 	});
-	const item = restaurant.menuItems.find(function (item) {
-		return (
-			route.params.itemSlug == item.id || route.params.itemSlug == item.slug
-		);
-	});
 
 	function redirect() {
 		router.push({
-			path: `/${route.params.restaurantSlug}/cart`,
+			path: `/restaurant/${route.params.restaurantSlug}/cart`,
 		});
 	}
 
 	var selections = ref({});
 	const multiSelections = ref([]);
-
+	var allSelections;
 	function addSelections() {
-		var allSelections = Object.values(selections.value);
+		allSelections = Object.values(selections.value);
 		allSelections.push(...multiSelections.value);
-		item.selections = allSelections;
+		// props.item.selections = allSelections;
 		// return allSelections;
 	}
 </script>
 
 <template>
-	<item-card>
+	<item-detail>
 		<h1 class="loud-voice">{{ restaurant.name }}: {{ item.name }}</h1>
 		<div>
 			<p>${{ item.price }}</p>
@@ -62,9 +61,10 @@
 
 		<form
 			@submit.prevent="
-				shop.add(item, restaurant);
-
 				addSelections();
+				item.selections = allSelections;
+				item.show = !item.show;
+				shop.add(item, restaurant);
 				redirect();
 			"
 		>
@@ -124,13 +124,13 @@
 					</ul>
 				</li>
 			</ul>
-			{{ selections }}
-			{{ multiSelections }}
+			<!-- 			{{ selections }}
+			{{ multiSelections }} -->
 			<div>
 				<button>Add Item to Cart</button>
 			</div>
 		</form>
-	</item-card>
+	</item-detail>
 </template>
 
 <style lang="scss" scoped>
@@ -143,13 +143,13 @@
 		justify-content: space-between;
 	}
 
-	item-card {
+	item-detail {
 		display: grid;
 		/*	grid-template-columns: 1fr 0.3fr;*/
 		gap: 10px;
 	}
 
-	item-card > div {
+	item-detail > div {
 		display: flex;
 		justify-content: space-between;
 	}

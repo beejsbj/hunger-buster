@@ -17,9 +17,9 @@
 <template>
 	<header class="restaurant">
 		<nav class="restaurant-menu">
-			<RouterLink :to="'/' + restaurant.slug">Items</RouterLink>
+			<RouterLink :to="'/restaurant/' + restaurant.slug">Items</RouterLink>
 			<RouterLink
-				:to="'/' + restaurant.slug + '/cart'"
+				:to="'/restaurant/' + restaurant.slug + '/cart'"
 				class="cart"
 			>
 				Cart

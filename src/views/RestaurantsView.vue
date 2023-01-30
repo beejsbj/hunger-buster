@@ -24,7 +24,7 @@
 				</picture>
 				<div>
 					<p>{{ "$".repeat(restaurant.priceLevel) }}</p>
-					<a :href="'/' + restaurant.slug">MORE</a>
+					<a :href="'/restaurant/' + restaurant.slug">MORE</a>
 					<button
 						:class="{
 							favorite:
