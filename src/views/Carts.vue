@@ -9,7 +9,7 @@
 	function totaler(cart) {
 		return cart
 			.reduce(function (total, item) {
-				return total + item.price * item.quantity;
+				return total + item.totalPrice * item.quantity;
 			}, 0)
 			.toFixed(2);
 	}
@@ -37,7 +37,7 @@
 						<p>Cart Size: {{ restaurant.cart.length }}</p>
 
 						<RouterLink
-							:to="'/' + restaurant.slug + '/cart'"
+							:to="'/restaurant/' + restaurant.slug + '/cart'"
 							class="cart"
 						>
 							Go to Cart

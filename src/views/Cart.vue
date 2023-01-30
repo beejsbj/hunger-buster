@@ -27,7 +27,7 @@
 	const total = computed(function () {
 		return restaurant.cart
 			.reduce(function (total, item) {
-				return total + item.price * item.quantity;
+				return total + item.totalPrice * item.quantity;
 			}, 0)
 			.toFixed(2);
 	});
