@@ -1,35 +1,41 @@
-# super-food
+# Hunger Buster
 
-This template should help get you started developing with Vue 3 in Vite.
+## Project to create a fully flehsed out food delivery app with Vue3
 
-## Recommended IDE Setup
+## ToDo
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+-  [ ] Admin Login gives unique functionality like Adding new items
+-  [ ] Logo
+-  [ ] Full Styling
+-  [ ] functionality to add a note for item
+-  [ ] Profile Dashboard
+-  [ ] Dynamic User Profiles
 
-## Customize configuration
+## Doing
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+-  [ ] User Login
+-  [ ] clear whole cart button
+-  [ ] Search Bar for Restaurants
+-  [ ] Search for items
 
-## Project Setup
+## Done
 
-```sh
-npm install
-```
+-  [x] ~~data of list of restaurant~~
+-  [x] ~~Data all stored to local storage~~
 
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+-  [x] ~~Active router link colors for use feedback~~
+-  [x] ~~A mobile toggle menu~~
+-  [x] ~~Home Page~~
+-  [x] ~~Profile Page~~
+   -  [x] ~~Favrite Restaurants and items rendered as a subroute~~
+-  [x] ~~List of Restaurants~~
+   -  [x] ~~List of items within Restaurant~~
+      -  [x] ~~Render Item detail as a modal popup~~
+      -  [x] ~~Ability to have required and optional item options~~
+      -  [x] ~~subtotal with chosen options~~
+   -  [x] ~~Render Cart of each restaurant as Subroute~~
+      -  [x] ~~Add Item to Cart~~
+      -  [x] ~~Remove Item from Cart~~
+      -  [x] ~~Change Cart item quantity~~
+      -  [x] ~~Calculate and Render Cart Total~~
+-  [x] ~~List of Carts with links to each of them~~
