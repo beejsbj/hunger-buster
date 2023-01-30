@@ -1,4 +1,6 @@
 <script setup>
+	import RestaurantItemView from "../views/RestaurantItemView.vue";
+
 	import { useRoute, useRouter } from "vue-router";
 
 	import { useShopStore } from "../stores/shop.js";
@@ -32,10 +34,24 @@
 						</picture>
 
 						<p>${{ item.price }}</p>
-						<RouterLink :to="`${restaurant.slug}/${item.slug}`"
+						<!-- <RouterLink
+							:to="`/restaurant/${restaurant.slug}/${item.slug}`"
 							>MORE</RouterLink
-						>
+						> -->
+
+						<button @click="item.show = !item.show">MORE</button>
 					</item-card>
+					<Transition
+						@after-enter="onAfterEnter"
+						name="fade"
+					>
+						<item-wrapper
+							v-if="item.show"
+							@click.self="item.show = !item.show"
+						>
+							<RestaurantItemView :item="item" />
+						</item-wrapper>
+					</Transition>
 				</li>
 			</ul>
 		</menu-items>
@@ -57,5 +73,30 @@
 	}
 	a {
 		color: salmon;
+	}
+
+	item-wrapper {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: hsla(212, 23%, 11%, 0.6);
+		overflow-x: hidden;
+		padding: 100px;
+	}
+
+	item-detail {
+		padding: 20px;
+		background: var(--paper);
+	}
+
+	.fade-enter-active,
+	.fade-leave-active {
+		transition: opacity 0.5s ease;
+	}
+	.fade-enter-from,
+	.fade-leave-to {
+		opacity: 0;
 	}
 </style>
