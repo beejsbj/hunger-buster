@@ -1,14 +1,33 @@
 <script setup>
+	import { computed, ref } from "vue";
 	import { useShopStore } from "../stores/shop.js";
 	import { useUserStore } from "../stores/user.js";
 	const user = useUserStore();
 	const shop = useShopStore();
+	const filter = ref("");
+
+	const filtered = computed(function () {
+		if (filter.value) {
+			return shop.restaurants.filter(function (restaurant) {
+				return restaurant.name.toLowerCase().includes(filter.value);
+			});
+		}
+		return shop.restaurants;
+	});
 </script>
 
 <template>
 	<h2 class="attention-voice">Restaurants</h2>
+	<input-field>
+		<input
+			type="text"
+			v-model="filter"
+			placeholder="Filter items"
+		/>
+	</input-field>
+
 	<ul>
-		<li v-for="restaurant in shop.restaurants">
+		<li v-for="restaurant in filtered">
 			<restaurant-card>
 				<h3 class="solid-voice">
 					{{ restaurant.name }}
