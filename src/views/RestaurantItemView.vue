@@ -162,7 +162,7 @@
 	}
 
 	a {
-		color: salmon;
+		color: var(--highlight);
 	}
 	h2 span {
 		display: block;
