@@ -32,6 +32,7 @@
 	<restaurant-card>
 		<input-field>
 			<input
+				class="filter"
 				type="text"
 				v-model="filter"
 				placeholder="Filter items"
@@ -41,7 +42,6 @@
 			<ul>
 				<li v-for="item in filtered">
 					<item-card>
-						<h4>{{ item.name }}</h4>
 						<picture>
 							<img
 								:src="
@@ -51,14 +51,17 @@
 								alt="https://peprojects.dev/images/square.jpg"
 							/>
 						</picture>
+						<h4>{{ item.name }}</h4>
 
-						<p>${{ item.price }}</p>
-						<!-- <RouterLink
+						<div>
+							<p>${{ item.price }}</p>
+							<!-- <RouterLink
 							:to="`/restaurant/${restaurant.slug}/${item.slug}`"
 							>MORE</RouterLink
 						> -->
 
-						<button @click="item.show = !item.show">MORE</button>
+							<button @click="item.show = !item.show">MORE</button>
+						</div>
 					</item-card>
 					<Transition
 						@after-enter="onAfterEnter"
@@ -76,22 +79,33 @@
 		</menu-items>
 	</restaurant-card>
 </template>
-<style scoped>
-	restaurant-card {
+<style lang="scss" scoped>
+	restaurant-card,
+	menu-items ul {
 		display: grid;
-		gap: 5px;
+		gap: 20px;
 	}
-	restaurant-card div {
+
+	menu-items ul {
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	}
+	item-card div {
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
+		padding: 5px 0;
 	}
 
 	item-card {
 		display: grid;
-		grid-template-columns: 1fr 0.3fr;
+		gap: 10px;
+	}
+	item-card picture img {
+		aspect-ratio: 1 / 1;
+		object-fit: cover;
 	}
 	a {
-		color: salmon;
+		color: var(--highlight);
 	}
 
 	item-wrapper {
@@ -103,6 +117,10 @@
 		background-color: hsla(212, 23%, 11%, 0.6);
 		overflow-x: hidden;
 		padding: 100px;
+
+		@media (min-width: 800px) {
+			padding: 60px 30vw;
+		}
 	}
 
 	item-detail {
