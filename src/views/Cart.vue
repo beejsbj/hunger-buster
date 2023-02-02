@@ -38,77 +38,91 @@
 </script>
 
 <template>
-	<h3 class="attention-voice">Total: ${{ total }}</h3>
+	<article>
+		<h3 class="attention-voice">Total: ${{ total }}</h3>
 
-	<table class="styled-table">
-		<thead>
-			<tr>
-				<th>Item</th>
-				<th>Name</th>
-				<th>Price</th>
-				<th>Quantity</th>
-				<th>Total</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr v-for="item in restaurant.cart">
-				<td>
-					<picture
-						><img
-							:src="item.image"
-							alt=""
-					/></picture>
-				</td>
-				<td>
-					<p>{{ item.name }}</p>
-					<ul v-if="item.options">
-						<li v-for="selection in item.selections">
-							- {{ selection.choice }}
-							<span v-if="selection.price"
-								>: ${{ selection.price }}+</span
-							>
-						</li>
-					</ul>
-					<p
-						class="note"
-						v-if="item.note"
-					>
-						{{ item.note }}
-					</p>
-				</td>
-				<td>${{ item.totalPrice }}</td>
-				<td>
-					<button @click="shop.quantityDecrement(item)">-</button>
-					{{ item.quantity }}
-					<button @click="shop.quantityIncrement(item)">+</button>
-				</td>
-				<td>${{ item.totalPrice * item.quantity }}</td>
-				<td>
-					<button @click="shop.remove(item, restaurant)">Remove</button>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	<div class="buttons">
-		<button @click="clearCart()">Clear Cart</button>
-	</div>
+		<table class="styled-table">
+			<thead>
+				<tr>
+					<th>Item</th>
+					<th>Name</th>
+					<th>Price</th>
+					<th>Quantity</th>
+					<th>Total</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr v-for="item in restaurant.cart">
+					<td>
+						<picture
+							><img
+								:src="item.image"
+								alt=""
+						/></picture>
+					</td>
+					<td>
+						<p>{{ item.name }}</p>
+						<ul v-if="item.options">
+							<li v-for="selection in item.selections">
+								- {{ selection.choice }}
+								<span v-if="selection.price"
+									>: ${{ selection.price }}+</span
+								>
+							</li>
+						</ul>
+						<p
+							class="note"
+							v-if="item.note"
+						>
+							{{ item.note }}
+						</p>
+					</td>
+					<td>${{ item.totalPrice }}</td>
+					<td>
+						<button @click="shop.quantityDecrement(item)">-</button>
+						{{ item.quantity }}
+						<button @click="shop.quantityIncrement(item)">+</button>
+					</td>
+					<td>${{ item.totalPrice * item.quantity }}</td>
+					<td>
+						<button @click="shop.remove(item, restaurant)">Remove</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="buttons">
+			<button @click="clearCart()">Clear Cart</button>
+		</div>
+	</article>
 </template>
 
 <style>
-	table {
-		width: 100%;
+	article {
+		display: grid;
+		gap: 20px;
+	}
+	table,
+	tbody {
+		/*		width: 100%;*/
+		display: grid;
+		gap: 10px;
 	}
 
 	tr {
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr 1fr 1fr 0.5fr;
-		gap: 5px;
+		gap: 15px;
 		align-items: center;
+		/*		justify-items: center;*/
 	}
-	/*tr > * {
+	tr th {
+		display: block;
 		padding: 10px;
-}*/
+	}
+	td {
+		/*		justify-self: stretch;*/
+	}
 
 	thead,
 	tfoot {
