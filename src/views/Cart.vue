@@ -13,6 +13,10 @@
 		);
 	});
 
+	function clearCart() {
+		restaurant.cart = [];
+	}
+
 	restaurant.cart.map(function (item) {
 		let selectionTotal = 0;
 		console.log(item.price);
@@ -57,7 +61,7 @@
 					/></picture>
 				</td>
 				<td>
-					{{ item.name }}
+					<p>{{ item.name }}</p>
 					<ul v-if="item.options">
 						<li v-for="selection in item.selections">
 							- {{ selection.choice }}
@@ -66,6 +70,12 @@
 							>
 						</li>
 					</ul>
+					<p
+						class="note"
+						v-if="item.note"
+					>
+						{{ item.note }}
+					</p>
 				</td>
 				<td>${{ item.totalPrice }}</td>
 				<td>
@@ -80,6 +90,9 @@
 			</tr>
 		</tbody>
 	</table>
+	<div class="buttons">
+		<button @click="clearCart()">Clear Cart</button>
+	</div>
 </template>
 
 <style>
@@ -112,6 +125,10 @@
 		margin-bottom: 10px;
 	}
 	td li {
+		font-size: 12px;
+	}
+
+	.note {
 		font-size: 12px;
 	}
 </style>
