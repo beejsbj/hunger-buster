@@ -1,5 +1,6 @@
 <script setup>
 	import RestaurantItemView from "../views/RestaurantItemView.vue";
+	import { computed, ref } from "vue";
 
 	import { useRoute, useRouter } from "vue-router";
 
@@ -9,18 +10,36 @@
 	const router = useRouter();
 	const shop = useShopStore();
 
+	const filter = ref("");
+
 	const restaurant = shop.restaurants.find(function (restaurant) {
 		return (
 			route.params.restaurantSlug == restaurant.id ||
 			route.params.restaurantSlug == restaurant.slug
 		);
 	});
+
+	const filtered = computed(function () {
+		if (filter.value) {
+			return restaurant.menuItems.filter(function (item) {
+				return item.name.toLowerCase().includes(filter.value);
+			});
+		}
+		return restaurant.menuItems;
+	});
 </script>
 <template>
 	<restaurant-card>
+		<input-field>
+			<input
+				type="text"
+				v-model="filter"
+				placeholder="Filter items"
+			/>
+		</input-field>
 		<menu-items>
 			<ul>
-				<li v-for="item in restaurant.menuItems">
+				<li v-for="item in filtered">
 					<item-card>
 						<h4>{{ item.name }}</h4>
 						<picture>
