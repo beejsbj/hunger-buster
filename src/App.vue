@@ -10,6 +10,12 @@
 <template>
 	<header>
 		<inner-column>
+			<picture class="logo">
+				<img
+					src="/src/assets/logo.svg"
+					alt=""
+				/>
+			</picture>
 			<site-menu>
 				<button @click="ui.toggleMenu">
 					{{ ui.mainMenuOpen ? "close" : "open" }}
@@ -53,6 +59,13 @@
 </template>
 
 <style lang="scss">
+	header inner-column {
+		display: flex;
+		justify-content: space-between;
+		.logo {
+			max-width: 60px;
+		}
+	}
 	site-menu {
 		overflow: hidden;
 		display: block;
