@@ -4,26 +4,22 @@
 
 ## ToDo
 
--  [ ] Admin Login gives unique functionality like Adding new items
 -  [ ] Logo
 -  [ ] Full Styling
-   -  [] ??
--  [ ] functionality to add a note for item
+   -  [ ] ??
 -  [ ] Profile Dashboard
--  [ ] Dynamic User Profiles
+-  [ ] Admin Login gives unique functionality like Adding new items
 
 ## Doing
 
 -  [ ] User Login
--  [ ] clear whole cart button
--  [ ] Search Bar for Restaurants
--  [ ] Search for items
+-  [ ] Dynamic User Profiles
+-  [ ] Edit Cart Item
 
 ## Done
 
 -  [x] ~~data of list of restaurant~~
 -  [x] ~~Data all stored to local storage~~
-
 -  [x] ~~Active router link colors for use feedback~~
 -  [x] ~~A mobile toggle menu~~
 -  [x] ~~Home Page~~
@@ -39,4 +35,8 @@
       -  [x] ~~Remove Item from Cart~~
       -  [x] ~~Change Cart item quantity~~
       -  [x] ~~Calculate and Render Cart Total~~
+      -  [x] clear whole cart button
 -  [x] ~~List of Carts with links to each of them~~
+-  [x] Search Bar for Restaurants
+-  [x] Search for items
+-  [x] functionality to add a note for item
