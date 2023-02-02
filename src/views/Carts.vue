@@ -15,58 +15,59 @@
 	}
 </script>
 <template>
-	<h2 class="attention-voice">Carts</h2>
-	<ul>
-		<template v-for="restaurant in shop.restaurants">
-			<li v-if="restaurant.cart">
-				<restaurant-card>
-					<h3 class="solid-voice">
-						{{ restaurant.name }}
-					</h3>
-					<div>
-						<picture>
-							<img
-								:src="
-									restaurant.image ??
-									'https://peprojects.dev/images/square.jpg'
-								"
-								alt="https://peprojects.dev/images/square.jpg"
-							/>
-						</picture>
-						<p>Total: ${{ totaler(restaurant.cart) }}</p>
-						<p>Cart Size: {{ restaurant.cart.length }}</p>
+	<article>
+		<h1 class="loud-voice">Carts</h1>
+		<ul>
+			<template v-for="restaurant in shop.restaurants">
+				<li v-if="restaurant.cart">
+					<restaurant-card>
+						<h2 class="solid-voice">
+							{{ restaurant.name }}
+						</h2>
+						<div>
+							<picture>
+								<img
+									:src="
+										restaurant.image ??
+										'https://peprojects.dev/images/square.jpg'
+									"
+									alt="https://peprojects.dev/images/square.jpg"
+								/>
+							</picture>
+							<p>Total: ${{ totaler(restaurant.cart) }}</p>
+							<p>Cart Size: {{ restaurant.cart.length }}</p>
 
-						<RouterLink
-							:to="'/restaurant/' + restaurant.slug + '/cart'"
-							class="cart"
-						>
-							Go to Cart
-						</RouterLink>
-					</div>
-					<!-- 				<div>
-					<p>{{ "$".repeat(restaurant.priceLevel) }}</p>
-					<a :href="'/' + restaurant.slug">MORE</a>
-					<button
-						:class="{
-							favorite:
-								user.profile.favoriteRestaurants.includes(restaurant),
-						}"
-						@click="user.favoriteRestaurant(restaurant)"
-					>
-						Heart
-					</button>
-				</div> -->
-				</restaurant-card>
-			</li>
-		</template>
-	</ul>
+							<RouterLink
+								:to="'/restaurant/' + restaurant.slug + '/cart'"
+								class="cart button"
+							>
+								Go to Cart
+							</RouterLink>
+						</div>
+					</restaurant-card>
+				</li>
+			</template>
+		</ul>
+	</article>
 </template>
 <style scoped>
+	restaurant-card,
+	article {
+		display: grid;
+		gap: 15px;
+	}
 	restaurant-card div {
 		display: grid;
 		grid-template-columns: 0.1fr 0.5fr 0.5fr 0.2fr;
+		align-items: center;
+		justify-items: center;
 	}
-	a {
-		color: salmon;
+	ul {
+		display: grid;
+		gap: 20px;
+	}
+
+	.button {
+		text-align: center;
 	}
 </style>
