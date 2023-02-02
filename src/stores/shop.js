@@ -31,7 +31,8 @@ export const useShopStore = defineStore("shop", () => {
 		return restaurants.findIndex((restaurant) => restaurant.id == id);
 	}
 
-	function add(item, restaurant) {
+	function add(item, restaurant, note) {
+		console.log(note);
 		let id = findRestaurant(restaurant.id);
 
 		if (!restaurants[id].cart) {
@@ -42,6 +43,7 @@ export const useShopStore = defineStore("shop", () => {
 			...item,
 			quantity: 1,
 			id: uuid(),
+			note: note,
 		};
 
 		restaurants[id].cart.push(record);
