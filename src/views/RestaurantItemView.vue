@@ -13,6 +13,7 @@
 		item: Object,
 	});
 
+	const note = ref("");
 	const restaurant = shop.restaurants.find(function (restaurant) {
 		return (
 			route.params.restaurantSlug == restaurant.id ||
@@ -64,7 +65,7 @@
 				addSelections();
 				item.selections = allSelections;
 				item.show = !item.show;
-				shop.add(item, restaurant);
+				shop.add(item, restaurant, note);
 				redirect();
 			"
 		>
@@ -126,6 +127,12 @@
 			</ul>
 			<!-- 			{{ selections }}
 			{{ multiSelections }} -->
+			<input-field>
+				<textarea
+					v-model="note"
+					placeholder="Add notes for your order"
+				></textarea>
+			</input-field>
 			<div>
 				<button>Add Item to Cart</button>
 			</div>
@@ -181,5 +188,8 @@
 		input {
 			width: 20px;
 		}
+	}
+	textarea {
+		width: 100%;
 	}
 </style>
