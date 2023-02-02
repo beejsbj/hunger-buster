@@ -40,10 +40,9 @@ nav {
 }
 nav a {
 	padding: 10px;
+	font-family: sans-serif;
 }
 a.router-link-exact-active {
-	background-color: salmon;
-}
-sub-view {
-	border: 3px solid yellow;
+	background-color: var(--highlight);
+	color: black;
 }

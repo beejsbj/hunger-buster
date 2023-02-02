@@ -2,14 +2,24 @@
 
 @import "forms.css";
 
-button {
-	color: salmon;
-}
-
-button {
-	background: none;
-	border: solid 1px;
+button,
+.button {
+	background-color: var(--highlight);
+	color: black;
+	border: solid 2px black;
 	font: inherit;
 	padding: 5px;
 	cursor: pointer;
+}
+
+input-field {
+	display: grid;
+}
+
+button.favorite {
+	background: salmon;
+}
+
+input-field .filter {
+	padding: 15px;
 }
