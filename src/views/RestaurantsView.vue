@@ -18,7 +18,7 @@
 
 <template>
 	<article>
-		<h2 class="attention-voice">Restaurants</h2>
+		<h1 class="loud-voice">Restaurants</h1>
 		<input-field>
 			<input
 				class="filter"
@@ -31,9 +31,9 @@
 		<ul class="restaurant-list">
 			<li v-for="restaurant in filtered">
 				<restaurant-card>
-					<h3 class="solid-voice">
+					<h2 class="attention-voice">
 						{{ restaurant.name }}
-					</h3>
+					</h2>
 					<picture>
 						<img
 							:src="
@@ -45,7 +45,11 @@
 					</picture>
 					<div>
 						<p>{{ "$".repeat(restaurant.priceLevel) }}</p>
-						<a :href="'/restaurant/' + restaurant.slug">MORE</a>
+						<a
+							class="button outline"
+							:href="'/restaurant/' + restaurant.slug"
+							>MORE</a
+						>
 						<button
 							:class="{
 								favorite:
@@ -55,7 +59,7 @@
 							}"
 							@click="user.favoriteRestaurant(restaurant)"
 						>
-							Heart
+							♡
 						</button>
 					</div>
 				</restaurant-card>
@@ -74,7 +78,8 @@
 		grid-template-columns: 1fr 1fr 1fr;
 		align-items: center;
 		justify-content: space-between;
-		padding: 10px;
+		padding: 10px 0;
+		gap: 20px;
 	}
 	ul.restaurant-list {
 		display: grid;
