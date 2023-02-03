@@ -40,3 +40,4 @@
 -  [x] Search Bar for Restaurants
 -  [x] Search for items
 -  [x] functionality to add a note for item
+-  [x] Removed Styling scaffolding and added basic styling
