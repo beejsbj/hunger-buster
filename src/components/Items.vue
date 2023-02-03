@@ -51,7 +51,7 @@
 								alt="https://peprojects.dev/images/square.jpg"
 							/>
 						</picture>
-						<h4>{{ item.name }}</h4>
+						<h4 class="solid-voice">{{ item.name }}</h4>
 
 						<div>
 							<p>${{ item.price }}</p>
