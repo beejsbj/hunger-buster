@@ -50,7 +50,7 @@
 					favorite: user.profile.favoriteItems.includes(item),
 				}"
 			>
-				Heart
+				♡
 			</button>
 		</div>
 		<picture>
