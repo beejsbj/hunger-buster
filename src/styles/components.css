@@ -9,6 +9,7 @@ button,
 	border: solid 2px black;
 	font: inherit;
 	padding: 5px;
+	text-align: center;
 	cursor: pointer;
 }
 
@@ -22,4 +23,10 @@ button.favorite {
 
 input-field .filter {
 	padding: 15px;
+}
+
+.button.outline {
+	background-color: initial;
+	color: var(--highlight);
+	border: solid 2px var(--highlight);
 }
