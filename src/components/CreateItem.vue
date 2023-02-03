@@ -1,23 +1,23 @@
 <script setup>
-import { reactive } from "vue";
-import { useShopStore } from "../stores/shop.js";
-import { useRouter } from "vue-router";
+	import { reactive } from "vue";
+	import { useShopStore } from "../stores/shop.js";
+	import { useRouter } from "vue-router";
 
-const router = useRouter();
+	const router = useRouter();
 
-const shop = useShopStore();
+	const shop = useShopStore();
 
-const item = reactive({
-	name: "",
-	price: "",
-	image: "",
-});
+	const item = reactive({
+		name: "",
+		price: "",
+		image: "",
+	});
 
-function redirect() {
-	// get slug of recently added item
-	let slug = shop.list.items[shop.list.items.length - 1].slug;
-	router.push({ path: `item/${slug}` });
-}
+	function redirect() {
+		// get slug of recently added item
+		let slug = shop.list.items[shop.list.items.length - 1].slug;
+		router.push({ path: `item/${slug}` });
+	}
 </script>
 
 <template>
@@ -68,52 +68,52 @@ function redirect() {
 </template>
 
 <style scoped>
-.hide {
-	opacity: 0;
-}
-output {
-	border: solid 1px hsla(153, 47%, 53%, 1);
-	padding: 20px;
-	text-align: left;
-}
-output span {
-	color: hsla(153, 47%, 53%, 1);
-}
-body {
-	font-family: Avenir, Helvetica, Arial, sans-serif;
-	text-align: center;
-	color: #2c3e50;
-	margin-top: 60px;
-	padding: 50px;
-}
+	.hide {
+		opacity: 0;
+	}
+	output {
+		border: solid 1px hsla(153, 47%, 53%, 1);
+		padding: 20px;
+		text-align: left;
+	}
+	output span {
+		color: hsla(153, 47%, 53%, 1);
+	}
+	body {
+		font-family: Avenir, Helvetica, Arial, sans-serif;
+		text-align: center;
+		color: #2c3e50;
+		margin-top: 60px;
+		padding: 50px;
+	}
 
-a,
-button {
-	color: salmon;
-}
+	a,
+	button {
+		color: var(--highlight);
+	}
 
-button {
-	background: none;
-	border: solid 1px;
-	font: inherit;
-	padding: 0.75em 2em;
-	cursor: pointer;
-}
-input {
-	padding: 10px;
-}
-form {
-	display: grid;
-	max-width: 400px;
-	gap: 20px;
-	margin: 0 auto;
-}
-.input-field {
-	display: grid;
-	gap: 10px;
-}
+	button {
+		background: none;
+		border: solid 1px;
+		font: inherit;
+		padding: 0.75em 2em;
+		cursor: pointer;
+	}
+	input {
+		padding: 10px;
+	}
+	form {
+		display: grid;
+		max-width: 400px;
+		gap: 20px;
+		margin: 0 auto;
+	}
+	.input-field {
+		display: grid;
+		gap: 10px;
+	}
 
-input::placeholder {
-	opacity: 0.5;
-}
+	input::placeholder {
+		opacity: 0.5;
+	}
 </style>
