@@ -1,37 +1,21 @@
 <script setup>
+	import Profile from "../components/Profile.vue";
+	import SignUp from "../components/SignUp.vue";
+
 	import { useUserStore } from "../stores/user.js";
 	import { RouterLink, RouterView, useRoute } from "vue-router";
 	const user = useUserStore();
 </script>
 
 <template>
-	<profile-view>
-		<header class="profile">
-			<nav>
-				<RouterLink to="/user/about">About</RouterLink>
-				<RouterLink to="/user/favorites">Favorties</RouterLink>
-			</nav>
-		</header>
-		<profile-banner>
-			<h1 class="loud-voice">
-				{{ user.profile.name }}
-			</h1>
-			<picture>
-				<img
-					:src="user.profile.image"
-					alt=""
-				/>
-			</picture>
-		</profile-banner>
+	<SignUp
+		:user="user"
+		v-if="!user.current"
+	/>
 
-		<sub-view>
-			<RouterView />
-		</sub-view>
-	</profile-view>
+	<Profile
+		v-if="user.current"
+		:user="user.current"
+	/>
 </template>
-<style scoped>
-	profile-banner {
-		display: grid;
-		grid-template-columns: 1fr 0.3fr;
-	}
-</style>
+<style scoped></style>
