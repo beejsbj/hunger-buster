@@ -63,17 +63,7 @@
 							<button @click="item.show = !item.show">MORE</button>
 						</div>
 					</item-card>
-					<Transition
-						@after-enter="onAfterEnter"
-						name="fade"
-					>
-						<item-wrapper
-							v-if="item.show"
-							@click.self="item.show = !item.show"
-						>
-							<RestaurantItemView :item="item" />
-						</item-wrapper>
-					</Transition>
+					<RestaurantItemView :item="item" />
 				</li>
 			</ul>
 		</menu-items>
@@ -106,34 +96,5 @@
 	}
 	a {
 		color: var(--highlight);
-	}
-
-	item-wrapper {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: hsla(212, 23%, 11%, 0.6);
-		overflow-x: hidden;
-		padding: 100px;
-
-		@media (min-width: 800px) {
-			padding: 60px 30vw;
-		}
-	}
-
-	item-detail {
-		padding: 20px;
-		background: var(--paper);
-	}
-
-	.fade-enter-active,
-	.fade-leave-active {
-		transition: opacity 0.5s ease;
-	}
-	.fade-enter-from,
-	.fade-leave-to {
-		opacity: 0;
 	}
 </style>
