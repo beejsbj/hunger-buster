@@ -39,105 +39,116 @@
 </script>
 
 <template>
-	<item-detail>
-		<h1 class="loud-voice">{{ restaurant.name }}: {{ item.name }}</h1>
-		<div>
-			<p>${{ item.price }}</p>
-
-			<button
-				@click="user.favoriteItem(item)"
-				:class="{
-					favorite: user.profile.favoriteItems.includes(item),
-				}"
-			>
-				♡
-			</button>
-		</div>
-		<picture>
-			<img
-				:src="item.image"
-				alt=""
-			/>
-		</picture>
-
-		<form
-			@submit.prevent="
-				addSelections();
-				item.selections = allSelections;
-				item.show = !item.show;
-				shop.add(item, restaurant, note);
-				redirect();
-			"
+	<Transition
+		@after-enter="onAfterEnter"
+		name="fade"
+	>
+		<item-wrapper
+			v-if="item.show"
+			@click.self="item.show = !item.show"
 		>
-			<ul class="options">
-				<li
-					class="options-card"
-					v-for="option in item.options"
+			{{ item }}
+			<item-detail>
+				<h1 class="loud-voice">{{ restaurant.name }}: {{ item.name }}</h1>
+				<div>
+					<p>${{ item.price }}</p>
+
+					<button
+						@click="user.favoriteItem(item)"
+						:class="{
+							favorite: user.profile.favoriteItems.includes(item),
+						}"
+					>
+						♡
+					</button>
+				</div>
+				<picture>
+					<img
+						:src="item.image"
+						alt=""
+					/>
+				</picture>
+
+				<form
+					@submit.prevent="
+						addSelections();
+						item.selections = allSelections;
+						item.show = !item.show;
+						shop.add(item, restaurant, note);
+						redirect();
+					"
 				>
-					<h2 class="attention-voice">
-						Please Select the {{ option.name }}
-						<span v-if="option.required">required</span>
-					</h2>
-					<ul class="choices">
+					<ul class="options">
 						<li
-							class="choice"
-							v-for="choice in option.choices"
+							class="options-card"
+							v-for="option in item.options"
 						>
-							<label for="">
-								<span>{{ choice.name }}</span>
-								<span
-									class="price"
-									v-if="choice.priceIncrease"
-									>${{ choice.priceIncrease }}</span
+							<h2 class="attention-voice">
+								Please Select the {{ option.name }}
+								<span v-if="option.required">required</span>
+							</h2>
+							<ul class="choices">
+								<li
+									class="choice"
+									v-for="choice in option.choices"
 								>
-							</label>
-							<input
-								v-if="option.required"
-								:name="option.name"
-								type="radio"
-								:value="
-									true
-										? {
-												option: option.name,
-												choice: choice.name,
-												price: choice.priceIncrease,
-										  }
-										: ''
-								"
-								v-model="selections[option.name]"
-								required
-							/>
-							<input
-								v-if="!option.required"
-								type="checkbox"
-								:value="
-									true
-										? {
-												option: option.name,
-												choice: choice.name,
-												price: choice.priceIncrease,
-										  }
-										: ''
-								"
-								v-model="multiSelections"
-							/>
+									<label for="">
+										<span>{{ choice.name }}</span>
+										<span
+											class="price"
+											v-if="choice.priceIncrease"
+											>${{ choice.priceIncrease }}</span
+										>
+									</label>
+									<input
+										v-if="option.required"
+										:name="option.name"
+										type="radio"
+										:value="
+											true
+												? {
+														option: option.name,
+														choice: choice.name,
+														price: choice.priceIncrease,
+												  }
+												: ''
+										"
+										v-model="selections[option.name]"
+										required
+									/>
+									<input
+										v-if="!option.required"
+										type="checkbox"
+										:value="
+											true
+												? {
+														option: option.name,
+														choice: choice.name,
+														price: choice.priceIncrease,
+												  }
+												: ''
+										"
+										v-model="multiSelections"
+									/>
+								</li>
+							</ul>
 						</li>
 					</ul>
-				</li>
-			</ul>
-			<!-- 			{{ selections }}
+					<!-- 			{{ selections }}
 			{{ multiSelections }} -->
-			<input-field>
-				<textarea
-					v-model="note"
-					placeholder="Add notes for your order"
-				></textarea>
-			</input-field>
-			<div>
-				<button>Add Item to Cart</button>
-			</div>
-		</form>
-	</item-detail>
+					<input-field>
+						<textarea
+							v-model="note"
+							placeholder="Add notes for your order"
+						></textarea>
+					</input-field>
+					<div>
+						<button>Add Item to Cart</button>
+					</div>
+				</form>
+			</item-detail>
+		</item-wrapper>
+	</Transition>
 </template>
 
 <style lang="scss" scoped>
@@ -191,5 +202,34 @@
 	}
 	textarea {
 		width: 100%;
+	}
+
+	item-wrapper {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: hsla(212, 23%, 11%, 0.6);
+		overflow-x: hidden;
+		padding: 100px;
+
+		@media (min-width: 800px) {
+			padding: 60px 30vw;
+		}
+	}
+
+	item-detail {
+		padding: 20px;
+		background: var(--paper);
+	}
+
+	.fade-enter-active,
+	.fade-leave-active {
+		transition: opacity 0.5s ease;
+	}
+	.fade-enter-from,
+	.fade-leave-to {
+		opacity: 0;
 	}
 </style>
