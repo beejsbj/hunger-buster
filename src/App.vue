@@ -1,9 +1,9 @@
 <script setup>
 	import { RouterLink, RouterView, useRoute } from "vue-router";
-	import { useShopStore } from "./stores/shop.js";
+	import { useUserStore } from "./stores/user.js";
 	import { useInterfaceStore } from "./stores/interface.js";
 	const route = useRoute();
-	const shop = useShopStore();
+	const user = useUserStore();
 	const ui = useInterfaceStore();
 </script>
 
@@ -17,7 +17,10 @@
 				/>
 			</picture>
 			<site-menu>
-				<button @click="ui.toggleMenu">
+				<button
+					class="menu-toggle"
+					@click="ui.toggleMenu"
+				>
 					{{ ui.mainMenuOpen ? "close" : "open" }}
 				</button>
 				<nav
@@ -27,15 +30,22 @@
 					}"
 				>
 					<RouterLink to="/">Home</RouterLink>
-					<!-- <RouterLink to="/about">About</RouterLink> -->
-					<RouterLink to="/user">Profile</RouterLink>
-					<!-- <RouterLink to="/create">Create Item</RouterLink> -->
 					<RouterLink to="/restaurants">Restaurants</RouterLink>
 					<RouterLink
 						to="/carts"
 						class="cart"
 						>Carts</RouterLink
 					>
+					<RouterLink to="/user">
+						<span v-if="user.current"> Profile </span>
+						<span v-if="!user.current"> Login </span>
+					</RouterLink>
+					<button
+						@click="user.logout()"
+						v-if="user.current"
+					>
+						Logout
+					</button>
 				</nav>
 			</site-menu>
 		</inner-column>
@@ -69,7 +79,7 @@
 	site-menu {
 		overflow: hidden;
 		display: block;
-		button {
+		button.menu-toggle {
 			display: none;
 			@media (max-width: 450px) {
 				display: initial;
