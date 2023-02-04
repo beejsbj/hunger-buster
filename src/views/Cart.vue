@@ -1,9 +1,10 @@
 <script setup>
 	import { useShopStore } from "../stores/shop.js";
-	import { useRoute, useRouter } from "vue-router";
+	import { useRoute } from "vue-router";
+	import RestaurantItemView from "../views/RestaurantItemView.vue";
+
 	import { computed } from "vue";
 	const route = useRoute();
-	const router = useRouter();
 
 	const shop = useShopStore();
 	const restaurant = shop.restaurants.find(function (restaurant) {
@@ -86,8 +87,10 @@
 					</td>
 					<td>${{ item.totalPrice * item.quantity }}</td>
 					<td>
+						<!-- <button @click="item.show = !item.show">MORE</button> -->
 						<button @click="shop.remove(item, restaurant)">Remove</button>
 					</td>
+					<RestaurantItemView :item="item" />
 				</tr>
 			</tbody>
 		</table>
@@ -119,9 +122,6 @@
 	tr th {
 		display: block;
 		padding: 10px;
-	}
-	td {
-		/*		justify-self: stretch;*/
 	}
 
 	thead,
