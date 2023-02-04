@@ -1,12 +1,17 @@
 <script setup>
-import { useShopStore } from "../stores/shop.js";
+   import { useFirestore, useCollection } from "vuefire";
+   import { collection } from "firebase/firestore";
 
-const shop = useShopStore();
+   const db = useFirestore();
+   const testrest = useCollection(collection(db, "restaurants"));
+   console.log(testrest);
 </script>
 
 <template>
-  <div class="about"></div>
-  <h3 class="shop">Total: {{ shop.total }}</h3>
+   <div class="about"></div>
+   <ul>
+      <li v-for="rest in testrest">{{ rest.name }}</li>
+   </ul>
 </template>
 
 <style></style>
