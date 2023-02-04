@@ -15,6 +15,7 @@ button,
 
 input-field {
 	display: grid;
+	gap: 10px;
 }
 
 button.favorite {
@@ -25,8 +26,18 @@ input-field .filter {
 	padding: 15px;
 }
 
+button.outline,
 .button.outline {
 	background-color: initial;
 	color: var(--highlight);
 	border: solid 2px var(--highlight);
+}
+
+input {
+	padding: 15px;
+}
+
+form {
+	display: grid;
+	gap: 20px;
 }
