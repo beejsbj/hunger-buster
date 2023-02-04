@@ -1,7 +1,22 @@
 import { defineStore } from "pinia";
 import { reactive, watch } from "vue";
+import { useCurrentUser } from "vuefire";
+import {
+	getAuth,
+	createUserWithEmailAndPassword,
+	signOut,
+	signInWithEmailAndPassword,
+} from "firebase/auth";
+
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 export const useUserStore = defineStore("user", () => {
+	const auth = getAuth();
+
+	const current = useCurrentUser();
+
 	const profile = reactive({
 		name: "Burooj",
 		image: "https://peprojects.dev/images/square.jpg",
@@ -26,17 +41,52 @@ export const useUserStore = defineStore("user", () => {
 		}
 	}
 
-	function saveProfile() {
-		localStorage.setItem("profile", JSON.stringify(profile));
-		console.log("Profile Saved");
+	function signUp(form) {
+		createUserWithEmailAndPassword(auth, form.email, form.password)
+			.then((userCredential) => {
+				const user = userCredential.user;
+				console.log(user);
+			})
+			.catch((error) => {
+				console.log(error.code, error.message);
+			});
+		clearForm(form);
 	}
-	watch(profile, function () {
-		saveProfile();
-	});
+
+	function login(form) {
+		signInWithEmailAndPassword(auth, form.email, form.password)
+			.then((userCredential) => {
+				const user = userCredential.user;
+				console.log(user);
+			})
+			.catch((error) => {
+				console.log(error.code, error.message);
+			});
+		clearForm(form);
+	}
+
+	function logout() {
+		signOut(auth)
+			.then(() => {
+				router.push({ name: "home" });
+			})
+			.catch((error) => {
+				// An error happened.
+			});
+	}
+
+	function clearForm(form) {
+		form.email = "";
+		form.password = "";
+	}
 
 	return {
 		profile,
+		current,
 		favoriteRestaurant,
 		favoriteItem,
+		signUp,
+		login,
+		logout,
 	};
 });
