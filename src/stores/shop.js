@@ -3,19 +3,13 @@ import { defineStore } from "pinia";
 import restaurantsData from "../assets/static-data/restaurants.json";
 import { v4 as uuid } from "uuid";
 import slug from "slug";
+import { useFirestore, useCollection } from "vuefire";
+import { collection } from "firebase/firestore";
+
+const db = useFirestore();
 
 if (!localStorage.restaurants) {
-	localStorage.restaurants = JSON.stringify(restaurantsData);
-	// const data = fetch(
-	// 	"https://raw.githubusercontent.com/perpetual-education/restaurants-data/main/data.json"
-	// );
-	// data
-	// 	.then(function (data) {
-	// 		return data.json();
-	// 	})
-	// 	.then(function (json) {
-	// 		localStorage.restaurants = JSON.stringify(json);
-	// 	});
+	localStorage.restaurants = useCollection(collection(db, "todos"));
 }
 
 export const useShopStore = defineStore("shop", () => {
