@@ -2,13 +2,11 @@
 	import { computed, ref } from "vue";
 	import { useShopStore } from "../../stores/shop.js";
 	import { useUserStore } from "../../stores/user.js";
+	import RestaurantCard from "../../components/RestaurantCard.vue";
+
 	const user = useUserStore();
 	const shop = useShopStore();
 	const filter = ref("");
-	
-	console.log(shop.restaurants);
-
-	console.log(shop.restaurants);
 
 	const filtered = computed(function () {
 		if (filter.value) {
@@ -34,65 +32,13 @@
 
 		<ul class="restaurant-list">
 			<li :key="restaurant.id" v-for="restaurant in filtered">
-				<restaurant-card>
-					<h2 class="attention-voice">
-						{{ restaurant.name }}
-					</h2>
-					<picture>
-						<img
-							:src="
-								restaurant.image ??
-								'https://peprojects.dev/images/square.jpg'
-							"
-							alt="https://peprojects.dev/images/square.jpg"
-						/>
-					</picture>
-					<div>
-						<p>{{ "$".repeat(restaurant.priceLevel) }}</p>
-						<a
-							class="button outline"
-							:href="'/restaurant/' + restaurant.slug"
-							>MORE</a
-						>
-						<button
-							:class="{
-								favorite:
-									user.profile.favoriteRestaurants.includes(
-										restaurant
-									),
-							}"
-							@click="user.favoriteRestaurant(restaurant)"
-						>
-							♡
-						</button>
-					</div>
-				</restaurant-card>
+				<RestaurantCard :restaurant="restaurant" />
 			</li>
 		</ul>
 	</article>
 </template>
 
 <style scoped>
-	restaurant-card {
-		display: grid;
-		gap: 10px;
-	}
-	restaurant-card div {
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
-		align-items: center;
-		justify-content: space-between;
-		padding: 10px 0;
-		gap: 20px;
-	}
-	ul.restaurant-list {
-		display: grid;
-
-		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-
-		gap: 20px;
-	}
-
 	article {
 		display: grid;
 		gap: 20px;
