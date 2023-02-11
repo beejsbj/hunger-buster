@@ -3,6 +3,7 @@
 	import { useRoute, useRouter } from "vue-router";
 	import { useShopStore } from "../../stores/shop.js";
 	import { useUserStore } from "../../stores/user.js";
+	import Options from "../../components/Options.vue";
 	const user = useUserStore();
 
 	const route = useRoute();
@@ -35,22 +36,14 @@
 	function addSelections() {
 		allSelections = Object.values(selections.value);
 		allSelections.push(...multiSelections.value);
-		// props.item.selections = allSelections;
-		// return allSelections;
 	}
 </script>
 
 <template>
-	<Transition
-		@after-enter="onAfterEnter"
-		name="fade"
-	>
-		<item-wrapper
-			v-if="item.show"
-			@click.self="item.show = !item.show"
-		>
+	<Transition @after-enter="onAfterEnter" name="fade">
+		<item-wrapper v-if="item.show" @click.self="item.show = !item.show">
 			<item-detail>
-				<h1 class="loud-voice">{{ restaurant.name }}: {{ item.name }}</h1>
+				<h1 class="loud-voice">{{ item.name }}</h1>
 				<div>
 					<p>${{ item.price }}</p>
 
@@ -62,12 +55,10 @@
 					>
 						♡
 					</button>
+					<button class="close" @click="item.show = false">Close</button>
 				</div>
 				<picture>
-					<img
-						:src="item.image"
-						alt=""
-					/>
+					<img :src="item.image" alt="" />
 				</picture>
 
 				<form
@@ -79,66 +70,8 @@
 						redirect();
 					"
 				>
-					<ul class="options">
-						<li
-							:key="option.name"
-							class="options-card"
-							v-for="option in item.options"
-						>
-							<h2 class="attention-voice">
-								Please Select the {{ option.name }}
-								<span v-if="option.required">required</span>
-							</h2>
-							<ul class="choices">
-								<li
-									:key="choice.name"
-									class="choice"
-									v-for="choice in option.choices"
-								>
-									<label for="">
-										<span>{{ choice.name }}</span>
-										<span
-											class="price"
-											v-if="choice.priceIncrease"
-											>${{ choice.priceIncrease }}</span
-										>
-									</label>
-									<input
-										v-if="option.required"
-										:name="option.name"
-										type="radio"
-										:value="
-											true
-												? {
-														option: option.name,
-														choice: choice.name,
-														price: choice.priceIncrease,
-												  }
-												: ''
-										"
-										v-model="selections[option.name]"
-										required
-									/>
-									<input
-										v-if="!option.required"
-										type="checkbox"
-										:value="
-											true
-												? {
-														option: option.name,
-														choice: choice.name,
-														price: choice.priceIncrease,
-												  }
-												: ''
-										"
-										v-model="multiSelections"
-									/>
-								</li>
-							</ul>
-						</li>
-					</ul>
-					<!-- 			{{ selections }}
-			{{ multiSelections }} -->
+					<Options :options="item.options" />
+
 					<input-field>
 						<textarea
 							v-model="note"
@@ -155,15 +88,6 @@
 </template>
 
 <style lang="scss" scoped>
-	restaurant-card {
-		display: grid;
-		gap: 5px;
-	}
-	restaurant-card div {
-		display: flex;
-		justify-content: space-between;
-	}
-
 	item-detail {
 		display: grid;
 		/*	grid-template-columns: 1fr 0.3fr;*/
@@ -178,11 +102,7 @@
 	a {
 		color: var(--highlight);
 	}
-	h2 span {
-		display: block;
-		color: red;
-		font-size: 14px;
-	}
+
 	.options > *:nth-child(odd) {
 		background-color: rgba(0, 0, 0, 0.4);
 	}
@@ -215,9 +135,16 @@
 		height: 100%;
 		background-color: hsla(212, 23%, 11%, 0.6);
 		overflow-x: hidden;
-		padding: 100px;
+		padding: 10px;
 
-		@media (min-width: 800px) {
+		@media (min-width: 600px) {
+			padding: 100px;
+			button.close {
+				display: none;
+			}
+		}
+
+		@media (min-width: 900px) {
 			padding: 60px 30vw;
 		}
 	}
