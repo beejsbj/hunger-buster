@@ -11,16 +11,10 @@
 	<header>
 		<inner-column>
 			<picture class="logo">
-				<img
-					src="/src/assets/logo.svg"
-					alt=""
-				/>
+				<img src="/src/assets/logo.svg" alt="" />
 			</picture>
 			<site-menu>
-				<button
-					class="menu-toggle"
-					@click="ui.toggleMenu"
-				>
+				<button class="menu-toggle" @click="ui.toggleMenu">
 					{{ ui.mainMenuOpen ? "close" : "open" }}
 				</button>
 				<nav
@@ -31,19 +25,12 @@
 				>
 					<RouterLink to="/">Home</RouterLink>
 					<RouterLink to="/restaurants">Restaurants</RouterLink>
-					<RouterLink
-						to="/carts"
-						class="cart"
-						>Carts</RouterLink
-					>
-					<RouterLink to="/user">
+					<RouterLink to="/carts" class="cart">Carts</RouterLink>
+					<RouterLink to="/user/about">
 						<span v-if="user.current"> Profile </span>
 						<span v-if="!user.current"> Login </span>
 					</RouterLink>
-					<button
-						@click="user.logout()"
-						v-if="user.current"
-					>
+					<button @click="user.logout()" v-if="user.current">
 						Logout
 					</button>
 				</nav>
@@ -51,10 +38,7 @@
 		</inner-column>
 	</header>
 
-	<main
-		class="outlet"
-		:class="route.name"
-	>
+	<main class="outlet" :class="route.name">
 		<section>
 			<inner-column>
 				<RouterView />
