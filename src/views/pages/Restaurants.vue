@@ -1,10 +1,14 @@
 <script setup>
 	import { computed, ref } from "vue";
-	import { useShopStore } from "../stores/shop.js";
-	import { useUserStore } from "../stores/user.js";
+	import { useShopStore } from "../../stores/shop.js";
+	import { useUserStore } from "../../stores/user.js";
 	const user = useUserStore();
 	const shop = useShopStore();
 	const filter = ref("");
+	
+	console.log(shop.restaurants);
+
+	console.log(shop.restaurants);
 
 	const filtered = computed(function () {
 		if (filter.value) {
@@ -29,7 +33,7 @@
 		</input-field>
 
 		<ul class="restaurant-list">
-			<li v-for="restaurant in filtered">
+			<li :key="restaurant.id" v-for="restaurant in filtered">
 				<restaurant-card>
 					<h2 class="attention-voice">
 						{{ restaurant.name }}

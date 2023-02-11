@@ -1,17 +1,29 @@
 <script setup>
 	import { useRoute, useRouter } from "vue-router";
+	import { computed } from "vue";
 
-	import { useShopStore } from "../stores/shop.js";
+	import { useShopStore } from "../../stores/shop.js";
 
 	const route = useRoute();
 	const shop = useShopStore();
 
-	const restaurant = shop.restaurants.find(function (restaurant) {
-		return (
-			route.params.restaurantSlug == restaurant.id ||
-			route.params.restaurantSlug == restaurant.slug
-		);
+	const restaurant = computed(function () {
+		return shop.restaurants.find(function (restaurant) {
+			return (
+				route.params.restaurantSlug == restaurant.id ||
+				route.params.restaurantSlug == restaurant.slug
+			);
+		});
 	});
+	// const cart = shop.getCart(restaurant);
+
+	const cart = computed(function () {
+		return shop.carts.find(function (cart) {
+			return cart.belongsTo == restaurant.id;
+		});
+	});
+
+	console.log(cart);
 </script>
 
 <template>
@@ -26,9 +38,9 @@
 					class="cart"
 				>
 					Cart
-					<span :class="{ cartCount: restaurant.cart.length }">
+					<span :class="{ cartCount: cart.items.length }">
 						<span>
-							{{ restaurant.cart.length }}
+							{{ cart.items.length }}
 						</span>
 					</span>
 				</RouterLink>

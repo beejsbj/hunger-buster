@@ -32,6 +32,7 @@
 				id="name"
 				v-model="item.name"
 				ref="name"
+				`
 			/>
 		</div>
 		<div class="input-field">
@@ -66,7 +67,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(item, i) in shop.list.cart">
+					<tr :key="item.id" v-for="(item, i) in shop.list.cart">
 						<td>{{ i + 1 }}</td>
 						<td>{{ item.name }}</td>
 						<td>${{ item.price }}</td>

@@ -1,8 +1,8 @@
 <script setup>
 	import { ref } from "vue";
 	import { useRoute, useRouter } from "vue-router";
-	import { useShopStore } from "../stores/shop.js";
-	import { useUserStore } from "../stores/user.js";
+	import { useShopStore } from "../../stores/shop.js";
+	import { useUserStore } from "../../stores/user.js";
 	const user = useUserStore();
 
 	const route = useRoute();
@@ -12,6 +12,8 @@
 	defineProps({
 		item: Object,
 	});
+
+	// console.log(item);
 
 	const note = ref("");
 	const restaurant = shop.restaurants.find(function (restaurant) {
@@ -47,7 +49,6 @@
 			v-if="item.show"
 			@click.self="item.show = !item.show"
 		>
-			{{ item }}
 			<item-detail>
 				<h1 class="loud-voice">{{ restaurant.name }}: {{ item.name }}</h1>
 				<div>
@@ -80,6 +81,7 @@
 				>
 					<ul class="options">
 						<li
+							:key="option.name"
 							class="options-card"
 							v-for="option in item.options"
 						>
@@ -89,6 +91,7 @@
 							</h2>
 							<ul class="choices">
 								<li
+									:key="choice.name"
 									class="choice"
 									v-for="choice in option.choices"
 								>

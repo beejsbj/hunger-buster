@@ -1,10 +1,10 @@
 <script setup>
-	import RestaurantItemView from "../views/RestaurantItemView.vue";
+	import Item from "./Item.vue";
 	import { computed, ref } from "vue";
 
 	import { useRoute, useRouter } from "vue-router";
 
-	import { useShopStore } from "../stores/shop.js";
+	import { useShopStore } from "../../stores/shop.js";
 
 	const route = useRoute();
 	const router = useRouter();
@@ -19,13 +19,26 @@
 		);
 	});
 
+	// const items = computed(function () {
+	// 	return shop.items.find(function (item) {
+	// 		return (
+
+	// 		);
+	// 	});
+	// });
+
 	const filtered = computed(function () {
-		if (filter.value) {
-			return restaurant.menuItems.filter(function (item) {
-				return item.name.toLowerCase().includes(filter.value);
-			});
-		}
-		return restaurant.menuItems;
+		return shop.items.filter(function (item) {
+			if (filter.value) {
+				return (
+					item.belongsTo == restaurant.id &&
+					item.name.toLowerCase().includes(filter.value)
+				);
+			}
+			return item.belongsTo == restaurant.id;
+		});
+
+		return shop.items;
 	});
 </script>
 <template>
@@ -63,7 +76,7 @@
 							<button @click="item.show = !item.show">MORE</button>
 						</div>
 					</item-card>
-					<RestaurantItemView :item="item" />
+					<Item :item="item" />
 				</li>
 			</ul>
 		</menu-items>

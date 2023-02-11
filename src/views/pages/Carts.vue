@@ -1,5 +1,5 @@
 <script setup>
-	import { useShopStore } from "../stores/shop.js";
+	import { useShopStore } from "../../stores/shop.js";
 	import { computed } from "vue";
 
 	// import { useUserStore } from "../stores/user.js";
@@ -19,7 +19,7 @@
 		<h1 class="loud-voice">Carts</h1>
 		<ul>
 			<template v-for="restaurant in shop.restaurants">
-				<li v-if="restaurant.cart">
+				<li :key="restaurant.id" v-if="restaurant.cart">
 					<restaurant-card>
 						<h2 class="solid-voice">
 							{{ restaurant.name }}

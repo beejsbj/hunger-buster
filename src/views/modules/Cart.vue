@@ -1,7 +1,7 @@
 <script setup>
-	import { useShopStore } from "../stores/shop.js";
+	import { useShopStore } from "../../stores/shop.js";
 	import { useRoute } from "vue-router";
-	import RestaurantItemView from "../views/RestaurantItemView.vue";
+	import Item from "./Item.vue";
 
 	import { computed } from "vue";
 	const route = useRoute();
@@ -54,7 +54,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="item in restaurant.cart">
+				<tr :key="item.id" v-for="item in restaurant.cart">
 					<td>
 						<picture
 							><img
@@ -65,7 +65,7 @@
 					<td>
 						<p>{{ item.name }}</p>
 						<ul v-if="item.options">
-							<li v-for="selection in item.selections">
+							<li :key="selection.choice" v-for="selection in item.selections">
 								- {{ selection.choice }}
 								<span v-if="selection.price"
 									>: ${{ selection.price }}+</span
@@ -90,7 +90,7 @@
 						<!-- <button @click="item.show = !item.show">MORE</button> -->
 						<button @click="shop.remove(item, restaurant)">Remove</button>
 					</td>
-					<RestaurantItemView :item="item" />
+					<Item :item="item" />
 				</tr>
 			</tbody>
 		</table>

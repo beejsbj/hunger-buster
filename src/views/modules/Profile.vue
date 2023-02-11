@@ -1,15 +1,22 @@
 <script setup>
-	import { reactive } from "vue";
-	import { RouterLink, RouterView, useRoute } from "vue-router";
+	import { reactive, ref, nextTick } from "vue";
+	import { RouterLink, RouterView } from "vue-router";
+	import { useUserStore } from "../../stores/user.js";
 
-	defineProps({
-		user: Object,
-	});
+	const user = useUserStore();
 
 	const editing = reactive({
 		name: false,
 		image: false,
 	});
+
+	const displayName = ref(null);
+	function reFocus() {
+		nextTick(() => {
+			displayName.value.focus();
+			displayName.value.select();
+		});
+	}
 </script>
 <template>
 	<profile-view>
@@ -23,29 +30,34 @@
 			<form class="edit">
 				<h1 class="loud-voice">
 					<span v-if="!editing.name">{{
-						user.displayName ?? "Display Name"
+						user.current.displayName ?? "Display Name"
 					}}</span>
 					<input
 						type="text"
-						v-model="user.displayName"
+						v-model="user.current.displayName"
 						v-if="editing.name"
 						placeholder="Display Name"
-						ref="name"
+						ref="displayName"
+						id="displayName"
 					/>
 				</h1>
 				<button
 					class="edit outline"
-					@click.prevent="editing.name = !editing.name"
+					@click.prevent="
+						editing.name = !editing.name;
+						if (editing.name) {
+							reFocus();
+						}
+					"
 				>
 					<span v-if="!editing.name">Edit Name</span>
 					<span v-if="editing.name">Close</span>
 				</button>
 			</form>
-			<picture>
+
+			<picture class="profile-picture">
 				<img
-					:src="
-						user.photoURL ?? 'https://peprojects.dev/images/square.jpg'
-					"
+					:src="user.current.photoURL"
 					alt=""
 				/>
 				<form>
@@ -57,7 +69,7 @@
 						<span
 							v-if="editing.image"
 							@click.prevent="
-								user.photoURL =
+								user.current.photoURL =
 									'https://peprojects.dev/images/square.jpg'
 							"
 							>Cancel</span
@@ -65,7 +77,7 @@
 					</button>
 					<input
 						type="text"
-						v-model="user.photoURL"
+						v-model="user.current.photoURL"
 						v-if="editing.image"
 						placeholder="image url"
 					/>
@@ -101,10 +113,9 @@
 		}
 	}
 
-	picture {
-		display: relative;
-		form {
-			display: absolute;
+	.profile-picture {
+		img {
+			// object-fit: cover;
 		}
 	}
 </style>
