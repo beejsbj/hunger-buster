@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Favorites from "../components/Favorites.vue";
+import Favorites from "../views/modules/Favorites.vue";
 import Items from "../views/modules/Items.vue";
 import UserAbout from "../views/modules/UserAbout.vue";
 import Cart from "../views/modules/Cart.vue";
