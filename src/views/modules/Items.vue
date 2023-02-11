@@ -1,5 +1,6 @@
 <script setup>
 	import Item from "./Item.vue";
+	import ItemCard from "../../components/ItemCard.vue";
 	import { computed, ref } from "vue";
 
 	import { useRoute, useRouter } from "vue-router";
@@ -42,7 +43,7 @@
 	});
 </script>
 <template>
-	<restaurant-card>
+	<restaurant-detail>
 		<input-field>
 			<input
 				class="filter"
@@ -52,62 +53,18 @@
 			/>
 		</input-field>
 		<menu-items>
-			<ul>
-				<li v-for="item in filtered">
-					<item-card>
-						<picture>
-							<img
-								:src="
-									item.image ??
-									'https://peprojects.dev/images/square.jpg'
-								"
-								alt="https://peprojects.dev/images/square.jpg"
-							/>
-						</picture>
-						<h4 class="solid-voice">{{ item.name }}</h4>
-
-						<div>
-							<p>${{ item.price }}</p>
-							<!-- <RouterLink
-							:to="`/restaurant/${restaurant.slug}/${item.slug}`"
-							>MORE</RouterLink
-						> -->
-
-							<button @click="item.show = !item.show">MORE</button>
-						</div>
-					</item-card>
+			<ul class="items-list">
+				<li :key="item.id" v-for="item in filtered">
+					<ItemCard :item="item" />
 					<Item :item="item" />
 				</li>
 			</ul>
 		</menu-items>
-	</restaurant-card>
+	</restaurant-detail>
 </template>
 <style lang="scss" scoped>
-	restaurant-card,
-	menu-items ul {
+	restaurant-detail {
 		display: grid;
 		gap: 20px;
-	}
-
-	menu-items ul {
-		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-	}
-	item-card div {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 5px 0;
-	}
-
-	item-card {
-		display: grid;
-		gap: 10px;
-	}
-	item-card picture img {
-		aspect-ratio: 1 / 1;
-		object-fit: cover;
-	}
-	a {
-		color: var(--highlight);
 	}
 </style>
