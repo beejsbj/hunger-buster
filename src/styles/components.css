@@ -5,7 +5,7 @@
 button,
 .button {
 	background-color: var(--highlight);
-	color: black;
+	color: var(--paper);
 	border: solid 2px black;
 	font: inherit;
 	padding: 5px;
