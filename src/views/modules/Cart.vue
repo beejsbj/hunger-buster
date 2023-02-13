@@ -1,45 +1,37 @@
 <script setup>
-	import { useShopStore } from "../../stores/shop.js";
-	import { useRoute } from "vue-router";
+	import { computed } from "vue-demi";
 	import Item from "./Item.vue";
 
-	import { computed } from "vue";
+	const db = useFirestore();
 	const route = useRoute();
-
 	const shop = useShopStore();
-	const restaurant = shop.restaurants.find(function (restaurant) {
-		return (
-			route.params.restaurantSlug == restaurant.id ||
-			route.params.restaurantSlug == restaurant.slug
-		);
-	});
 
-	function clearCart() {
-		restaurant.cart = [];
-	}
+	const props = defineProps(["restaurant", "cartSize"]);
 
-	restaurant.cart.map(function (item) {
-		let selectionTotal = 0;
-		console.log(item.price);
-		item.selections.forEach(function (selection) {
-			if (selection.price) {
-				selectionTotal += selection.price;
-			}
-		});
-		item.totalPrice = item.price + selectionTotal;
+	const cartRef = computed(() => {
+		return doc(collection(db, "carts"), `cart_${props.restaurant.id}`);
 	});
+	const cart = useDocument(cartRef);
 
 	const total = computed(function () {
-		return restaurant.cart
+		return cart.value.items
 			.reduce(function (total, item) {
-				return total + item.totalPrice * item.quantity;
+				return total + item.price * item.quantity;
 			}, 0)
 			.toFixed(2);
 	});
+	//
+	//
+	//
+	props.cartSize.value = computed(() => cart.value.items.length);
+	//
+	//
+	//
+	//
 </script>
 
 <template>
-	<article>
+	<article v-if="cart">
 		<h3 class="attention-voice">Total: ${{ total }}</h3>
 
 		<table class="styled-table">
@@ -54,28 +46,24 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr :key="item.id" v-for="item in restaurant.cart">
+				<tr :key="item.id" v-for="item in cart.items">
 					<td>
-						<picture
-							><img
-								:src="item.image"
-								alt=""
-						/></picture>
+						<picture><img :src="item.image" alt="" /></picture>
 					</td>
 					<td>
 						<p>{{ item.name }}</p>
 						<ul v-if="item.options">
-							<li :key="selection.choice" v-for="selection in item.selections">
+							<li
+								:key="selection.choice"
+								v-for="selection in item.selections"
+							>
 								- {{ selection.choice }}
 								<span v-if="selection.price"
 									>: ${{ selection.price }}+</span
 								>
 							</li>
 						</ul>
-						<p
-							class="note"
-							v-if="item.note"
-						>
+						<p class="note" v-if="item.note">
 							{{ item.note }}
 						</p>
 					</td>
