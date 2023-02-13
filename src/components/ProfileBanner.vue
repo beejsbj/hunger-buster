@@ -1,8 +1,7 @@
 <script setup>
-	import { reactive, ref, nextTick } from "vue";
-	import { useUserStore } from "../stores/user.js";
-
 	const user = useUserStore();
+
+	console.log(user.profile);
 
 	const editing = reactive({
 		name: false,
