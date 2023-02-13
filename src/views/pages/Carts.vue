@@ -20,7 +20,7 @@
 		<ul>
 			<template v-for="restaurant in shop.restaurants">
 				<li :key="restaurant.id" v-if="restaurant.cart">
-					<restaurant-card>
+					<restaurant-cart>
 						<h2 class="solid-voice">
 							{{ restaurant.name }}
 						</h2>
@@ -44,19 +44,19 @@
 								Go to Cart
 							</RouterLink>
 						</div>
-					</restaurant-card>
+					</restaurant-cart>
 				</li>
 			</template>
 		</ul>
 	</article>
 </template>
 <style scoped>
-	restaurant-card,
+	restaurant-cart,
 	article {
 		display: grid;
 		gap: 15px;
 	}
-	restaurant-card div {
+	restaurant-cart div {
 		display: grid;
 		grid-template-columns: 0.1fr 0.5fr 0.5fr 0.2fr;
 		align-items: center;
