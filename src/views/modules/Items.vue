@@ -2,44 +2,32 @@
 	import Item from "./Item.vue";
 	import ItemCard from "../../components/ItemCard.vue";
 	import { computed, ref } from "vue";
-
 	import { useRoute, useRouter } from "vue-router";
-
 	import { useShopStore } from "../../stores/shop.js";
+	import { collection, query, where } from "firebase/firestore";
+	import { useFirestore, useCollection } from "vuefire";
 
+	const db = useFirestore();
 	const route = useRoute();
 	const router = useRouter();
 	const shop = useShopStore();
 
 	const filter = ref("");
 
-	const restaurant = shop.restaurants.find(function (restaurant) {
-		return (
-			route.params.restaurantSlug == restaurant.id ||
-			route.params.restaurantSlug == restaurant.slug
-		);
-	});
+	const props = defineProps(["restaurant"]);
 
-	// const items = computed(function () {
-	// 	return shop.items.find(function (item) {
-	// 		return (
+	const itemRef = collection(db, "items");
+	const queried = query(itemRef, where("belongsTo", "==", props.restaurant.id));
 
-	// 		);
-	// 	});
-	// });
+	const items = useCollection(queried);
 
 	const filtered = computed(function () {
-		return shop.items.filter(function (item) {
+		return items.value.filter(function (item) {
 			if (filter.value) {
-				return (
-					item.belongsTo == restaurant.id &&
-					item.name.toLowerCase().includes(filter.value)
-				);
+				return item.name.toLowerCase().includes(filter.value);
 			}
-			return item.belongsTo == restaurant.id;
+			return items;
 		});
-
-		return shop.items;
 	});
 </script>
 <template>
@@ -52,7 +40,7 @@
 				placeholder="Filter items"
 			/>
 		</input-field>
-		<menu-items>
+		<menu-items v-if="items">
 			<ul class="items-list">
 				<li :key="item.id" v-for="item in filtered">
 					<ItemCard :item="item" />
