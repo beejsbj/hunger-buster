@@ -1,72 +1,76 @@
 <script setup>
 	import { useRoute, useRouter } from "vue-router";
-	import { computed } from "vue";
+	import { computed, reactive, ref } from "vue";
 
 	import { useShopStore } from "../../stores/shop.js";
+	import { useFirestore, useDocument } from "vuefire";
+	import { collection, query, where, doc, limit } from "firebase/firestore";
+	import { update } from "@firebase/database";
+	const db = useFirestore();
 
 	const route = useRoute();
 	const shop = useShopStore();
 
-	const restaurant = computed(function () {
-		return shop.restaurants.find(function (restaurant) {
-			return (
-				route.params.restaurantSlug == restaurant.id ||
-				route.params.restaurantSlug == restaurant.slug
-			);
-		});
-	});
-	// const cart = shop.getCart(restaurant);
+	const restaurantRef = collection(db, "restaurants");
+	const queried = query(
+		restaurantRef,
+		where("slug", "==", route.params.restaurantSlug)
+	);
 
-	const cart = computed(function () {
-		return shop.carts.find(function (cart) {
-			return cart.belongsTo == restaurant.id;
-		});
-	});
+	const restaurant = useDocument(queried);
 
-	console.log(cart);
+	//
+	//
+	//
+	const cartSize = reactive({
+		value: 0,
+	});
+	//
+	//
+	//
 </script>
 
 <template>
-	<article>
+	<article v-if="restaurant">
 		<header class="restaurant">
-			<nav class="restaurant-menu">
-				<RouterLink :to="'/restaurant/' + restaurant.slug"
-					>Items</RouterLink
-				>
-				<RouterLink
-					:to="'/restaurant/' + restaurant.slug + '/cart'"
-					class="cart"
-				>
-					Cart
-					<span :class="{ cartCount: cart.items.length }">
-						<span>
-							{{ cart.items.length }}
-						</span>
-					</span>
-				</RouterLink>
-			</nav>
 			<restaurant-banner>
 				<text-content>
 					<h2 class="loud-voice">
-						{{ restaurant.name }}
+						{{ restaurant[0].name }}
 					</h2>
 					<h3 class="firm-voice">
-						{{ "$".repeat(restaurant.priceLevel) }}
+						{{ "$".repeat(restaurant[0].priceLevel) }}
 					</h3>
 				</text-content>
 				<picture>
 					<img
 						:src="
-							restaurant.image ??
+							restaurant[0].image ??
 							'https://peprojects.dev/images/square.jpg'
 						"
 						alt="https://peprojects.dev/images/square.jpg"
 					/>
 				</picture>
+				<nav class="restaurant-menu">
+					<RouterLink :to="'/restaurant/' + restaurant[0].slug"
+						>Items</RouterLink
+					>
+					<RouterLink
+						:to="'/restaurant/' + restaurant[0].slug + '/cart'"
+						class="cart"
+					>
+						Cart
+						<span :class="{ cartCount: cartSize.value }">
+							<span>
+								{{ cartSize.value }}
+							</span>
+						</span>
+					</RouterLink>
+				</nav>
 			</restaurant-banner>
 		</header>
 		<sub-view>
-			<RouterView />
+			<RouterView :restaurant="restaurant[0]" :cartSize="cartSize" />
 		</sub-view>
 	</article>
 </template>
@@ -82,6 +86,9 @@
 		grid-template-columns: 1fr 0.2fr;
 		picture {
 			grid-row: span 2;
+		}
+		nav {
+			align-content: start;
 		}
 	}
 	a {
