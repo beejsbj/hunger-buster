@@ -63,6 +63,7 @@ declare global {
   const triggerRef: typeof import('vue')['triggerRef']
   const unref: typeof import('vue')['unref']
   const useAttrs: typeof import('vue')['useAttrs']
+  const useCartsStore: typeof import('./src/stores/carts.js')['useCartsStore']
   const useCollection: typeof import('vuefire')['useCollection']
   const useCounterStore: typeof import('./src/stores/counter.js')['useCounterStore']
   const useCssModule: typeof import('vue')['useCssModule']
