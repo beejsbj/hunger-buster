@@ -1,6 +1,10 @@
 <script setup>
-	import { RouterLink, RouterView } from "vue-router";
-	import ProfileBanner from "../../components/ProfileBanner.vue";
+	const user = useUserStore();
+
+
+	// console.log(user.userDocument)
+
+
 </script>
 
 <template>
@@ -12,7 +16,7 @@
 			</nav>
 		</header>
 
-		<ProfileBanner />
+		<ProfileBanner :profile="user.profile" />
 
 		<sub-view>
 			<RouterView />
