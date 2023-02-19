@@ -30,6 +30,11 @@ const router = createRouter({
 			component: About,
 		},
 		{
+			path: "/login",
+			name: "login",
+			component: User,
+		},
+		{
 			path: "/user",
 			name: "user",
 			component: User,
@@ -71,11 +76,13 @@ const router = createRouter({
 					path: "/restaurant/:restaurantSlug",
 					name: "Items",
 					component: Items,
+					meta: {transition: "slide-to-left"}
 				},
 				{
 					path: "/restaurant/:restaurantSlug/cart",
 					name: "RestaurantCart",
 					component: Cart,
+					meta: {transition: "slide-to-right"}
 				},
 				{
 					path: "/restaurant/:restaurantSlug/:itemSlug",
