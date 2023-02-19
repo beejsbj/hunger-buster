@@ -26,9 +26,11 @@
 					<RouterLink to="/">Home</RouterLink>
 					<RouterLink to="/restaurants">Restaurants</RouterLink>
 					<RouterLink to="/carts" class="cart">Carts</RouterLink>
-					<RouterLink to="/user/about">
-						<span v-if="user.current"> Profile </span>
-						<span v-if="!user.current"> Login </span>
+					<RouterLink to="/user/about" v-if="user.current">
+						Profile
+					</RouterLink>
+					<RouterLink to="/login" v-if="!user.current">
+						Login
 					</RouterLink>
 					<button @click="user.logout()" v-if="user.current">
 						Logout
