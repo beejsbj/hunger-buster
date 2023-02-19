@@ -1,18 +1,18 @@
 <script setup>
+	defineProps(["profile"]);
 	const user = useUserStore();
-
-	console.log(user.profile);
 
 	const editing = reactive({
 		name: false,
 		image: false,
 	});
 
-	const displayName = ref(null);
+	//to refocus
+	const disName = ref(null);
 	function reFocus() {
 		nextTick(() => {
-			displayName.value.focus();
-			displayName.value.select();
+			disName.value.focus();
+			disName.value.select();
 		});
 	}
 </script>
@@ -22,15 +22,15 @@
 	<profile-banner>
 		<form class="edit">
 			<h1 class="loud-voice">
-				<span v-if="!editing.name">{{
-					user.current.displayName ?? "Display Name"
-				}}</span>
+				<span v-if="!editing.name">
+					{{ profile.displayName }}
+				</span>
 				<input
 					type="text"
-					v-model="user.current.displayName"
+					v-model="profile.displayName"
 					v-if="editing.name"
 					placeholder="Display Name"
-					ref="displayName"
+					ref="disName"
 					id="displayName"
 				/>
 			</h1>
@@ -49,7 +49,7 @@
 		</form>
 
 		<picture class="profile-picture">
-			<img :src="user.current.photoURL" alt="" />
+			<img :src="profile.image" alt="" />
 			<form>
 				<button
 					class="edit outline"
@@ -59,15 +59,14 @@
 					<span
 						v-if="editing.image"
 						@click.prevent="
-							user.current.photoURL =
-								'https://peprojects.dev/images/square.jpg'
+							profile.image = 'https://peprojects.dev/images/square.jpg'
 						"
 						>Cancel</span
 					>
 				</button>
 				<input
 					type="text"
-					v-model="user.current.photoURL"
+					v-model="profile.image"
 					v-if="editing.image"
 					placeholder="image url"
 				/>
@@ -99,9 +98,9 @@
 		}
 	}
 
-	.profile-picture {
-		img {
-			// object-fit: cover;
-		}
-	}
+	// .profile-picture {
+	// 	img {
+	// 		// object-fit: cover;
+	// 	}
+	// }
 </style>
