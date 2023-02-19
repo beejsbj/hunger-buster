@@ -1,19 +1,21 @@
-import { ref, computed, reactive, watch, onMounted } from "vue";
 import { defineStore } from "pinia";
-import restaurantsData from "../assets/static-data/restaurants.json";
 import { v4 as uuid } from "uuid";
 import slug from "slug";
-import { useFirestore, useCollection } from "vuefire";
-import { collection } from "firebase/firestore";
+import { collection, query, where, doc, limit } from "firebase/firestore";
 
 const db = useFirestore();
 
-if (!localStorage.restaurants) {
-	localStorage.restaurants = useCollection(collection(db, "todos"));
-}
-
 export const useShopStore = defineStore("shop", () => {
-	const restaurants = reactive(loadRestaurants());
+	const restaurantRef = collection(db, "restaurants");
+	const cartsRef = collection(db, "carts");
+
+	const restaurants = useCollection(restaurantRef);
+
+	function getRestaurant(slug) {
+		const queried = query(restaurantRef, where("slug", "==", slug));
+		const restaurant = useDocument(queried);
+		return restaurant;
+	}
 
 	function findInCart(item) {
 		return restaurant.id.find(function (cartItem) {
@@ -25,13 +27,10 @@ export const useShopStore = defineStore("shop", () => {
 		return restaurants.findIndex((restaurant) => restaurant.id == id);
 	}
 
-	function add(item, restaurant, note) {
-		console.log(note);
-		let id = findRestaurant(restaurant.id);
+	function add(item, note) {
+		const foundCart = getCart(item.belongsTo);
 
-		if (!restaurants[id].cart) {
-			restaurants[id].cart = [];
-		}
+		const cart = { ...foundCart.value };
 
 		let record = {
 			...item,
@@ -40,41 +39,66 @@ export const useShopStore = defineStore("shop", () => {
 			note: note,
 		};
 
-		restaurants[id].cart.push(record);
-	}
-
-	function remove(item, restaurant) {
-		let id = findRestaurant(restaurant.id);
-
-		restaurants[id].cart = restaurants[id].cart.filter(function (cartItem) {
-			return cartItem.id != item.id;
-		});
-	}
-
-	function quantityIncrement(item) {
-		item.quantity++;
-	}
-
-	function quantityDecrement(item) {
-		item.quantity--;
-		if (item.quantity < 1) {
-			remove(item);
+		if (!cart.items) {
+			cart.items = [];
 		}
+		if (!cart.belongsTo) {
+			cart.belongsTo = item.belongsTo;
+		}
+
+		cart.items.push(record);
+
+		setDoc(doc(db, "carts", `cart_${item.belongsTo}`), cart);
 	}
 
-	function saveRestaurants() {
-		localStorage.setItem("restaurants", JSON.stringify(restaurants));
-		console.log("Restaurants Saved");
+	async function remove(removedItem) {
+		var foundCart = getCart(removedItem.belongsTo);
+
+		const cart = { ...foundCart.value };
+
+		cart.items = cart.items.filter(function (item) {
+			return item.id != removedItem.id;
+		});
+
+		setDoc(doc(db, "carts", `cart_${removedItem.belongsTo}`), cart);
 	}
 
-	function loadRestaurants() {
-		var restaurantsStr = localStorage.getItem("restaurants");
-		return JSON.parse(restaurantsStr);
+	function incrementQuantity(updatedItem) {
+		var foundCart = getCart(updatedItem.belongsTo);
+
+		const cart = { ...foundCart.value };
+		cart.items = cart.items.map(function (item) {
+			if (updatedItem.id == item.id) {
+				item.quantity += 1;
+			}
+			return item;
+		});
+
+		setDoc(doc(db, "carts", `cart_${updatedItem.belongsTo}`), cart);
 	}
 
-	watch(restaurants, function () {
-		saveRestaurants();
-	});
+	function decrementQuantity(updatedItem) {
+		var foundCart = getCart(updatedItem.belongsTo);
+
+		const cart = { ...foundCart.value };
+		cart.items = cart.items.map(function (item) {
+			if (updatedItem.id == item.id) {
+				item.quantity -= 1;
+			}
+			if (item.quantity > 0) {
+				return item;
+			}
+		});
+
+		setDoc(doc(db, "carts", `cart_${updatedItem.belongsTo}`), cart);
+	}
+
+	function getCart(id) {
+		const docRef = computed(() => doc(collection(db, "carts"), `cart_${id}`));
+		return useDocument(docRef);
+	}
+
+
 
 	onMounted(function () {
 		console.log("loaded");
@@ -82,10 +106,12 @@ export const useShopStore = defineStore("shop", () => {
 
 	return {
 		restaurants,
+		getRestaurant,
 		// total,
 		add,
 		remove,
-		quantityIncrement,
-		quantityDecrement,
+		decrementQuantity,
+		incrementQuantity,
+		getCart,
 	};
 });
