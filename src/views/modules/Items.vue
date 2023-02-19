@@ -1,11 +1,5 @@
 <script setup>
-	import Item from "./Item.vue";
-	import ItemCard from "../../components/ItemCard.vue";
-	import { computed, ref } from "vue";
-	import { useRoute, useRouter } from "vue-router";
-	import { useShopStore } from "../../stores/shop.js";
 	import { collection, query, where } from "firebase/firestore";
-	import { useFirestore, useCollection } from "vuefire";
 
 	const db = useFirestore();
 	const route = useRoute();
