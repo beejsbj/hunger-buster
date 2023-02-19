@@ -42,6 +42,7 @@ export default defineConfig({
 				{
 					"@/stores/shop": ["useShopStore"],
 					"@/stores/user": ["useUserStore"],
+					"@/stores/carts": ["useCartsStore"],
 				},
 			],
 			dirs: ["src/stores"],
