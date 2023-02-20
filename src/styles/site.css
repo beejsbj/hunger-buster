@@ -26,6 +26,7 @@
 body {
 	background-color: var(--paper);
 	color: var(--ink);
+	
 }
 
 .my-fantastic-image {
@@ -58,4 +59,14 @@ ul.restaurant-list {
 	display: grid;
 	gap: 20px;
 	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}
+
+
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+	opacity: 0;
 }
