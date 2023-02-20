@@ -1,10 +1,7 @@
 <script setup>
-	import { useShopStore } from "../../stores/shop.js";
-	import { computed } from "vue";
-
-	// import { useUserStore } from "../stores/user.js";
-	// const user = useUserStore();
 	const shop = useShopStore();
+	const carts = useCartsStore();
+	const user = useUserStore();
 
 	function totaler(cart) {
 		return cart
