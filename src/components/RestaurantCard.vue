@@ -1,13 +1,12 @@
 <script setup>
-	import { useUserStore } from "../stores/user.js";
 	const user = useUserStore();
-
 	const props = defineProps(["restaurant"]);
-	const restaurant = props.restaurant;
-
-	console.log(restaurant);
+	const found = computed(() =>
+		user.profile?.favoriteRestaurants?.find(function (favorite) {
+			return favorite.id == props.restaurant.id;
+		})
+	);
 </script>
-
 
 <template>
 	<restaurant-card>
@@ -30,9 +29,7 @@
 				>MORE</a
 			>
 			<button
-				:class="{
-					favorite: user.profile.favoriteRestaurants.includes(restaurant),
-				}"
+				:class="{ favorite: found ? true : false }"
 				@click="user.favoriteRestaurant(restaurant)"
 			>
 				♡

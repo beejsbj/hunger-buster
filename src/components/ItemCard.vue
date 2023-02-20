@@ -1,7 +1,8 @@
 
 <script setup>
 	const props = defineProps(["item"]);
-	const item = props.item;
+	const user = useUserStore();
+	
 </script>
 
 <template>
