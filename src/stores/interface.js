@@ -8,8 +8,15 @@ export const useInterfaceStore = defineStore("interface", function () {
 		mainMenuOpen.value = !mainMenuOpen.value;
 	}
 
+	function notify(message) {
+		toast(message, {
+			position: toast.POSITION.BOTTOM_RIGHT,
+		}) ;
+	}
+
 	return {
 		mainMenuOpen,
 		toggleMenu,
+		notify
 	};
 });
