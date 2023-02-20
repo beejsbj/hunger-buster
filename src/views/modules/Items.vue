@@ -6,7 +6,7 @@
 	const router = useRouter();
 	const shop = useShopStore();
 
-	const filter = ref("");
+	const search = ref("");
 
 	const props = defineProps(["restaurant"]);
 
@@ -17,8 +17,8 @@
 
 	const filtered = computed(function () {
 		return items.value.filter(function (item) {
-			if (filter.value) {
-				return item.name.toLowerCase().includes(filter.value);
+			if (search.value) {
+				return item.name.toLowerCase().includes(search.value);
 			}
 			return items;
 		});
@@ -28,12 +28,13 @@
 	<restaurant-detail>
 		<input-field>
 			<input
-				class="filter"
+				class="search"
 				type="text"
-				v-model="filter"
-				placeholder="Filter items"
+				v-model="search"
+				placeholder="Search items"
 			/>
 		</input-field>
+		<CategoryFilter :categories="restaurant?.categories" />
 		<menu-items v-if="items">
 			<ul class="items-list">
 				<li :key="item.id" v-for="item in filtered">
