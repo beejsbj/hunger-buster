@@ -1,17 +1,14 @@
 <script setup>
 	import { computed, ref } from "vue";
-	import { useShopStore } from "../../stores/shop.js";
-	import { useUserStore } from "../../stores/user.js";
-	import RestaurantCard from "../../components/RestaurantCard.vue";
 
 	const user = useUserStore();
 	const shop = useShopStore();
-	const filter = ref("");
+	const search = ref("");
 
 	const filtered = computed(function () {
-		if (filter.value) {
+		if (search.value) {
 			return shop.restaurants.filter(function (restaurant) {
-				return restaurant.name.toLowerCase().includes(filter.value);
+				return restaurant.name.toLowerCase().includes(search.value);
 			});
 		}
 		return shop.restaurants;
@@ -23,10 +20,10 @@
 		<h1 class="loud-voice">Restaurants</h1>
 		<input-field>
 			<input
-				class="filter"
+				class="search"
 				type="text"
-				v-model="filter"
-				placeholder="Filter Restaurants"
+				v-model="search"
+				placeholder="Search Restaurants"
 			/>
 		</input-field>
 
