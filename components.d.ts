@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
     Cart: typeof import('./src/views/modules/Cart.vue')['default']
     Carts: typeof import('./src/views/pages/Carts.vue')['default']
     Category: typeof import('./src/views/Category.vue')['default']
+    CategoryFilter: typeof import('./src/components/CategoryFilter.vue')['default']
     CreateItem: typeof import('./src/components/CreateItem.vue')['default']
     CreateItemView: typeof import('./src/views/CreateItemView.vue')['default']
     Favorites: typeof import('./src/views/modules/Favorites.vue')['default']

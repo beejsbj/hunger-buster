@@ -38,10 +38,12 @@ export default defineConfig({
 						"useRouter",
 					],
 					"firebase/firestore": ["collection", "addDoc", "setDoc", "doc"],
+					"vue3-toastify": ["toast"],
 				},
 				{
 					"@/stores/shop": ["useShopStore"],
 					"@/stores/user": ["useUserStore"],
+					"@/stores/inteface": ["useInterfaceStore"],
 					"@/stores/carts": ["useCartsStore"],
 				},
 			],
