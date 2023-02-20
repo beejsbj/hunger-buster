@@ -1,10 +1,7 @@
 <script setup>
 	const user = useUserStore();
 
-
 	// console.log(user.userDocument)
-
-
 </script>
 
 <template>
@@ -19,7 +16,7 @@
 		<ProfileBanner :profile="user.profile" />
 
 		<sub-view>
-			<RouterView />
+			<RouterView :profile="user.profile" />
 		</sub-view>
 	</profile-view>
 </template>
