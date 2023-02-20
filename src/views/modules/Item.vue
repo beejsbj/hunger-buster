@@ -1,18 +1,17 @@
 <script setup>
-	import { ref } from "vue";
-	import { useRoute, useRouter } from "vue-router";
-	import { useShopStore } from "../../stores/shop.js";
-	import { useUserStore } from "../../stores/user.js";
-	import Options from "../../components/Options.vue";
 	const user = useUserStore();
 
 	const route = useRoute();
 	const router = useRouter();
 	const shop = useShopStore();
+	const cart = useCartsStore();
 
-	defineProps({
-		item: Object,
-	});
+	const props = defineProps(["item"]);
+	const found = computed(() =>
+		user.profile?.favoriteItems?.find(function (favorite) {
+			return favorite.id == props.item.id;
+		})
+	);
 
 	// console.log(item);
 
@@ -29,18 +28,10 @@
 			path: `/restaurant/${route.params.restaurantSlug}/cart`,
 		});
 	}
-
-	var selections = ref({});
-	const multiSelections = ref([]);
-	var allSelections;
-	function addSelections() {
-		allSelections = Object.values(selections.value);
-		allSelections.push(...multiSelections.value);
-	}
 </script>
 
 <template>
-	<Transition @after-enter="onAfterEnter" name="fade">
+	<Transition name="fade">
 		<item-wrapper v-if="item.show" @click.self="item.show = !item.show">
 			<item-detail>
 				<h1 class="loud-voice">{{ item.name }}</h1>
@@ -49,9 +40,7 @@
 
 					<button
 						@click="user.favoriteItem(item)"
-						:class="{
-							favorite: user.profile.favoriteItems.includes(item),
-						}"
+						:class="{ favorite: found ? true : false }"
 					>
 						♡
 					</button>
@@ -63,10 +52,11 @@
 
 				<form
 					@submit.prevent="
-						addSelections();
-						item.selections = allSelections;
+						//addSelections();
+						//item.selections = allSelections;
 						item.show = !item.show;
-						shop.add(item, restaurant, note);
+						//shop.add(item, note);
+						cart.add(item, note);
 						redirect();
 					"
 				>
