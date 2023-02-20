@@ -7,7 +7,7 @@ import {
 	signInWithEmailAndPassword,
 	updateProfile,
 } from "firebase/auth";
-import { collection } from "firebase/firestore";
+import { collection, updateDoc } from "firebase/firestore";
 
 //setup
 const router = useRouter();
@@ -30,7 +30,6 @@ function getUser() {
 	return { id, roles, profile };
 }
 
-
 // /store
 export const useUserStore = defineStore("user", () => {
 	const auth = getAuth();
@@ -43,22 +42,30 @@ export const useUserStore = defineStore("user", () => {
 
 	// functions
 	function favoriteRestaurant(restaurant) {
-		if (profile.favoriteRestaurants.includes(restaurant)) {
-			let index = profile.favoriteRestaurants.indexOf(restaurant);
-			profile.favoriteRestaurants.splice(index, 1);
+		const found = profile.value.favoriteRestaurants.find(function(favorite){
+			return favorite.id == restaurant.id
+		})
+		if (found) {
+			let index = profile.value.favoriteRestaurants.indexOf(restaurant);
+			profile.value.favoriteRestaurants.splice(index, 1);
 		} else {
-			profile.favoriteRestaurants.push(restaurant);
+			profile.value.favoriteRestaurants.push(restaurant);
 		}
 	}
 
 	function favoriteItem(item) {
-		if (profile.favoriteItems.includes(item)) {
-			let index = profile.favoriteItems.indexOf(item);
-			profile.favoriteItems.splice(index, 1);
+		const found = profile.value.favoriteItems.find(function(favorite){
+			return favorite.id == item.id
+		})
+		if (found) {
+			let index = profile.value.favoriteItems.indexOf(item);
+			profile.value.favoriteItems.splice(index, 1);
 		} else {
-			profile.favoriteItems.push(item);
+			profile.value.favoriteItems.push(item);
 		}
 	}
+
+	function isFavItem(item) {}
 
 	function signUp(form) {
 		createUserWithEmailAndPassword(auth, form.email, form.password)
@@ -105,31 +112,20 @@ export const useUserStore = defineStore("user", () => {
 		form.email = "";
 		form.password = "";
 	}
-	
 
-	// function saveUser() {
-	// 	updateProfile(auth.currentUser, {
-	// 		displayName: auth.currentUser.displayName ?? "Display Name",
-	// 		photoURL:
-	// 			auth.currentUser.photoURL ??
-	// 			"https://peprojects.dev/images/square.jpg",
-	// 		favoriteRestaurants: profile.favoriteRestaurants,
-	// 	})
-	// 		.then(() => {
-	// 			console.log("profile saved");
-	// 		})
-	// 		.catch((error) => {
-	// 			console.log("error", error);
-	// 		});
-	// }
+	watch(
+		profile,
+		async function (after, before) {
+			console.log(id.value);
 
-	// watch(
-	// 	current,
-	// 	function () {
-	// 		saveUser();
-	// 	},
-	// 	{ deep: true }
-	// );
+			const userRef = doc(db, "users", id.value);
+
+			await updateDoc(userRef, {
+				profile: after,
+			});
+		},
+		{ deep: true }
+	);
 
 	return {
 		current,
