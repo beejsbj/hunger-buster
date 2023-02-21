@@ -1,29 +1,38 @@
 //
 
 import { useCollection } from "vuefire";
+import { v4 as uuid } from "uuid";
+
 
 //
 
 export const useCartsStore = defineStore("carts", () => {
 	const user = useUserStore();
 	const db = useFirestore();
+	const ui = useInterfaceStore();
 
-	const cartsRef = computed(function () {
-		return collection(db, "users", `user_${user?.id}`, "carts");
-	});
+	// const cartsRef = computed(function () {
+	// 	return collection(db, "users", `user_${user?.id}`, "carts");
+	// });
+
+	// const carts = useCollection(cartsRef);
+	const carts = [];
+
+	// user goes to restaurant detail
+	//user adds an item to cart
+	// add new document to subcollection, using restaurant id
+
 	
-	const carts = useCollection(cartsRef);
-
-	//
 
 	function getCart(id) {
-		const docRef = computed(() => doc(cartsRef, `cart_${id}`));
+		const docRef = computed(() =>
+			doc(db, "users", user?.id, "carts", `cart_${id}`)
+		);
 		return useDocument(docRef);
 	}
 
-	function add(item, note) {
+	async function add(item, note) {
 		const foundCart = getCart(item.belongsTo);
-
 		const cart = { ...foundCart.value };
 
 		let record = {
@@ -42,13 +51,19 @@ export const useCartsStore = defineStore("carts", () => {
 
 		cart.items.push(record);
 
-		setDoc(
+
+		await setDoc(
 			doc(
-				collection(db, "users", `user_${user?.id}`, "carts"),
+				db,
+				"users",
+				user?.id,
+				"carts",
 				`cart_${item.belongsTo}`
 			),
 			cart
 		);
+
+		ui.notify("Item Added");
 	}
 
 	//
