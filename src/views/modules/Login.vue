@@ -25,8 +25,12 @@
 <template>
 	<login-form>
 		<h1 class="loud-voice">Hi Hungry!</h1>
-		<button @click="viewPassword = !viewPassword">View Password</button>
+		<button @click="viewPassword = !viewPassword">
+			<span v-if="!viewPassword">Show Password</span>
+			<span v-if="viewPassword">View Password</span>
+		</button>
 		<form>
+			<h2 class="solid-voice">Login</h2>
 			<input-field>
 				<input
 					required
@@ -48,8 +52,10 @@
 
 			<button @click.prevent="user.login(loginForm)">Login</button>
 		</form>
-		<h2 class="attention-voice">OR</h2>
+		<h3 class="attention-voice">OR</h3>
 		<form>
+			<h2 class="solid-voice">Signup</h2>
+
 			<input-field>
 				<input
 					required
