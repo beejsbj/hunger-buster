@@ -15,19 +15,21 @@
 			disName.value.select();
 		});
 	}
+
+	
 </script>
 
 
 <template>
 	<profile-banner>
 		<form class="edit">
-			<h1 class="loud-voice">
+			<h1 @click.prevent="notify(profile?.displayName)" class="loud-voice">
 				<span v-if="!editing.name">
-					{{ profile.displayName }}
+					{{ profile?.displayName }}
 				</span>
 				<input
 					type="text"
-					v-model="profile.displayName"
+					v-model.lazy="profile.displayName"
 					v-if="editing.name"
 					placeholder="Display Name"
 					ref="disName"
@@ -49,7 +51,7 @@
 		</form>
 
 		<picture class="profile-picture">
-			<img :src="profile.image" alt="" />
+			<img :src="profile?.image" alt="" />
 			<form>
 				<button
 					class="edit outline"
@@ -66,7 +68,7 @@
 				</button>
 				<input
 					type="text"
-					v-model="profile.image"
+					v-model.lazy="profile.image"
 					v-if="editing.image"
 					placeholder="image url"
 				/>
