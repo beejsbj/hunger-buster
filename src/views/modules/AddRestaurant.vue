@@ -1,0 +1,160 @@
+
+<script setup>
+	import { useShopStore } from "../../stores/shop";
+	import slug from "slug";
+	const shop = useShopStore();
+	const restaurantForm = reactive({
+		name: "",
+		image: "",
+		phone: "",
+		address: "",
+		city: "",
+		state: "",
+		zip: "",
+		website: "",
+		notes: "",
+	});
+
+	function add(form) {
+		const record = {
+			name: form.name,
+			image: form.image,
+			phone: form.phone,
+			address: form.address,
+			city: form.city,
+			state: form.state,
+			zip: form.zip,
+			website: form.website,
+			notes: form.notes,
+			id: idSlugger(slug(form.name)),
+		};
+
+		console.log(record.id);
+	}
+
+	function numberFormat() {
+		if (restaurantForm.phone.length == 3 || restaurantForm.phone.length == 7) {
+			restaurantForm.phone += "-";
+		}
+	}
+
+	function idSlugger(id, suffix = "") {
+		if (!suffix) suffix = 1;
+
+		console.log(id);
+		const found = shop.getRestaurant(id);
+		if (false) {
+			var newId = id + "-" + suffix;
+			suffix++;
+			console.log(newId, suffix);
+
+			idSlugger(newId);
+		}
+		return id;
+	}
+</script>
+
+<template>
+	<form @submit.prevent="add(restaurantForm)">
+		<h1 class="attention-voice">Add a Restaurant</h1>
+		<input-field>
+			<input
+				type="text"
+				:required="false"
+				v-model="restaurantForm.name"
+				id="name"
+				placeholder="Restaurant Name"
+			/>
+			<label for="name"> Enter restaurant's name. </label>
+		</input-field>
+
+		<input-field>
+			<input
+				type="text"
+				v-model="restaurantForm.image"
+				id="image"
+				placeholder="Image URL"
+			/>
+			<label for="image"> Enter restaurant's image URL. </label>
+		</input-field>
+
+		<input-field>
+			<input
+				:required="false"
+				type="tel"
+				v-model="restaurantForm.phone"
+				id="phone"
+				placeholder="123-456-7890"
+				pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+				maxlength="12"
+				@keyup="numberFormat()"
+			/>
+			<label for="phone"> Enter restaurant's phone number. </label>
+		</input-field>
+
+		<input-field>
+			<input
+				:required="false"
+				type="text"
+				v-model="restaurantForm.address"
+				id="address"
+				placeholder="Address"
+			/>
+			<label for="address"> Enter restaurant's address. </label>
+		</input-field>
+
+		<input-field>
+			<input
+				type="text"
+				v-model="restaurantForm.city"
+				id="city"
+				placeholder="City"
+			/>
+			<label for="city"> Enter restaurant's city. </label>
+		</input-field>
+
+		<input-field>
+			<input
+				type="text"
+				v-model="restaurantForm.state"
+				id="state"
+				placeholder="State"
+			/>
+			<label for="state"> Enter restaurant's state. </label>
+		</input-field>
+
+		<input-field>
+			<input
+				:required="false"
+				type="text"
+				v-model="restaurantForm.zip"
+				id="zip"
+				placeholder="Zip Code"
+			/>
+			<label for="zip"> Enter restaurant's zip code. </label>
+		</input-field>
+
+		<input-field>
+			<input
+				type="text"
+				v-model="restaurantForm.website"
+				id="website"
+				placeholder="Website"
+			/>
+			<label for="website"> Enter restaurant's website. </label>
+		</input-field>
+
+		<input-field>
+			<textarea
+				v-model="restaurantForm.notes"
+				id="notes"
+				placeholder="Notes"
+			/>
+			<label for="notes">
+				Please enter any notes about the restaurant.
+			</label>
+		</input-field>
+
+		<button>Add restaurant</button>
+	</form>
+</template>
