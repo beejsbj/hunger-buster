@@ -28,7 +28,9 @@ body {
 	color: var(--ink);
 	
 }
-
+main {
+	overflow-x: hidden;
+}
 .my-fantastic-image {
 	max-width: 300px;
 	border-bottom-right-radius: 30px;
