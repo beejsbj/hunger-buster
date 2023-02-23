@@ -5,22 +5,34 @@
 	const route = useRoute();
 	const router = useRouter();
 	const shop = useShopStore();
+	const props = defineProps(["restaurant"]);
+
 
 	const search = ref("");
+	const checked = ref([]);
 
-	const props = defineProps(["restaurant"]);
 
 	const itemRef = collection(db, "items");
 	const queried = query(itemRef, where("belongsTo", "==", props.restaurant.id));
-
 	const items = useCollection(queried);
 
-	const filtered = computed(function () {
+	const categoryFiltered = computed(function () {
 		return items.value.filter(function (item) {
+			if (checked.value.length) {
+				return checked.value.some(function (check) {
+					return item.category.includes(check.id);
+				});
+			}
+			return items;
+		});
+	});
+
+	const filtered = computed(function () {
+		return categoryFiltered.value.filter(function (item) {
 			if (search.value) {
 				return item.name.toLowerCase().includes(search.value);
 			}
-			return items;
+			return categoryFiltered;
 		});
 	});
 </script>
@@ -34,7 +46,11 @@
 				placeholder="Search items"
 			/>
 		</input-field>
-		<CategoryFilter :categories="restaurant?.categories" />
+		<CategoryFilter
+			:categories="restaurant?.categories"
+			v-model:checked="checked"
+		/>
+		{{ checked }}
 		<menu-items v-if="items">
 			<ul class="items-list">
 				<li :key="item.id" v-for="item in filtered">
