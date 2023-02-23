@@ -1,17 +1,22 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Favorites from "../views/modules/Favorites.vue";
-import Items from "../views/modules/Items.vue";
-import UserAbout from "../views/modules/UserAbout.vue";
-import Cart from "../views/modules/Cart.vue";
-import Category from "../views/Category.vue";
-import Item from "../views/modules/Item.vue";
+////////////////////////
 import NotFound from "../views/pages/NotFound.vue";
 import About from "../views/pages/About.vue";
 import Carts from "../views/pages/Carts.vue";
 import Home from "../views/pages/Home.vue";
 import User from "../views/pages/User.vue";
+import Business from "../views/pages/Business.vue";
 import Restaurants from "../views/pages/Restaurants.vue";
 import Restaurant from "../views/pages/Restaurant.vue";
+////////////////////////
+import Favorites from "../views/modules/Favorites.vue";
+import Items from "../views/modules/Items.vue";
+import UserAbout from "../views/modules/UserAbout.vue";
+import BusinessAbout from "../views/modules/BusinessAbout.vue";
+import Cart from "../views/modules/Cart.vue";
+import AddRestaurant from "../views/modules/AddRestaurant.vue";
+import RestaurantAdmin from "../views/modules/RestaurantAdmin.vue";
+import Item from "../views/modules/Item.vue";
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,6 +56,23 @@ const router = createRouter({
 				},
 			],
 		},
+		{
+			path: "/business",
+			name: "business",
+			component: Business,
+			children: [
+				{
+					path: "/business/addRestaurant",
+					name: "addRestaurant",
+					component: AddRestaurant,
+				},
+				{
+					path: "/business/about",
+					name: "BusinessAbout",
+					component: BusinessAbout,
+				},
+			],
+		},
 
 		{
 			path: "/restaurants",
@@ -63,11 +85,6 @@ const router = createRouter({
 			component: Carts,
 		},
 		{
-			path: "/restaurants/:category",
-			name: "RestaurantsCategory",
-			component: Category,
-		},
-		{
 			path: "/restaurant/:restaurantSlug",
 			name: "Restaurant",
 			component: Restaurant,
@@ -76,13 +93,19 @@ const router = createRouter({
 					path: "/restaurant/:restaurantSlug",
 					name: "Items",
 					component: Items,
-					meta: {transition: "slide-to-left"}
+					meta: { transition: "slide-to-left" },
 				},
 				{
 					path: "/restaurant/:restaurantSlug/cart",
 					name: "RestaurantCart",
 					component: Cart,
-					meta: {transition: "slide-to-right"}
+					meta: { transition: "slide-to-right" },
+				},
+				{
+					path: "/restaurant/:restaurantSlug/admin",
+					name: "RestaurantAdmin",
+					component: RestaurantAdmin,
+					meta: { transition: "slide-to-right" },
 				},
 				{
 					path: "/restaurant/:restaurantSlug/:itemSlug",
