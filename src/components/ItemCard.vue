@@ -2,7 +2,6 @@
 <script setup>
 	const props = defineProps(["item"]);
 	const user = useUserStore();
-	
 </script>
 
 <template>
@@ -18,7 +17,7 @@
 		<div>
 			<p>${{ item.price }}</p>
 
-			<button @click="item.show = !item.show">MORE</button>
+			<button @click="item.show = !item.show">Add</button>
 		</div>
 	</item-card>
 </template>
