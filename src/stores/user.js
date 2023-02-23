@@ -8,12 +8,14 @@ import {
 	updateProfile,
 } from "firebase/auth";
 import { collection, updateDoc } from "firebase/firestore";
+///////////////////////////////////////////////////////
 
 //setup
 const router = useRouter();
 const db = useFirestore();
 
-function getUser() {
+///////////////////////////////////////////////////////
+function useUser() {
 	const current = useCurrentUser();
 
 	const userRef = computed(function () {
@@ -24,27 +26,27 @@ function getUser() {
 	const userDoc = useDocument(userRef);
 
 	//compute returns
-	const roles = computed(() => userDoc.value?.roles);
 	const id = computed(() => userDoc.value?.id);
 	const profile = computed(() => userDoc.value?.profile);
-	return { id, roles, profile };
+	const isAdmin = computed(() => userDoc.value?.roles.admin);
+
+	return { id, profile, isAdmin };
 }
+///////////////////////////////////////////////////////
 
 // /store
 export const useUserStore = defineStore("user", () => {
+	///////////////////////////////////////////////////////
 	const auth = getAuth();
 	const current = useCurrentUser();
-	const { id, roles, profile } = getUser();
+	const { id, profile, isAdmin } = useUser();
 
-	//
-
-	//
-
+	///////////////////////////////////////////////////////
 	// functions
 	function favoriteRestaurant(restaurant) {
-		const found = profile.value.favoriteRestaurants.find(function(favorite){
-			return favorite.id == restaurant.id
-		})
+		const found = profile.value.favoriteRestaurants.find(function (favorite) {
+			return favorite.id == restaurant.id;
+		});
 		if (found) {
 			let index = profile.value.favoriteRestaurants.indexOf(restaurant);
 			profile.value.favoriteRestaurants.splice(index, 1);
@@ -54,9 +56,9 @@ export const useUserStore = defineStore("user", () => {
 	}
 
 	function favoriteItem(item) {
-		const found = profile.value.favoriteItems.find(function(favorite){
-			return favorite.id == item.id
-		})
+		const found = profile.value.favoriteItems.find(function (favorite) {
+			return favorite.id == item.id;
+		});
 		if (found) {
 			let index = profile.value.favoriteItems.indexOf(item);
 			profile.value.favoriteItems.splice(index, 1);
@@ -67,17 +69,19 @@ export const useUserStore = defineStore("user", () => {
 
 	function isFavItem(item) {}
 
+	/// authorization ///
 	function signUp(form) {
 		createUserWithEmailAndPassword(auth, form.email, form.password)
 			.then((userCredential) => {
 				const user = userCredential.user;
 				setDoc(doc(db, "users", `user_${user.uid}`), {
 					id: user.uid,
-					roles: {},
+					isAdmin: {},
 					profile: {
 						displayName: form.displayName ?? "Display Name",
 						image: "https://peprojects.dev/images/square.jpg",
-						description: "lorem",
+						description:
+							"Lorem, this is the profile description, edit it to your liking, thuugh that feature might not exist yet tehe. Ipsum",
 						favoriteRestaurants: [],
 						favoriteItems: [],
 					},
@@ -113,13 +117,12 @@ export const useUserStore = defineStore("user", () => {
 		form.password = "";
 	}
 
+	///////////////////////////////////////////////////////
+
 	watch(
 		profile,
 		async function (after, before) {
-			console.log(id.value);
-
 			const userRef = doc(db, "users", id.value);
-
 			await updateDoc(userRef, {
 				profile: after,
 			});
@@ -127,6 +130,7 @@ export const useUserStore = defineStore("user", () => {
 		{ deep: true }
 	);
 
+	///////////////////////////////////////////////////////
 	return {
 		current,
 		favoriteRestaurant,
@@ -134,7 +138,7 @@ export const useUserStore = defineStore("user", () => {
 		signUp,
 		login,
 		logout,
-		roles,
+		isAdmin,
 		profile,
 		id,
 	};
