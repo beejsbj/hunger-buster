@@ -32,24 +32,30 @@
 		console.log(record.id);
 	}
 
-	function numberFormat() {
+	function numberFormat(event) {
+		if (event.key == "-" && isNaN(event.key) && event.key !== "Backspace") {
+			console.log(event);
+			restaurantForm.phone = restaurantForm.phone.slice(0, -1);
+			return;
+		}
 		if (restaurantForm.phone.length == 3 || restaurantForm.phone.length == 7) {
 			restaurantForm.phone += "-";
 		}
 	}
 
 	function idSlugger(id, suffix = "") {
-		if (!suffix) suffix = 1;
 
 		console.log(id);
-		const found = shop.getRestaurant(id);
-		if (false) {
-			var newId = id + "-" + suffix;
-			suffix++;
-			console.log(newId, suffix);
 
-			idSlugger(newId);
+		const found = shop.getRestaurant(id);
+
+		if (!found) {
+			return id;
 		}
+
+		id = id + "-" + suffix;
+		idSlugger(id, suffix++);
+
 		return id;
 	}
 </script>
@@ -87,7 +93,7 @@
 				placeholder="123-456-7890"
 				pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
 				maxlength="12"
-				@keyup="numberFormat()"
+				@keyup="numberFormat"
 			/>
 			<label for="phone"> Enter restaurant's phone number. </label>
 		</input-field>

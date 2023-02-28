@@ -1,7 +1,5 @@
 <script setup>
 	const shop = useShopStore();
-	const carts = useCartsStore();
-	const user = useUserStore();
 
 	function totaler(cart) {
 		return cart
@@ -16,7 +14,10 @@
 		<h1 class="loud-voice">Carts</h1>
 		<ul>
 			<template v-for="restaurant in shop.restaurants">
-				<li :key="restaurant.id" v-if="restaurant.cart">
+				<li
+					:key="restaurant.id"
+					v-if="restaurant.cart"
+				>
 					<restaurant-cart>
 						<h2 class="solid-voice">
 							{{ restaurant.name }}
