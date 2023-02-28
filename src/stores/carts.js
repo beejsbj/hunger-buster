@@ -2,74 +2,95 @@
 
 import { useCollection } from "vuefire";
 import { v4 as uuid } from "uuid";
-
+import {
+	collection,
+	query,
+	where,
+	doc,
+	limit,
+	setDoc,
+} from "firebase/firestore";
 
 //
+const db = useFirestore();
 
-export const useCartsStore = defineStore("carts", () => {
+function getCarts() {
 	const user = useUserStore();
-	const db = useFirestore();
+	const cartsRef = computed(function () {
+		if (user?.id) {
+			return collection(db, "users", user?.id, "carts");
+		}
+	});
+	const carts = useCollection(cartsRef);
+	return carts;
+}
+
+export const useCartsStore = defineStore("carts", (restaurant = "") => {
+	///////////////////////////////////////////////////
+	const shop = useShopStore();
+	const user = useUserStore();
 	const ui = useInterfaceStore();
+	const carts = getCarts();
+	// const cart = getCart(shop.restaurant[0]);
+	///////////////////////////////////////////////////
 
-	// const cartsRef = computed(function () {
-	// 	return collection(db, "users", `user_${user?.id}`, "carts");
-	// });
-
-	// const carts = useCollection(cartsRef);
-	const carts = [];
-
-	// user goes to restaurant detail
-	//user adds an item to cart
-	// add new document to subcollection, using restaurant id
-
-	
-
-	function getCart(id) {
-		const docRef = computed(() =>
-			doc(db, "users", user?.id, "carts", `cart_${id}`)
-		);
-		return useDocument(docRef);
+	function getCart(restaurant) {
+		const foundCart = carts.value.find((cart) => cart.id == restaurant.id);
+		return foundCart;
 	}
 
+	// add to cart
 	async function add(item, note) {
-		const foundCart = getCart(item.belongsTo);
-		const cart = { ...foundCart.value };
+		item.note = note;
 
-		let record = {
-			...item,
-			quantity: 1,
-			id: uuid(),
-			note: note,
-		};
+		//initiate cart doc and set its belongsTo property
+		await setDoc(
+			doc(db, "users", user?.id, "carts", `cart_${item.belongsTo}`),
+			{
+				belongsTo: item.belongsTo,
+				// items: [...currentItems, item],
+			}
+		);
 
-		if (!cart.items) {
-			cart.items = [];
-		}
-		if (!cart.belongsTo) {
-			cart.belongsTo = item.belongsTo;
-		}
-
-		cart.items.push(record);
-
-
+		//add item to items collection within cart doc
 		await setDoc(
 			doc(
 				db,
 				"users",
 				user?.id,
 				"carts",
-				`cart_${item.belongsTo}`
+				`cart_${item.belongsTo}`,
+				"items",
+				item.id
 			),
-			cart
+			item
 		);
 
 		ui.notify("Item Added");
 	}
 
-	//
+	// remove from cart
+	async function remove(item) {
+		await deleteDoc(
+			doc(
+				db,
+				"users",
+				user?.id,
+				"carts",
+				`cart_${item.belongsTo}`,
+				"items",
+				item.id
+			)
+		);
+	}
 
+	///////////////////////////////////////////////////////
 	return {
-		carts,
+		// getCarts,
 		add,
+		remove,
+		// getCart,
+		carts,
+		// cartItems
 	};
 });
