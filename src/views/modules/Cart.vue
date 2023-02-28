@@ -1,39 +1,15 @@
 <script setup>
-	import { computed } from "vue-demi";
-	import Item from "./Item.vue";
+	//////////////////////////////////////////
 
-	const db = useFirestore();
-	const route = useRoute();
 	const shop = useShopStore();
+	const props = defineProps(["restaurant", "cart"]);
 
-	const props = defineProps(["restaurant", "cartSize"]);
-
-	const cartRef = computed(() => {
-		return doc(collection(db, "carts"), `cart_${props.restaurant.id}`);
-	});
-	const cart = useDocument(cartRef);
-
-	const total = computed(function () {
-		return cart.value.items
-			.reduce(function (total, item) {
-				return total + item.price * item.quantity;
-			}, 0)
-			.toFixed(2);
-	});
-	//
-	//
-	//
-	props.cartSize.value = computed(() => cart.value.items.length);
-	//
-	//
-	//
-	//
+	//////////////////////////////////////////
 </script>
 
 <template>
-	<article v-if="cart">
-		<h3 class="attention-voice">Total: ${{ total }}</h3>
-
+	<article v-if="cart?.length">
+		<h3 class="attention-voice">Total: ${{ shop.cartTotal }}</h3>
 		<table class="styled-table">
 			<thead>
 				<tr>
@@ -45,45 +21,76 @@
 					<th></th>
 				</tr>
 			</thead>
-			<tbody>
-				<tr :key="item.id" v-for="item in cart.items">
+
+			<TransitionGroup
+				name="list"
+				tag="tbody"
+			>
+				<tr
+					:key="item.id"
+					v-for="item in cart"
+				>
 					<td>
-						<picture><img :src="item.image" alt="" /></picture>
+						<picture
+							><img
+								:src="item.image"
+								alt=""
+						/></picture>
 					</td>
 					<td>
-						<p>{{ item.name }}</p>
-						<ul v-if="item.options">
+						<h2 class="solid-voice">{{ item.name }}</h2>
+
+						<TransitionGroup
+							name="list"
+							tag="ul"
+							v-if="item.options"
+						>
 							<li
-								:key="selection.choice"
-								v-for="selection in item.selections"
+								v-for="option in item.options"
+								:key="option.name"
 							>
-								- {{ selection.choice }}
-								<span v-if="selection.price"
-									>: ${{ selection.price }}+</span
-								>
+								<p>
+									<em>
+										{{ option.name }}
+									</em>
+								</p>
+								<ul>
+									<template v-for="choice in option.choices">
+										<li
+											:key="choice.name"
+											v-if="choice.selected"
+										>
+											- {{ choice.name }}
+										</li>
+									</template>
+								</ul>
 							</li>
-						</ul>
-						<p class="note" v-if="item.note">
+						</TransitionGroup>
+
+						<p
+							class="note"
+							v-if="item.note"
+						>
 							{{ item.note }}
 						</p>
 					</td>
-					<td>${{ item.totalPrice }}</td>
-					<td>
-						<button @click="shop.quantityDecrement(item)">-</button>
+					<td>${{ item.totalPrice ?? item.price }}</td>
+					<td class="quantity">
+						<button @click="shop.decrementQuantity(item)">-</button>
 						{{ item.quantity }}
-						<button @click="shop.quantityIncrement(item)">+</button>
+						<button @click="shop.incrementQuantity(item)">+</button>
 					</td>
-					<td>${{ item.totalPrice * item.quantity }}</td>
+					<td class="total">${{ item.price }}</td>
+					<!-- <td class="total">${{ item.price * item.quantity }}</td> -->
 					<td>
 						<!-- <button @click="item.show = !item.show">MORE</button> -->
-						<button @click="shop.remove(item, restaurant)">Remove</button>
+						<button @click="shop.remove(item)">Remove</button>
 					</td>
-					<Item :item="item" />
 				</tr>
-			</tbody>
+			</TransitionGroup>
 		</table>
 		<div class="buttons">
-			<button @click="clearCart()">Clear Cart</button>
+			<button @click="shop.clearCart(cart)">Clear Cart</button>
 		</div>
 	</article>
 </template>
@@ -105,7 +112,7 @@
 		grid-template-columns: 1fr 1fr 1fr 1fr 1fr 0.5fr;
 		gap: 15px;
 		align-items: center;
-		/*		justify-items: center;*/
+		justify-items: center;
 	}
 	tr th {
 		display: block;
@@ -115,10 +122,6 @@
 	thead,
 	tfoot {
 		background-color: hsla(15, 19%, 60%, 1);
-	}
-
-	tbody tr:nth-of-type(even) {
-		background-color: hsla(209, 39%, 48%, 1);
 	}
 
 	.flex-list {
@@ -132,5 +135,10 @@
 
 	.note {
 		font-size: 12px;
+	}
+
+	.quantity,
+	.total {
+		justify-self: center;
 	}
 </style>
