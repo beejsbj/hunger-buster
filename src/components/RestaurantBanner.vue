@@ -1,11 +1,11 @@
 <script setup>
+import { useShopStore } from "../stores/shop";
+import { useUserStore } from "../stores/user";
+
 	const route = useRoute();
 	const shop = useShopStore();
-	const props = defineProps(["restaurant"]);
-
-	const cart = shop.getCart(props.restaurant.id);
-
-	const cartSize = computed(() => cart.value?.items.length)
+	const user = useUserStore();
+	const props = defineProps(["restaurant", "cartSize"]);
 </script>
 
 
@@ -43,6 +43,9 @@
 					</span>
 				</span>
 			</RouterLink>
+			<RouterLink v-if="user.isAdmin" :to="'/restaurant/' + props.restaurant.slug + '/admin'"
+				>Administator</RouterLink
+			>
 		</nav>
 	</restaurant-banner>
 </template>
