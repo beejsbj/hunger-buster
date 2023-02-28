@@ -8,14 +8,22 @@ import {
 	updateProfile,
 } from "firebase/auth";
 import { collection, updateDoc } from "firebase/firestore";
+import { useRoute, useRouter } from "vue-router";
+import { computed } from "vue";
 ///////////////////////////////////////////////////////
 
 //setup
-const router = useRouter();
 const db = useFirestore();
 
 ///////////////////////////////////////////////////////
-function useUser() {
+
+// /store
+export const useUserStore = defineStore("user", () => {
+	const ui = useInterfaceStore();
+	const router = useRouter();
+
+	///////////////////////////////////////////////////////
+	const auth = getAuth();
 	const current = useCurrentUser();
 
 	const userRef = computed(function () {
@@ -23,23 +31,17 @@ function useUser() {
 			return doc(collection(db, "users"), `user_${current.value.uid}`);
 		}
 	});
-	const userDoc = useDocument(userRef);
+	const { data: userDoc, promise: getUserDoc } = useDocument(userRef);
 
-	//compute returns
+	//compute
+	const email = computed(() => current.value?.email);
+	const emailVerified = computed(() => current.value?.emailVerified);
 	const id = computed(() => userDoc.value?.id);
-	const profile = computed(() => userDoc.value?.profile);
+
 	const isAdmin = computed(() => userDoc.value?.roles.admin);
+	const isBusiness = computed(() => userDoc.value?.roles.business);
 
-	return { id, profile, isAdmin };
-}
-///////////////////////////////////////////////////////
-
-// /store
-export const useUserStore = defineStore("user", () => {
-	///////////////////////////////////////////////////////
-	const auth = getAuth();
-	const current = useCurrentUser();
-	const { id, profile, isAdmin } = useUser();
+	const profile = computed(() => userDoc.value?.profile);
 
 	///////////////////////////////////////////////////////
 	// functions
@@ -50,8 +52,10 @@ export const useUserStore = defineStore("user", () => {
 		if (found) {
 			let index = profile.value.favoriteRestaurants.indexOf(restaurant);
 			profile.value.favoriteRestaurants.splice(index, 1);
+			ui.notify(`${restaurant.name} removed from favorites`);
 		} else {
 			profile.value.favoriteRestaurants.push(restaurant);
+			ui.notify(`${restaurant.name} saved to favorites`);
 		}
 	}
 
@@ -62,8 +66,10 @@ export const useUserStore = defineStore("user", () => {
 		if (found) {
 			let index = profile.value.favoriteItems.indexOf(item);
 			profile.value.favoriteItems.splice(index, 1);
+			ui.notify(`${item.name} removed from favorites`);
 		} else {
 			profile.value.favoriteItems.push(item);
+			ui.notify(`${item.name} saved to favorites`);
 		}
 	}
 
@@ -141,5 +147,6 @@ export const useUserStore = defineStore("user", () => {
 		isAdmin,
 		profile,
 		id,
+		email,
 	};
 });
