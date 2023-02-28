@@ -35,11 +35,11 @@ li {
 	line-height: 1.4;
 }
 
-:is(.calm-voice, p) em {
+ em {
 	font-style: italic;
 }
 
-:is(.calm-voice, p) strong {
+ strong {
 	font-weight: 700;
 }
 
