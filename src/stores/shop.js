@@ -1,66 +1,147 @@
 import { defineStore } from "pinia";
 import { v4 as uuid } from "uuid";
+import { useCollection } from "vuefire";
 import slug from "slug";
-import { collection, query, where, doc, limit } from "firebase/firestore";
+import {
+	collection,
+	query,
+	where,
+	doc,
+	deleteDoc,
+	addDoc,
+} from "firebase/firestore";
+import { useRoute, useRouter } from "vue-router";
+import { useUserStore } from "./user";
+import { async } from "@firebase/util";
+///////////////////////////////////////////////////////
 
 const db = useFirestore();
 
+//////
 export const useShopStore = defineStore("shop", () => {
-	const restaurantRef = collection(db, "restaurants");
-	const cartsRef = collection(db, "carts");
+	///////////////////////////////////////////////////
+	const router = useRouter();
+	const route = useRoute();
+	const user = useUserStore();
+	const ui = useInterfaceStore();
 
+	//
+
+	//restaurants
+	const restaurantRef = collection(db, "restaurants");
 	const restaurants = useCollection(restaurantRef);
 
-	function getRestaurant(slug) {
-		const queried = query(restaurantRef, where("slug", "==", slug));
-		const restaurant = useDocument(queried);
-		return restaurant;
-	}
+	//curret restaurant
+	const slug = computed(() => {
+		if (route.params.restaurantSlug) {
+			return route.params.restaurantSlug;
+		}
+	});
+	const queriedRestaurant = computed(() => {
+		if (slug.value) {
+			return query(restaurantRef, where("slug", "==", slug.value));
+		}
+	});
+	const restaurant = useDocument(queriedRestaurant);
 
-	function findInCart(item) {
-		return restaurant.id.find(function (cartItem) {
-			return cartItem.id == item.id;
+	//current restaurant's items
+	const itemsRef = collection(db, "items");
+	const queriedItems = computed(() => {
+		if (restaurant.value) {
+			return query(
+				itemsRef,
+				where("belongsTo", "==", restaurant?.value[0].id)
+			);
+		}
+	});
+	const items = useCollection(queriedItems);
+
+	//all user's carts
+	const cartsRef = computed(() => {
+		if (user.id) {
+			return collection(db, "users", user?.id, "carts");
+		}
+	});
+	const carts = useCollection(cartsRef);
+
+	//current restaurant's cart
+	const cartRef = computed(() => {
+		if (restaurant.value && user.id) {
+			return collection(
+				db,
+				"users",
+				user?.id,
+				"carts",
+				`cart_${restaurant?.value[0].id}`,
+				"items"
+			);
+		}
+	});
+	const cart = useCollection(cartRef);
+
+	const cartTotal = computed(function () {
+		return cart?.value
+			.reduce(function (total, item) {
+				return total + item.price;
+			}, 0)
+			.toFixed(2);
+	});
+
+	console.log(cartTotal);
+
+	// add to cart
+	async function add(item) {
+		//initiate cart doc and set its belongsTo property
+		console.log(item);
+		await setDoc(
+			doc(db, "users", user?.id, "carts", `cart_${item.belongsTo}`),
+			{
+				belongsTo: item.belongsTo,
+				// items: [...currentItems, item],
+			}
+		);
+
+		//add item to items collection within cart doc
+		await addDoc(
+			collection(
+				db,
+				"users",
+				user?.id,
+				"carts",
+				`cart_${item.belongsTo}`,
+				"items"
+			),
+			item
+		);
+
+		ui.notify(`${item.name} Added to Cart`);
+
+		router.push({
+			path: `/restaurant/${slug.value}/cart`,
 		});
 	}
 
-	function findRestaurant(id) {
-		return restaurants.findIndex((restaurant) => restaurant.id == id);
+	// remove from cart
+	async function remove(item) {
+		await deleteDoc(
+			doc(
+				db,
+				"users",
+				user?.id,
+				"carts",
+				`cart_${item.belongsTo}`,
+				"items",
+				item.id
+			)
+		);
+		ui.notify(`${item.name} Removed`);
 	}
 
-	function add(item, note) {
-		const foundCart = getCart(item.belongsTo);
-
-		const cart = { ...foundCart.value };
-
-		let record = {
-			...item,
-			quantity: 1,
-			id: uuid(),
-			note: note,
-		};
-
-		if (!cart.items) {
-			cart.items = [];
-		}
-		if (!cart.belongsTo) {
-			cart.belongsTo = item.belongsTo;
-		}
-
-		cart.items.push(record);
-
-		setDoc(doc(db, "carts", `cart_${item.belongsTo}`), cart);
-	}
-
-	async function remove(removedItem) {
-		var foundCart = getCart(removedItem.belongsTo);
-
-		const cart = { ...foundCart.value };
-
-		cart.items = cart.items.filter(function (item) {
-			return item.id != removedItem.id;
+	async function clearCart(cart) {
+		cart.forEach(async function (item) {
+			remove(item);
 		});
-
-		setDoc(doc(db, "carts", `cart_${removedItem.belongsTo}`), cart);
+		ui.notify(`Cart Cleared`);
 	}
 
 	function incrementQuantity(updatedItem) {
@@ -93,25 +174,26 @@ export const useShopStore = defineStore("shop", () => {
 		setDoc(doc(db, "carts", `cart_${updatedItem.belongsTo}`), cart);
 	}
 
-	function getCart(id) {
-		const docRef = computed(() => doc(collection(db, "carts"), `cart_${id}`));
-		return useDocument(docRef);
-	}
-
-
+	///////////////////////////////////////////////////
 
 	onMounted(function () {
 		console.log("loaded");
 	});
 
+	///////////////////////////////////////////////////
 	return {
 		restaurants,
-		getRestaurant,
-		// total,
+		carts,
+
+		restaurant,
+		items,
+		cart,
+		cartTotal,
+
 		add,
 		remove,
+		clearCart,
 		decrementQuantity,
 		incrementQuantity,
-		getCart,
 	};
 });
