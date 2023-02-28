@@ -1,27 +1,31 @@
 
 <script setup>
-	import { ref } from "vue";
-
 	const props = defineProps(["options"]);
-	const options = props.options;
 
-	var selections = ref({});
-	const multiSelections = ref([]);
-	var allSelections;
-	function addSelections() {
-		allSelections = Object.values(selections.value);
-		allSelections.push(...multiSelections.value);
+	function clearSelections(choices) {
+		choices.forEach(function (choice) {
+			choice.selected = false;
+		});
 	}
 </script>
 
 <template>
 	<ul class="options">
-		<li :key="option.name" class="options-card" v-for="option in options">
+		<li
+			:key="option.name"
+			class="options-card"
+			v-for="option in options"
+		>
 			<text-content>
 				<h2 class="solid-voice">
 					{{ option.name }}
 				</h2>
-				<p class="required" v-if="option.required">required</p>
+				<p
+					class="required"
+					v-if="option.required"
+				>
+					required
+				</p>
 			</text-content>
 			<ul class="choices">
 				<li
@@ -31,39 +35,26 @@
 				>
 					<label for="">
 						<span>{{ choice.name }}</span>
-						<span class="price" v-if="choice.priceIncrease"
-							>${{ choice.priceIncrease }}</span
+						<span
+							class="price"
+							v-if="choice.priceIncrease"
 						>
+							${{ choice.priceIncrease }}
+						</span>
 					</label>
 					<input
 						v-if="option.required"
 						:name="option.name"
 						type="radio"
-						:value="
-							true
-								? {
-										option: option.name,
-										choice: choice.name,
-										price: choice.priceIncrease,
-								  }
-								: ''
-						"
-						v-model="selections[option.name]"
+						:value="true"
+						@input="clearSelections(option.choices)"
+						v-model="choice.selected"
 						required
 					/>
 					<input
 						v-if="!option.required"
 						type="checkbox"
-						:value="
-							true
-								? {
-										option: option.name,
-										choice: choice.name,
-										price: choice.priceIncrease,
-								  }
-								: ''
-						"
-						v-model="multiSelections"
+						v-model="choice.selected"
 					/>
 				</li>
 			</ul>
