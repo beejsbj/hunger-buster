@@ -16,23 +16,14 @@
 	// console.log(item);
 
 	const note = ref("");
-	const restaurant = shop.restaurants.find(function (restaurant) {
-		return (
-			route.params.restaurantSlug == restaurant.id ||
-			route.params.restaurantSlug == restaurant.slug
-		);
-	});
-
-	function redirect() {
-		router.push({
-			path: `/restaurant/${route.params.restaurantSlug}/cart`,
-		});
-	}
 </script>
 
 <template>
 	<Transition name="fade">
-		<item-wrapper v-if="item.show" @click.self="item.show = !item.show">
+		<item-wrapper
+			v-if="item.show"
+			@click.self="item.show = !item.show"
+		>
 			<item-detail>
 				<h1 class="loud-voice">{{ item.name }}</h1>
 				<div>
@@ -44,27 +35,31 @@
 					>
 						♡
 					</button>
-					<button class="close" @click="item.show = false">Close</button>
+					<button
+						class="close"
+						@click="item.show = false"
+					>
+						Close
+					</button>
 				</div>
 				<picture>
-					<img :src="item.image" alt="" />
+					<img
+						:src="item.image"
+						alt=""
+					/>
 				</picture>
 
 				<form
 					@submit.prevent="
-						//addSelections();
-						//item.selections = allSelections;
 						item.show = !item.show;
-						//shop.add(item, note);
-						cart.add(item, note);
-						redirect();
+						shop.add(item);
 					"
 				>
 					<Options :options="item.options" />
 
 					<input-field>
 						<textarea
-							v-model="note"
+							v-model="item.note"
 							placeholder="Add notes for your order"
 						></textarea>
 					</input-field>
