@@ -1,19 +1,63 @@
 <script setup>
+	///////////////////////////////////////////
 	const route = useRoute();
 	const shop = useShopStore();
+	const db = useFirestore();
+	const user = useUserStore();
+	// const carts = useCartsStore();
+	//////////////////////////////////////////
 
-	const restaurant = shop.getRestaurant(route.params.restaurantSlug);
+	// const restaurant = shop.getRestaurant(route.params.restaurantSlug);
+
+	// const cartRef = computed(function () {
+	// 	if (restaurant.value) {
+	// 		return collection(
+	// 			db,
+	// 			"users",
+	// 			user?.id,
+	// 			"carts",
+	// 			`cart_${restaurant?.value[0].id}`,
+	// 			"items"
+	// 		);
+	// 	}
+	// });
+	// const cartItems = useCollection(cartRef);
+
+	// const restaurantId = computed(() => restaurant?.value[0]?.id);
+
+	// const cartItems = useCollection(docRef);
+
+	const { restaurant, cart } = storeToRefs(shop);
+
+	// const cartSize = ref(4);
+	const cartSize = cart.value.length;
+	//
 </script>
 
 <template>
-	<article v-if="restaurant">
+	<article v-if="restaurant[0]">
 		<header class="restaurant">
-			<RestaurantBanner :restaurant="restaurant[0]" :cartSize="cartSize" />
+			<RestaurantBanner
+				:restaurant="restaurant[0]"
+				:cartSize="cartSize"
+			/>
 		</header>
 		<sub-view>
-			<RouterView :restaurant="restaurant[0]" v-slot="{ Component, route }">
-				<Transition appear :name="route.meta.transition">
-					<Component :is="Component" :key="route.path" />
+			<RouterView
+				:restaurant="restaurant[0]"
+				:cart="cart"
+				v-slot="{ Component, route }"
+			>
+				<!-- route.meta.transition -->
+				<Transition
+					mode="out-in"
+					appear
+					name="fade"
+				>
+					<Component
+						:is="Component"
+						:key="route.name"
+					/>
 				</Transition>
 			</RouterView>
 		</sub-view>
@@ -25,11 +69,12 @@
 	article {
 		display: grid;
 		gap: 20px;
+		overflow-x: hidden;
 	}
 	sub-view {
-		overflow: hidden;
-		// position: relative;
-		width: 100%;
+		// border: 3px solid blue;
+		// overflow-x: hidden;
+		// width: 100%;
 	}
 
 	.slide-to-left-enter-active,

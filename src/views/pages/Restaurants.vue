@@ -27,11 +27,18 @@
 			/>
 		</input-field>
 
-		<ul class="restaurant-list">
-			<li :key="restaurant.id" v-for="restaurant in filtered">
+		<TransitionGroup
+			name="list"
+			tag="ul"
+			class="restaurant-list"
+		>
+			<li
+				:key="restaurant.id"
+				v-for="restaurant in filtered"
+			>
 				<RestaurantCard :restaurant="restaurant" />
 			</li>
-		</ul>
+		</TransitionGroup>
 	</article>
 </template>
 
