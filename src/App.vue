@@ -4,6 +4,7 @@
 	import { useInterfaceStore } from "./stores/interface.js";
 	const route = useRoute();
 	const user = useUserStore();
+	const carts = useCartsStore();
 	const ui = useInterfaceStore();
 </script>
 
@@ -11,13 +12,21 @@
 	<header>
 		<inner-column>
 			<picture class="logo">
-				<img src="/src/assets/logo.svg" alt="" />
+				<img
+					src="/src/assets/logo.svg"
+					alt=""
+				/>
 			</picture>
 			<site-menu>
-				<button class="menu-toggle" @click="ui.toggleMenu">
+				<button
+					class="menu-toggle"
+					@click="ui.toggleMenu"
+				>
 					{{ ui.mainMenuOpen ? "close" : "open" }}
 				</button>
-				<nav
+				<TransitionGroup
+					name="list"
+					tag="nav"
 					:class="{
 						'menu-open': ui.mainMenuOpen,
 						'menu-close': !ui.mainMenuOpen,
@@ -25,25 +34,53 @@
 				>
 					<RouterLink to="/">Home</RouterLink>
 					<RouterLink to="/restaurants">Restaurants</RouterLink>
-					<RouterLink to="/carts" class="cart">Carts</RouterLink>
-					<RouterLink to="/user/about" v-if="user.current">
+					<RouterLink
+						v-if="carts.carts?.length"
+						to="/carts"
+						class="cart"
+						>Carts</RouterLink
+					>
+					<RouterLink
+						to="/user"
+						v-if="user.current"
+					>
 						Profile
 					</RouterLink>
-					<RouterLink to="/login" v-if="!user.current">
+					<RouterLink
+						to="/login"
+						v-if="!user.current"
+					>
 						Login
 					</RouterLink>
-					<button @click="user.logout()" v-if="user.current">
+					<button
+						@click="user.logout()"
+						v-if="user.current"
+					>
 						Logout
 					</button>
-				</nav>
+				</TransitionGroup>
 			</site-menu>
 		</inner-column>
 	</header>
 
-	<main class="outlet" :class="route.name">
+	<main
+		class="outlet"
+		:class="route.name"
+	>
 		<section>
 			<inner-column>
-				<RouterView />
+				<!-- <RouterView /> -->
+				<RouterView v-slot="{ Component, route }">
+					<Transition
+						mode="out-in"
+						name="fade"
+					>
+						<Component
+							:is="Component"
+							:key="route.name"
+						/>
+					</Transition>
+				</RouterView>
 			</inner-column>
 		</section>
 	</main>
