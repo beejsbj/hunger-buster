@@ -2,7 +2,10 @@
 
 @import "forms.css";
 
-button,
+
+button {
+	cursor: pointer;
+}
 .button {
 	background-color: var(--highlight);
 	color: var(--paper);
@@ -10,7 +13,7 @@ button,
 	font: inherit;
 	padding: 5px;
 	text-align: center;
-	cursor: pointer;
+	
 }
 
 input-field {
@@ -26,11 +29,19 @@ input-field .filter {
 	padding: 15px;
 }
 
-button.outline,
+input-field .filter:focus {
+	outline: none;
+}
 .button.outline {
 	background-color: initial;
 	color: var(--highlight);
 	border: solid 2px var(--highlight);
+}
+
+button.text {
+	background-color: initial;
+	color: var(--highlight);
+	border: none;
 }
 
 input {

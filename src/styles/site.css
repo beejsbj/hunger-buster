@@ -49,6 +49,11 @@ a.router-link-exact-active {
 	border-bottom: 5px solid var(--highlight);
 	color: black;
 }
+a.business {
+	--highlight: brown
+	background-color: var(--highlight);
+	color: var(--paper);
+}
 
 ul.restaurant-list {
 	display: grid;
@@ -91,3 +96,18 @@ ul.restaurant-list {
   position: absolute;
 }
 
+
+
+.modal-enter-from {
+	opacity: 0;
+ }
+ 
+ .modal-leave-to {
+	opacity: 0;
+ }
+ 
+ .modal-enter-from .modal-container,
+ .modal-leave-to .modal-container {
+	-webkit-transform: scale(1.1);
+	transform: scale(1.1);
+ }

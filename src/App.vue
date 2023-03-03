@@ -4,7 +4,7 @@
 	import { useInterfaceStore } from "./stores/interface.js";
 	const route = useRoute();
 	const user = useUserStore();
-	const carts = useCartsStore();
+	const shop = useShopStore();
 	const ui = useInterfaceStore();
 </script>
 
@@ -19,7 +19,7 @@
 			</picture>
 			<site-menu>
 				<button
-					class="menu-toggle"
+					class="menu-toggle button"
 					@click="ui.toggleMenu"
 				>
 					{{ ui.mainMenuOpen ? "close" : "open" }}
@@ -32,27 +32,40 @@
 						'menu-close': !ui.mainMenuOpen,
 					}"
 				>
-					<RouterLink to="/">Home</RouterLink>
-					<RouterLink to="/restaurants">Restaurants</RouterLink>
 					<RouterLink
-						v-if="carts.carts?.length"
+						key="home"
+						to="/"
+						>Home</RouterLink
+					>
+					<RouterLink
+						key="restaurants"
+						to="/restaurants"
+						>Restaurants</RouterLink
+					>
+					<RouterLink
+						key="carts"
+						v-if="shop.carts?.length"
 						to="/carts"
 						class="cart"
 						>Carts</RouterLink
 					>
 					<RouterLink
+						key="user"
 						to="/user"
 						v-if="user.current"
 					>
 						Profile
 					</RouterLink>
 					<RouterLink
+						key="login"
 						to="/login"
 						v-if="!user.current"
 					>
 						Login
 					</RouterLink>
 					<button
+						class="button"
+						key="logout"
 						@click="user.logout()"
 						v-if="user.current"
 					>
@@ -130,17 +143,6 @@
 
 					span {
 						display: none;
-					}
-
-					.cartCount {
-						display: initial;
-						font-size: 0.8em;
-						/*	vertical-align: super;*/
-						background: yellowgreen;
-						color: black;
-						position: absolute;
-						top: -10px;
-						right: -5px;
 					}
 				}
 			}

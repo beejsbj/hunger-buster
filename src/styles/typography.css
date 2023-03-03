@@ -27,6 +27,12 @@
 	font-weight: 700;
 }
 
+.whisper-voice {
+	opacity: 0.5;
+	font-family: sans-serif;
+	font-size: 14px;
+}
+
 .calm-voice,
 p,
 li {
