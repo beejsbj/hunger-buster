@@ -1,5 +1,5 @@
 //imports
-import { useCurrentUser, useDocument } from "vuefire";
+import { useCurrentUser, useDocument, useCollection } from "vuefire";
 import {
 	getAuth,
 	createUserWithEmailAndPassword,
@@ -7,7 +7,7 @@ import {
 	signInWithEmailAndPassword,
 	updateProfile,
 } from "firebase/auth";
-import { collection, updateDoc } from "firebase/firestore";
+import { collection, updateDoc, where, query } from "firebase/firestore";
 import { useRoute, useRouter } from "vue-router";
 import { computed } from "vue";
 ///////////////////////////////////////////////////////
@@ -43,6 +43,18 @@ export const useUserStore = defineStore("user", () => {
 
 	const profile = computed(() => userDoc.value?.profile);
 
+	const restaurantsQuery = computed(() => {
+		if (isBusiness.value && current.value?.uid) {
+			console.log(current.value?.uid);
+
+			return query(
+				collection(db, "restaurants"),
+				where("owner", "==", current?.value.uid)
+			);
+		}
+	});
+	const restaurants = useCollection(restaurantsQuery);
+
 	///////////////////////////////////////////////////////
 	// functions
 	function favoriteRestaurant(restaurant) {
@@ -72,8 +84,6 @@ export const useUserStore = defineStore("user", () => {
 			ui.notify(`${item.name} saved to favorites`);
 		}
 	}
-
-	function isFavItem(item) {}
 
 	/// authorization ///
 	function signUp(form) {
@@ -139,12 +149,15 @@ export const useUserStore = defineStore("user", () => {
 	///////////////////////////////////////////////////////
 	return {
 		current,
+		restaurants,
 		favoriteRestaurant,
 		favoriteItem,
 		signUp,
 		login,
 		logout,
+
 		isAdmin,
+		isBusiness,
 		profile,
 		id,
 		email,
