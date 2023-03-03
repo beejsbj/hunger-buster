@@ -1,8 +1,8 @@
 
 <script setup>
 	import { useShopStore } from "../../stores/shop";
-	import slug from "slug";
 	const shop = useShopStore();
+
 	const restaurantForm = reactive({
 		name: "",
 		image: "",
@@ -15,23 +15,6 @@
 		notes: "",
 	});
 
-	function add(form) {
-		const record = {
-			name: form.name,
-			image: form.image,
-			phone: form.phone,
-			address: form.address,
-			city: form.city,
-			state: form.state,
-			zip: form.zip,
-			website: form.website,
-			notes: form.notes,
-			id: idSlugger(slug(form.name)),
-		};
-
-		console.log(record.id);
-	}
-
 	function numberFormat(event) {
 		if (event.key == "-" && isNaN(event.key) && event.key !== "Backspace") {
 			console.log(event);
@@ -42,26 +25,10 @@
 			restaurantForm.phone += "-";
 		}
 	}
-
-	function idSlugger(id, suffix = "") {
-
-		console.log(id);
-
-		const found = shop.getRestaurant(id);
-
-		if (!found) {
-			return id;
-		}
-
-		id = id + "-" + suffix;
-		idSlugger(id, suffix++);
-
-		return id;
-	}
 </script>
 
 <template>
-	<form @submit.prevent="add(restaurantForm)">
+	<form @submit.prevent="shop.addRestaurant(restaurantForm)">
 		<h1 class="attention-voice">Add a Restaurant</h1>
 		<input-field>
 			<input
@@ -161,6 +128,6 @@
 			</label>
 		</input-field>
 
-		<button>Add restaurant</button>
+		<button class="button">Add restaurant</button>
 	</form>
 </template>
