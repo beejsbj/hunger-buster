@@ -12,7 +12,6 @@ import {
 } from "firebase/firestore";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "./user";
-import { async } from "@firebase/util";
 ///////////////////////////////////////////////////////
 
 const db = useFirestore();
@@ -20,41 +19,38 @@ const db = useFirestore();
 //////
 export const useShopStore = defineStore("shop", () => {
 	///////////////////////////////////////////////////
+
 	const router = useRouter();
 	const route = useRoute();
 	const user = useUserStore();
 	const ui = useInterfaceStore();
 
-	//
+	///////////////////////////////////////////////////
 
 	//restaurants
-	const restaurantRef = collection(db, "restaurants");
-	const restaurants = useCollection(restaurantRef);
+	const restaurants = useCollection(collection(db, "restaurants"));
 
-	//curret restaurant
-	const slug = computed(() => {
+	//current restaurant
+	const slugID = computed(() => {
 		if (route.params.restaurantSlug) {
 			return route.params.restaurantSlug;
 		}
 	});
-	const queriedRestaurant = computed(() => {
-		if (slug.value) {
-			return query(restaurantRef, where("slug", "==", slug.value));
+	const restaurantDocRef = computed(() => {
+		if (slugID.value) {
+			return doc(db, "restaurants", slugID.value);
 		}
 	});
-	const restaurant = useDocument(queriedRestaurant);
+	const { data: restaurant, promise: restaurantPromise } =
+		useDocument(restaurantDocRef);
 
 	//current restaurant's items
-	const itemsRef = collection(db, "items");
-	const queriedItems = computed(() => {
+	const itemsRef = computed(() => {
 		if (restaurant.value) {
-			return query(
-				itemsRef,
-				where("belongsTo", "==", restaurant?.value[0].id)
-			);
+			return collection(db, "restaurants", restaurant.value.id, "menuItems");
 		}
 	});
-	const items = useCollection(queriedItems);
+	const items = useCollection(itemsRef);
 
 	//all user's carts
 	const cartsRef = computed(() => {
@@ -72,13 +68,14 @@ export const useShopStore = defineStore("shop", () => {
 				"users",
 				user?.id,
 				"carts",
-				`cart_${restaurant?.value[0].id}`,
+				`cart_${restaurant?.value.id}`,
 				"items"
 			);
 		}
 	});
 	const cart = useCollection(cartRef);
 
+	//cart total
 	const cartTotal = computed(function () {
 		return cart?.value
 			.reduce(function (total, item) {
@@ -87,12 +84,41 @@ export const useShopStore = defineStore("shop", () => {
 			.toFixed(2);
 	});
 
-	console.log(cartTotal);
+	//cart count
+	const cartCount = computed(function () {
+		const count = cart?.value.reduce(function (total, item) {
+			return total + (item.quantity ? item.quantity : 1);
+		}, 0);
+
+		return count;
+	});
+
+	////////////////////////////////////////////
+
+	//add restaurant
+	async function addRestaurant(form) {
+		const record = {
+			name: form.name,
+			image: form.image,
+			phone: form.phone,
+			address: form.address,
+			city: form.city,
+			state: form.state,
+			zip: form.zip,
+			website: form.website,
+			notes: form.notes,
+		};
+		record.id = await idSlugger(slug(form.name));
+		console.log(record.id);
+
+		await setDoc(doc(db, "restaurants", record.id), record);
+
+		ui.notify(`${record.name} Added Restaurant to store!`);
+	}
 
 	// add to cart
 	async function add(item) {
 		//initiate cart doc and set its belongsTo property
-		console.log(item);
 		await setDoc(
 			doc(db, "users", user?.id, "carts", `cart_${item.belongsTo}`),
 			{
@@ -117,7 +143,7 @@ export const useShopStore = defineStore("shop", () => {
 		ui.notify(`${item.name} Added to Cart`);
 
 		router.push({
-			path: `/restaurant/${slug.value}/cart`,
+			path: `/restaurant/${slugID.value}/cart`,
 		});
 	}
 
@@ -137,6 +163,7 @@ export const useShopStore = defineStore("shop", () => {
 		ui.notify(`${item.name} Removed`);
 	}
 
+	// clear cart
 	async function clearCart(cart) {
 		cart.forEach(async function (item) {
 			remove(item);
@@ -144,6 +171,7 @@ export const useShopStore = defineStore("shop", () => {
 		ui.notify(`Cart Cleared`);
 	}
 
+	// increment quantity
 	function incrementQuantity(updatedItem) {
 		var foundCart = getCart(updatedItem.belongsTo);
 
@@ -158,6 +186,7 @@ export const useShopStore = defineStore("shop", () => {
 		setDoc(doc(db, "carts", `cart_${updatedItem.belongsTo}`), cart);
 	}
 
+	// decrement quantity
 	function decrementQuantity(updatedItem) {
 		var foundCart = getCart(updatedItem.belongsTo);
 
@@ -176,11 +205,33 @@ export const useShopStore = defineStore("shop", () => {
 
 	///////////////////////////////////////////////////
 
+	//helper functions
+	async function idSlugger(id, i = 0, originalId = id) {
+		const { data: found, promise } = useDocument(doc(db, "restaurants", id));
+		const foundID = ref(null);
+
+		await promise.value
+			.then(async function () {
+				console.log(found.value.id, "exists");
+				i++;
+				var newId = originalId + "-" + i;
+				foundID.value = await idSlugger(newId, i, originalId);
+			})
+			.catch(() => {
+				foundID.value = id;
+			});
+
+		return foundID.value;
+	}
+
+	///////////////////////////////////////////////////
+
 	onMounted(function () {
 		console.log("loaded");
 	});
 
 	///////////////////////////////////////////////////
+
 	return {
 		restaurants,
 		carts,
@@ -189,6 +240,9 @@ export const useShopStore = defineStore("shop", () => {
 		items,
 		cart,
 		cartTotal,
+		cartCount,
+
+		addRestaurant,
 
 		add,
 		remove,
