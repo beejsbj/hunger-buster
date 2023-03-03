@@ -10,6 +10,19 @@
 			<nav>
 				<RouterLink to="/user/about">About</RouterLink>
 				<RouterLink to="/user/favorites">Favorties</RouterLink>
+				<RouterLink to="/user/orders">Orders</RouterLink>
+				<template v-if="user.isBusiness">
+					<RouterLink
+						class="business"
+						to="/user/restaurants"
+						>Your Restaurants</RouterLink
+					>
+					<RouterLink
+						class="business"
+						to="/user/addRestaurant"
+						>Add Restaurant</RouterLink
+					>
+				</template>
 			</nav>
 		</header>
 
