@@ -25,10 +25,13 @@
 			<p class="price-level">{{ "$".repeat(restaurant.priceLevel) }}</p>
 		</text-content>
 		<div>
-			<a class="button outline" :href="'/restaurant/' + restaurant.slug"
+			<a
+				class="button outline"
+				:href="'/restaurant/' + restaurant.id"
 				>MORE</a
 			>
 			<button
+				class="button"
 				:class="{ favorite: found ? true : false }"
 				@click="user.favoriteRestaurant(restaurant)"
 			>
@@ -43,6 +46,7 @@
 		display: grid;
 		gap: 10px;
 		background-color: rgba(0, 0, 0, 0.1);
+		aspect-ratio: 1/1;
 	}
 	restaurant-card div {
 		display: grid;
@@ -50,6 +54,12 @@
 		align-items: center;
 		justify-content: space-between;
 		gap: 20px;
+	}
+
+	restaurant-card img {
+		object-fit: cover;
+		/* object-position: 0 100%; */
+		max-height: 100%;
 	}
 
 	text-content {

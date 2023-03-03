@@ -36,7 +36,7 @@
 							<p>Cart Size: {{ restaurant.cart.length }}</p>
 
 							<RouterLink
-								:to="'/restaurant/' + restaurant.slug + '/cart'"
+								:to="'/restaurant/' + restaurant.id + '/cart'"
 								class="cart button"
 							>
 								Go to Cart

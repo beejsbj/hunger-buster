@@ -76,21 +76,41 @@
 					</td>
 					<td>${{ item.totalPrice ?? item.price }}</td>
 					<td class="quantity">
-						<button @click="shop.decrementQuantity(item)">-</button>
+						<button
+							class="button"
+							@click="shop.decrementQuantity(item)"
+						>
+							-
+						</button>
 						{{ item.quantity }}
-						<button @click="shop.incrementQuantity(item)">+</button>
+						<button
+							class="button"
+							@click="shop.incrementQuantity(item)"
+						>
+							+
+						</button>
 					</td>
 					<td class="total">${{ item.price }}</td>
 					<!-- <td class="total">${{ item.price * item.quantity }}</td> -->
 					<td>
 						<!-- <button @click="item.show = !item.show">MORE</button> -->
-						<button @click="shop.remove(item)">Remove</button>
+						<button
+							class="button"
+							@click="shop.remove(item)"
+						>
+							Remove
+						</button>
 					</td>
 				</tr>
 			</TransitionGroup>
 		</table>
 		<div class="buttons">
-			<button @click="shop.clearCart(cart)">Clear Cart</button>
+			<button
+				class="button"
+				@click="shop.clearCart(cart)"
+			>
+				Clear Cart
+			</button>
 		</div>
 	</article>
 </template>

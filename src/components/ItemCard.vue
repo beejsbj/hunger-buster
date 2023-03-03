@@ -16,7 +16,12 @@
 		<div>
 			<p>${{ item.price }}</p>
 
-			<button @click="item.show = !item.show">Add</button>
+			<button
+				class="button"
+				@click="item.show = !item.show"
+			>
+				Add
+			</button>
 		</div>
 	</item-card>
 	<Item :item="item" />

@@ -30,13 +30,14 @@
 					<p>${{ item.price }}</p>
 
 					<button
+						class="button"
 						@click="user.favoriteItem(item)"
 						:class="{ favorite: found ? true : false }"
 					>
 						♡
 					</button>
 					<button
-						class="close"
+						class="button close"
 						@click="item.show = false"
 					>
 						Close
@@ -64,7 +65,7 @@
 						></textarea>
 					</input-field>
 					<div>
-						<button>Add Item to Cart</button>
+						<button class="button">Add Item to Cart</button>
 					</div>
 				</form>
 			</item-detail>

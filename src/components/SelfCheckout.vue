@@ -54,7 +54,12 @@
 			/>
 		</div>
 
-		<button @click="reFocus()">Add Item</button>
+		<button
+			class="button"
+			@click="reFocus()"
+		>
+			Add Item
+		</button>
 		<output>
 			<table class="styled-table">
 				<thead>
@@ -67,7 +72,10 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr :key="item.id" v-for="(item, i) in shop.list.cart">
+					<tr
+						:key="item.id"
+						v-for="(item, i) in shop.list.cart"
+					>
 						<td>{{ i + 1 }}</td>
 						<td>{{ item.name }}</td>
 						<td>${{ item.price }}</td>

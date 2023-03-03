@@ -5,7 +5,10 @@
 
 <template>
 	<section>
-		<Login :user="user" v-if="!user.current" />
+		<Login
+			:user="user"
+			v-if="!user.current"
+		/>
 
 		<Profile v-if="user.current" />
 	</section>

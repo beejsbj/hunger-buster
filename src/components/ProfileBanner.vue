@@ -15,15 +15,16 @@
 			disName.value.select();
 		});
 	}
-
-	
 </script>
 
 
 <template>
 	<profile-banner>
 		<form class="edit">
-			<h1 @click.prevent="notify(profile?.displayName)" class="loud-voice">
+			<h1
+				@click.prevent="notify(profile?.displayName)"
+				class="loud-voice"
+			>
 				<span v-if="!editing.name">
 					{{ profile?.displayName }}
 				</span>
@@ -37,7 +38,7 @@
 				/>
 			</h1>
 			<button
-				class="edit outline"
+				class="edit outline button"
 				@click.prevent="
 					editing.name = !editing.name;
 					if (editing.name) {
@@ -51,10 +52,13 @@
 		</form>
 
 		<picture class="profile-picture">
-			<img :src="profile?.image" alt="" />
+			<img
+				:src="profile?.image"
+				alt=""
+			/>
 			<form>
 				<button
-					class="edit outline"
+					class="edit outline button"
 					@click.prevent="editing.image = !editing.image"
 				>
 					<span v-if="!editing.image">Edit Image</span>

@@ -62,7 +62,7 @@
 			/>
 		</div>
 
-		<button>Add Item</button>
+		<button class="button">Add Item</button>
 		<output> </output>
 	</form>
 </template>
