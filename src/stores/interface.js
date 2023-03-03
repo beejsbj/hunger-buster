@@ -11,12 +11,13 @@ export const useInterfaceStore = defineStore("interface", function () {
 	function notify(message) {
 		toast(message, {
 			position: toast.POSITION.BOTTOM_RIGHT,
-		}) ;
+			autoClose: 1500,
+		});
 	}
 
 	return {
 		mainMenuOpen,
 		toggleMenu,
-		notify
+		notify,
 	};
 });
