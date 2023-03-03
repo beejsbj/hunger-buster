@@ -14,9 +14,13 @@ import Items from "../views/modules/Items.vue";
 import UserAbout from "../views/modules/UserAbout.vue";
 import BusinessAbout from "../views/modules/BusinessAbout.vue";
 import Cart from "../views/modules/Cart.vue";
+import BusinessRestaurants from "../views/modules/BusinessRestaurants.vue";
 import AddRestaurant from "../views/modules/AddRestaurant.vue";
+import AddItem from "../views/modules/AddItem.vue";
 import RestaurantAdmin from "../views/modules/RestaurantAdmin.vue";
 import Item from "../views/modules/Item.vue";
+
+import Orders from "../views/modules/Orders.vue";
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,14 +49,29 @@ const router = createRouter({
 			component: User,
 			children: [
 				{
-					path: "/user/favorites",
+					path: "favorites",
 					name: "userFavorites",
 					component: Favorites,
 				},
 				{
-					path: "/user/about",
+					path: "orders",
+					name: "userOrders",
+					component: Orders,
+				},
+				{
+					path: "about",
 					name: "UserAbout",
 					component: UserAbout,
+				},
+				{
+					path: "restaurants",
+					name: "BusinessRestaurants",
+					component: BusinessRestaurants,
+				},
+				{
+					path: "addRestaurant",
+					name: "addRestaurant",
+					component: AddRestaurant,
 				},
 			],
 		},
@@ -61,11 +80,6 @@ const router = createRouter({
 			name: "business",
 			component: Business,
 			children: [
-				{
-					path: "/business/addRestaurant",
-					name: "addRestaurant",
-					component: AddRestaurant,
-				},
 				{
 					path: "/business/about",
 					name: "BusinessAbout",
@@ -90,6 +104,11 @@ const router = createRouter({
 			component: Restaurant,
 			children: [
 				{
+					path: "/restaurant/:restaurantSlug/:itemSlug",
+					name: "RestaurantItem",
+					component: Item,
+				},
+				{
 					path: "/restaurant/:restaurantSlug",
 					name: "Items",
 					component: Items,
@@ -108,9 +127,10 @@ const router = createRouter({
 					meta: { transition: "slide-to-right" },
 				},
 				{
-					path: "/restaurant/:restaurantSlug/:itemSlug",
-					name: "RestaurantItem",
-					component: Item,
+					path: "/restaurant/:restaurantSlug/AddItem",
+					name: "AddItem",
+					component: AddItem,
+					meta: { transition: "slide-to-right" },
 				},
 			],
 		},
