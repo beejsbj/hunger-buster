@@ -1,11 +1,12 @@
 <script setup>
-import { useShopStore } from "../stores/shop";
-import { useUserStore } from "../stores/user";
+	import { useShopStore } from "../stores/shop";
+	import { useUserStore } from "../stores/user";
 
 	const route = useRoute();
 	const shop = useShopStore();
 	const user = useUserStore();
-	const props = defineProps(["restaurant", "cartSize"]);
+	const props = defineProps(["restaurant", "cartCount"]);
+	const showInfo = ref(false);
 </script>
 
 
@@ -13,38 +14,61 @@ import { useUserStore } from "../stores/user";
 	<restaurant-banner>
 		<text-content>
 			<h2 class="loud-voice">
-				{{ props.restaurant.name }}
+				{{ restaurant.name }}
 			</h2>
-			<h3 class="firm-voice">
-				{{ "$".repeat(props.restaurant.priceLevel) }}
-			</h3>
+			<p>
+				★
+				<span v-if="restaurant.ratings">{{ restaurant.ratings }}</span>
+				(<span v-if="restaurant.reviews">{{ restaurant.reviews }}</span
+				>+ reviews) · {{ "$".repeat(restaurant.priceLevel) }} ·
+				<button
+					class="text"
+					@click="showInfo = !showInfo"
+				>
+					More Info
+				</button>
+			</p>
+
+			<!-- #TODO move to a modal component "more info" -->
+
+			<Teleport to="body">
+				<RestaurantInfo
+					:restaurant="restaurant"
+					:show="showInfo"
+					@toggle="showInfo = !showInfo"
+				/>
+			</Teleport>
 		</text-content>
 		<picture>
 			<img
 				:src="
-					props.restaurant.image ??
-					'https://peprojects.dev/images/square.jpg'
+					restaurant.image ?? 'https://peprojects.dev/images/square.jpg'
 				"
 				alt="https://peprojects.dev/images/square.jpg"
 			/>
 		</picture>
 		<nav class="restaurant-menu">
-			<RouterLink :to="'/restaurant/' + props.restaurant.slug"
-				>Items</RouterLink
-			>
+			<RouterLink :to="'/restaurant/' + restaurant.id">Items</RouterLink>
 			<RouterLink
-				:to="'/restaurant/' + props.restaurant.slug + '/cart'"
+				:to="'/restaurant/' + restaurant.id + '/cart'"
 				class="cart"
 			>
 				Cart
-				<span :class="{ cartCount: cartSize }">
+				<span :class="{ cartCount: cartCount }">
 					<span>
-						{{ cartSize }}
+						{{ cartCount }}
 					</span>
 				</span>
 			</RouterLink>
-			<RouterLink v-if="user.isAdmin" :to="'/restaurant/' + props.restaurant.slug + '/admin'"
+			<RouterLink
+				v-if="user.isAdmin"
+				:to="'/restaurant/' + restaurant.id + '/admin'"
 				>Administator</RouterLink
+			>
+			<RouterLink
+				v-if="user.isBusiness && user.current.uid == restaurant.owner"
+				:to="'/restaurant/' + restaurant.id + '/addItem'"
+				>Business Admin</RouterLink
 			>
 		</nav>
 	</restaurant-banner>
