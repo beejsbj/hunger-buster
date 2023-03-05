@@ -76,12 +76,32 @@ export const useShopStore = defineStore("shop", () => {
 	const cart = useCollection(cartRef);
 
 	//cart total
-	const cartTotal = computed(function () {
-		return cart?.value
-			.reduce(function (total, item) {
-				return total + item.price;
-			}, 0)
-			.toFixed(2);
+	const cartTotal = computed(() => {
+		let total = 0;
+
+		if (!cart.value || !cart.value.length) {
+			return total.toFixed(2);
+		}
+
+		cart.value.forEach((item) => {
+			let itemTotal = item.price;
+
+			item.options.forEach((option) => {
+				const optionTotal = option.choices.reduce((acc, choice) => {
+					if (choice.selected) {
+						acc += parseInt(choice.price);
+					}
+					return acc;
+				}, 0);
+
+				itemTotal += optionTotal;
+			});
+
+			item.totalPrice = itemTotal;
+			total += itemTotal;
+		});
+
+		return total.toFixed(2);
 	});
 
 	//cart count
@@ -114,6 +134,50 @@ export const useShopStore = defineStore("shop", () => {
 		await setDoc(doc(db, "restaurants", record.id), record);
 
 		ui.notify(`${record.name} Added Restaurant to store!`);
+
+		router.push({
+			path: `/restaurant/${record.id}`,
+		});
+	}
+
+	//delete restaurant
+	async function deleteRestaurant(restaurant) {
+		await deleteDoc(doc(db, "restaurants", restaurant.id));
+		ui.notify(`${restaurant.name} Deleted`);
+	}
+
+	//add item
+	async function addItem(form) {
+		const record = {
+			name: form.name,
+			image: form.image,
+			price: form.price,
+			description: form.description,
+			options: form.options,
+			categories: form.categories,
+
+			id: slug(form.name),
+			slug: restaurant.value.id + "/" + slug(form.name),
+			belongsTo: restaurant.value.id,
+		};
+
+		await setDoc(
+			doc(db, "restaurants", restaurant.value.id, "menuItems", record.id),
+			record
+		);
+
+		ui.notify(`${record.name} Added Item to store!`);
+
+		router.push({
+			path: `/restaurant/${record.slug}`,
+		});
+	}
+
+	async function deleteItem(item) {
+		await deleteDoc(
+			doc(db, "restaurants", restaurant.value.id, "menuItems", item.id)
+		);
+		ui.notify(`${item.name} Deleted`);
 	}
 
 	// add to cart
@@ -243,6 +307,9 @@ export const useShopStore = defineStore("shop", () => {
 		cartCount,
 
 		addRestaurant,
+		deleteRestaurant,
+		addItem,
+		deleteItem,
 
 		add,
 		remove,
