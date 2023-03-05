@@ -43,7 +43,7 @@
 						</span>
 					</label>
 					<input
-						v-if="option.required"
+						v-if="!option.multiSelect"
 						:name="option.name"
 						type="radio"
 						:value="true"
@@ -52,7 +52,7 @@
 						required
 					/>
 					<input
-						v-if="!option.required"
+						v-if="option.multiSelect"
 						type="checkbox"
 						v-model="choice.selected"
 					/>
