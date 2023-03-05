@@ -1,25 +1,62 @@
 <script setup>
 	///////////////////////////////////////////
 	const shop = useShopStore();
+	const route = useRoute();
+
+	const user = useUserStore();
 
 	//
 </script>
 
 <template>
 	<article v-if="shop.restaurant">
+		<RestaurantBanner :restaurant="shop.restaurant" />
 		<header class="restaurant">
-			<RestaurantBanner
-				:restaurant="shop.restaurant"
-				:cartCount="shop.cartCount"
-			/>
+			<nav class="restaurant-menu">
+				<RouterLink :to="'/restaurant/' + shop.restaurant.id">
+					Items
+				</RouterLink>
+				<RouterLink
+					:to="'/restaurant/' + shop.restaurant.id + '/cart'"
+					class="cart"
+				>
+					Cart
+					<span :class="{ cartCount: shop.cartCount }">
+						<span>
+							{{ shop.cartCount }}
+						</span>
+					</span>
+				</RouterLink>
+				<RouterLink
+					v-if="user.isBusinessOwner"
+					class="business"
+					:to="'/restaurant/' + shop.restaurant.id + '/addItem'"
+					>Add Item</RouterLink
+				>
+				<!-- <RouterLink
+				v-if="user.isBusinessOwner"
+				:to="'/restaurant/' + shop.restaurant.id + '/addItem'"
+				>#todo Edit Categories</RouterLink 
+			> -->
+				<RouterLink
+					v-if="user.isAdmin || user.isBusinessOwner"
+					class="business"
+					:to="'/restaurant/' + shop.restaurant.id + '/admin'"
+					>Administator</RouterLink
+				>
+			</nav>
 		</header>
 		<sub-view>
 			<RouterView
 				:restaurant="shop.restaurant"
 				:cart="shop.cart"
+			/>
+			<!-- <RouterView
+				:restaurant="shop.restaurant"
+				:cart="shop.cart"
 				v-slot="{ Component, route }"
 			>
-				<!-- route.meta.transition -->
+				#todo add transition
 				<Transition
 					mode="out-in"
 					appear
@@ -30,7 +67,7 @@
 						:key="route.name"
 					/>
 				</Transition>
-			</RouterView>
+			</RouterView> -->
 		</sub-view>
 	</article>
 </template>
@@ -45,6 +82,41 @@
 		// border: 3px solid blue;
 		// overflow-x: hidden;
 		// width: 100%;
+	}
+	header {
+		nav {
+			align-content: start;
+			a {
+				&.cart {
+					position: relative;
+
+					span {
+						display: none;
+					}
+
+					.cartCount {
+						display: initial;
+						/*	vertical-align: super;*/
+						background: yellow;
+						color: black;
+						position: absolute;
+						top: -10px;
+						right: -5px;
+						padding: 10px;
+						border-radius: 50%;
+
+						span {
+							font-size: 0.9em;
+							display: initial;
+							position: absolute;
+							top: 50%;
+							left: 50%;
+							transform: translate(-50%, -50%);
+						}
+					}
+				}
+			}
+		}
 	}
 
 	.slide-to-left-enter-active,
