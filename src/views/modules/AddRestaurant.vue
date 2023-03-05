@@ -1,6 +1,6 @@
 
 <script setup>
-	import { useShopStore } from "../../stores/shop";
+	import { useShopStore } from "@/stores/shop";
 	const shop = useShopStore();
 
 	const restaurantForm = reactive({

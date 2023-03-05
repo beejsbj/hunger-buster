@@ -9,7 +9,6 @@ button {
 .button {
 	background-color: var(--highlight);
 	color: var(--paper);
-	border: solid 2px black;
 	font: inherit;
 	padding: 5px;
 	text-align: center;
@@ -19,6 +18,7 @@ button {
 input-field {
 	display: grid;
 	gap: 10px;
+	padding: 10px 0;
 }
 
 button.favorite {
@@ -51,4 +51,14 @@ input {
 form {
 	display: grid;
 	gap: 20px;
+}
+
+.buttons {
+	display: flex;
+	gap: 10px;
+}
+
+.button.danger {
+	--highlight: red;
+
 }

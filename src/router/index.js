@@ -16,9 +16,9 @@ import BusinessAbout from "../views/modules/BusinessAbout.vue";
 import Cart from "../views/modules/Cart.vue";
 import BusinessRestaurants from "../views/modules/BusinessRestaurants.vue";
 import AddRestaurant from "../views/modules/AddRestaurant.vue";
-import AddItem from "../views/modules/AddItem.vue";
+import AddItem from "../views/subviews/AddItem/AddItem.vue";
 import RestaurantAdmin from "../views/modules/RestaurantAdmin.vue";
-import Item from "../views/modules/Item.vue";
+import Item from "../views/pages/Item.vue";
 
 import Orders from "../views/modules/Orders.vue";
 

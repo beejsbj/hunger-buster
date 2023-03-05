@@ -1,7 +1,7 @@
 <script setup>
 	import { RouterLink, RouterView, useRoute } from "vue-router";
-	import { useUserStore } from "./stores/user.js";
-	import { useInterfaceStore } from "./stores/interface.js";
+	import { useUserStore } from "@/stores/user.js";
+	import { useInterfaceStore } from "@/stores/interface.js";
 	const route = useRoute();
 	const user = useUserStore();
 	const shop = useShopStore();

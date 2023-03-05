@@ -11,7 +11,8 @@
 				<RouterLink to="/user/about">About</RouterLink>
 				<RouterLink to="/user/favorites">Favorties</RouterLink>
 				<RouterLink to="/user/orders">Orders</RouterLink>
-				<template v-if="user.isBusiness">
+
+				<template v-if="user.isBusinessOwner">
 					<RouterLink
 						class="business"
 						to="/user/restaurants"

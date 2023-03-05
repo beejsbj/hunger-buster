@@ -1,5 +1,5 @@
 <script setup>
-	defineProps([" code"]);
+	defineProps(["code"]);
 </script>
 
 <template>

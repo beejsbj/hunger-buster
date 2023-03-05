@@ -1,6 +1,6 @@
 <script setup>
 	import { reactive } from "vue";
-	import { useShopStore } from "../stores/shop.js";
+	import { useShopStore } from "@/stores/shop.js";
 	import { useRouter } from "vue-router";
 
 	const router = useRouter();

@@ -61,6 +61,11 @@
 											v-if="choice.selected"
 										>
 											- {{ choice.name }}
+											<span
+												class="choice-price"
+												v-if="choice.price"
+												>{{ choice.price }}</span
+											>
 										</li>
 									</template>
 								</ul>
@@ -74,7 +79,7 @@
 							{{ item.note }}
 						</p>
 					</td>
-					<td>${{ item.totalPrice ?? item.price }}</td>
+					<td>${{ item.price.toFixed(2) }}</td>
 					<td class="quantity">
 						<button
 							class="button"
@@ -90,8 +95,9 @@
 							+
 						</button>
 					</td>
-					<td class="total">${{ item.price }}</td>
-					<!-- <td class="total">${{ item.price * item.quantity }}</td> -->
+					<td class="total">
+						${{ item.totalPrice.toFixed(2) ?? item.price.toFixed(2) }}
+					</td>
 					<td>
 						<!-- <button @click="item.show = !item.show">MORE</button> -->
 						<button
@@ -160,5 +166,9 @@
 	.quantity,
 	.total {
 		justify-self: center;
+	}
+
+	span.choice-price {
+		color: var(--highlight);
 	}
 </style>

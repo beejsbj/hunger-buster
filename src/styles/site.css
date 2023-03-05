@@ -50,7 +50,7 @@ a.router-link-exact-active {
 	color: black;
 }
 a.business {
-	--highlight: brown
+	--highlight: brown;
 	background-color: var(--highlight);
 	color: var(--paper);
 }

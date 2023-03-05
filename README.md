@@ -14,13 +14,13 @@
    -  [ ] Past orders
    -  [ ] Edit profile info
 
--  [ ] Admin role for me
+-  [x] Admin role for me
    -  [ ] Delete restaurants and items
 
--  [ ] buisness roles for users
+-  [x] buisness roles for users
 -  [ ] buisness signup and login
-   -  [ ] create restaurant
-      -  [ ] add and delete items
+   -  [x] create restaurant
+      -  [x] add and delete items
       -  [ ] edit items, categories and restaurant data
 
 -  [ ] Edit Cart Item
