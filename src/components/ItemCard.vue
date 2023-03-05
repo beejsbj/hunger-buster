@@ -1,6 +1,14 @@
 
 <script setup>
+	import { useRouter } from "vue-router";
+	const router = useRouter();
 	const props = defineProps(["item"]);
+
+	function redirect() {
+		router.push({
+			path: "/restaurant/" + props.item.slug,
+		});
+	}
 </script>
 
 <template>
@@ -12,27 +20,30 @@
 			/>
 		</picture>
 		<h4 class="solid-voice">{{ item.name }}</h4>
+		<p>${{ item.price }}</p>
 
-		<div>
-			<p>${{ item.price }}</p>
-
+		<div class="buttons">
 			<button
 				class="button"
 				@click="item.show = !item.show"
 			>
-				Add
+				Quick Add
+			</button>
+			<button
+				class="button"
+				@click="redirect()"
+			>
+				Detail page
 			</button>
 		</div>
 	</item-card>
-	<Item :item="item" />
+	<ItemModal :item="item" />
 </template>
 
 <style scoped>
 	item-card div {
 		display: flex;
 		justify-content: space-between;
-		align-items: center;
-		padding: 5px 0;
 	}
 
 	item-card {
