@@ -22,9 +22,10 @@ export const useUserStore = defineStore("user", () => {
 	const ui = useInterfaceStore();
 	const router = useRouter();
 
-	///////////////////////////////////////////////////////
 	const auth = getAuth();
 	const current = useCurrentUser();
+	const shop = useShopStore();
+	///////////////////////////////////////////////////////
 
 	const userRef = computed(function () {
 		if (current.value?.uid) {
@@ -39,12 +40,16 @@ export const useUserStore = defineStore("user", () => {
 	const id = computed(() => userDoc.value?.id);
 
 	const isAdmin = computed(() => userDoc.value?.roles.admin);
-	const isBusiness = computed(() => userDoc.value?.roles.business);
+	const isBusinessOwner = computed(
+		() =>
+			userDoc.value?.roles.business &&
+			current.value.uid == shop.restaurant.owner
+	);
 
 	const profile = computed(() => userDoc.value?.profile);
 
 	const restaurantsQuery = computed(() => {
-		if (isBusiness.value && current.value?.uid) {
+		if (isBusinessOwner.value) {
 			console.log(current.value?.uid);
 
 			return query(
@@ -82,6 +87,17 @@ export const useUserStore = defineStore("user", () => {
 		} else {
 			profile.value.favoriteItems.push(item);
 			ui.notify(`${item.name} saved to favorites`);
+		}
+	}
+
+	function isItemFavorite(item) {
+		const found = profile.value.favoriteItems.find(function (favorite) {
+			return favorite.id == item.id;
+		});
+		if (found) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
@@ -152,12 +168,14 @@ export const useUserStore = defineStore("user", () => {
 		restaurants,
 		favoriteRestaurant,
 		favoriteItem,
+		isItemFavorite,
+
 		signUp,
 		login,
 		logout,
 
 		isAdmin,
-		isBusiness,
+		isBusinessOwner,
 		profile,
 		id,
 		email,
