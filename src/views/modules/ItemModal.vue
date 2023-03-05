@@ -1,21 +1,18 @@
 <script setup>
 	const user = useUserStore();
-
-	const route = useRoute();
-	const router = useRouter();
 	const shop = useShopStore();
-	const cart = useCartsStore();
-
 	const props = defineProps(["item"]);
-	const found = computed(() =>
-		user.profile?.favoriteItems?.find(function (favorite) {
+
+	const isFavorite = computed(() => {
+		const found = user.profile?.favoriteItems?.find(function (favorite) {
 			return favorite.id == props.item.id;
-		})
-	);
+		});
 
-	// console.log(item);
-
-	const note = ref("");
+		if (found) {
+			return true;
+		}
+		return false;
+	});
 </script>
 
 <template>
@@ -32,7 +29,7 @@
 					<button
 						class="button"
 						@click="user.favoriteItem(item)"
-						:class="{ favorite: found ? true : false }"
+						:class="{ favorite: isFavorite }"
 					>
 						♡
 					</button>
