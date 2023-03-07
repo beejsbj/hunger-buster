@@ -1,42 +1,16 @@
 
 <script setup>
+	import { useStorage } from "@vueuse/core";
 	const shop = useShopStore();
-
-	const itemForm = reactive({
+	const tag = ref("");
+	const itemForm = useStorage("itemForm", {
 		name: "",
 		image: "",
 		price: 0,
 		description: "",
-
 		options: [],
 		categories: [],
-
-		categoryCount: 1,
 	});
-
-	function add(itemForm) {
-		let record = {
-			name: itemForm.name,
-			image: itemForm.image,
-			price: itemForm.price,
-			description: itemForm.description,
-
-			options: itemForm.options,
-			categories: itemForm.categories,
-		};
-
-		shop.addItem(record);
-
-		resetForm();
-	}
-
-	function resetForm() {
-		itemForm.name = "";
-		itemForm.image = "";
-		itemForm.price = 0;
-		itemForm.options = [];
-		itemForm.categories = [];
-	}
 </script>
 
 <template>
@@ -118,8 +92,7 @@
 
 		<button class="button">Finish adding item</button>
 		<!--  -->
-		<ShowCode :code="itemForm" />
-	</form>
+		<ShowCode :code="itemForm" />	</form>
 </template>
 
 <style scoped>
