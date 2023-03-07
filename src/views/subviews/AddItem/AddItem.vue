@@ -1,5 +1,6 @@
 
 <script setup>
+	import Multiselect from "@vueform/multiselect";
 	import { useStorage } from "@vueuse/core";
 	const shop = useShopStore();
 	const tag = ref("");
@@ -14,10 +15,10 @@
 </script>
 
 <template>
-	<form @submit.prevent="add(itemForm)">
+	<form @submit.prevent="shop.addItem(itemForm)">
 		<h1 class="attention-voice">Add an Item</h1>
 		<input-field>
-			<label for="name"> Enter restaurant's name. </label>
+			<label for="name"> Enter Item's name. </label>
 			<input
 				type="text"
 				v-model="itemForm.name"
@@ -28,7 +29,7 @@
 		</input-field>
 
 		<input-field>
-			<label for="image"> Enter restaurant's image URL. </label>
+			<label for="image"> Enter Item's image URL. </label>
 			<input
 				type="text"
 				v-model="itemForm.image"
@@ -39,7 +40,7 @@
 		</input-field>
 
 		<input-field>
-			<label for="price"> Enter restaurant's price. </label>
+			<label for="price"> Enter Item's price. </label>
 			<input
 				type="number"
 				v-model.number="itemForm.price"
@@ -52,7 +53,7 @@
 		</input-field>
 
 		<input-field>
-			<label for="description"> Enter restaurant's description. </label>
+			<label for="description"> Enter Item's description. </label>
 			<textarea
 				v-model="itemForm.description"
 				id="description"
@@ -62,37 +63,23 @@
 		</input-field>
 
 		<category-field>
-			<div>
-				<label for="categories"> Enter restaurant's categories. </label>
-				<button
-					class="button"
-					@click.prevent="itemForm.categoryCount++"
-				>
-					Add Category
-				</button>
-			</div>
-			<ul>
-				<li
-					v-for="index in itemForm.categoryCount"
-					:key="index"
-				>
-					<input-field>
-						<input
-							type="text"
-							v-model="itemForm.categories[index - 1]"
-							id="categories"
-							placeholder="Categories"
-						/>
-					</input-field>
-				</li>
-			</ul>
+			<Multiselect
+				v-model="itemForm.categories"
+				mode="tags"
+				:close-on-select="false"
+				:searchable="true"
+				:create-option="true"
+				:options="shop.restaurant.categories"
+				:on-create="shop.addCategory"
+			/>
 		</category-field>
 
 		<AddItemOption :itemForm="itemForm" />
 
 		<button class="button">Finish adding item</button>
 		<!--  -->
-		<ShowCode :code="itemForm" />	</form>
+		<ShowCode :code="itemForm" />
+	</form>
 </template>
 
 <style scoped>
@@ -119,23 +106,4 @@
 	choice-field {
 		border: 2px dashed blue;
 	}
-
-	/* input-field {
-																																										position: relative;
-																																									}
-																																									input-field label {
-																																										width: 100%;
-																																										font-size: 1.3rem;
-																																										transition: 0.3s ease-in-out;
-
-																																										position: absolute;
-																																										top: 50%;
-																																										left: 50%;
-																																										transform: translate(-45%, -50%);
-																																									}
-
-																																									input-field input:focus + label {
-																																										transform: translate(-50%, -260%);
-																																										font-size: 1rem;
-																																									} */
 </style>
