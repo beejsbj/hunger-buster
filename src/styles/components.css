@@ -44,7 +44,7 @@ button.text {
 	border: none;
 }
 
-input {
+input, textarea {
 	padding: 15px;
 }
 
@@ -61,4 +61,15 @@ form {
 .button.danger {
 	--highlight: red;
 
+}
+
+input-field {
+	display: grid;
+}
+input-field label {
+	order: 1;
+}
+input-field :is(input,
+textarea) {
+	order: 2;
 }
