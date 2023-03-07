@@ -1,8 +1,10 @@
 
 <script setup>
+	import { useStorage } from "@vueuse/core";
+
 	const props = defineProps(["itemForm"]);
 
-	const option = reactive({
+	const option = useStorage("addItemOptionForm", {
 		name: "",
 		choices: [],
 		required: false,
@@ -11,16 +13,18 @@
 
 	function addOption() {
 		let record = {
-			name: option.name,
-			choices: option.choices,
-			required: option.required,
-			multiSelect: option.multiSelect,
+			name: option.value.name,
+			choices: option.value.choices,
+			required: option.value.required,
+			multiSelect: option.value.multiSelect,
 		};
 
 		props.itemForm.options.push(record);
 
-		option.name = "";
-		option.choices = [];
+		option.value.name = "";
+		option.value.choices = [];
+		option.value.required = false;
+		option.value.multiSelect = false;
 	}
 
 	//to refocus
@@ -91,3 +95,4 @@
 		align-items: flex-end;
 	}
 </style>
+<style src="@vueform/multiselect/themes/default.css"></style>
