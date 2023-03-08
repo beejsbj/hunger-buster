@@ -1,14 +1,13 @@
 import { defineStore } from "pinia";
-import { v4 as uuid } from "uuid";
 import { useCollection } from "vuefire";
 import slug from "slug";
 import {
 	collection,
-	query,
-	where,
 	doc,
 	deleteDoc,
 	addDoc,
+	updateDoc,
+	arrayUnion,
 } from "firebase/firestore";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "./user";
@@ -25,7 +24,7 @@ export const useShopStore = defineStore("shop", () => {
 	const user = useUserStore();
 	const ui = useInterfaceStore();
 
-	///////////////////////////////////////////////////
+	/////////////////////////////////////////////////////
 
 	//restaurants
 	const restaurants = useCollection(collection(db, "restaurants"));
@@ -68,11 +67,12 @@ export const useShopStore = defineStore("shop", () => {
 				"users",
 				user?.id,
 				"carts",
-				`cart_${restaurant?.value.id}`,
+				restaurant?.value.id,
 				"items"
 			);
 		}
 	});
+
 	const cart = useCollection(cartRef);
 
 	//cart total
@@ -85,6 +85,12 @@ export const useShopStore = defineStore("shop", () => {
 
 		cart.value.forEach((item) => {
 			let itemTotal = item.price;
+
+			if (!item.options) {
+				item.totalPrice = itemTotal;
+				total += itemTotal;
+				return;
+			}
 
 			item.options.forEach((option) => {
 				const optionTotal = option.choices.reduce((acc, choice) => {
@@ -129,21 +135,29 @@ export const useShopStore = defineStore("shop", () => {
 			notes: form.notes,
 		};
 		record.id = await idSlugger(slug(form.name));
-		console.log(record.id);
 
 		await setDoc(doc(db, "restaurants", record.id), record);
+
+		await updateDoc(doc(db, "users", user.id), {
+			restaurantsOwned: arrayUnion(record.id),
+		});
 
 		ui.notify(`${record.name} Added Restaurant to store!`);
 
 		router.push({
 			path: `/restaurant/${record.id}`,
 		});
+		localStorage.setItem("restaurantForm", JSON.stringify({}));
 	}
 
 	//delete restaurant
 	async function deleteRestaurant(restaurant) {
 		await deleteDoc(doc(db, "restaurants", restaurant.id));
 		ui.notify(`${restaurant.name} Deleted`);
+
+		router.push({
+			path: `/restaurants`,
+		});
 	}
 
 	//add item
@@ -161,6 +175,31 @@ export const useShopStore = defineStore("shop", () => {
 			belongsTo: restaurant.value.id,
 		};
 
+		console.log(record);
+
+		// if (form.categories) {
+		// 	const newCategories = form.categories.map((category) => {
+		// 		const found = restaurant.value.categories.find(
+		// 			(cat) => cat.value === category
+		// 		);
+		// 		if (found) {
+		// 			return { ...found };
+		// 		} else {
+		// 			return {
+		// 				value: slug(category),
+		// 				label: category,
+		// 			};
+		// 		}
+		// 	});
+
+		// 	console.log(newCategories);
+		// 	record.categories = newCategories;
+		// }
+
+		// await updateDoc(doc(db, "restaurants", restaurant.value.id), {
+		// 	categories: record.categories,
+		// });
+
 		await setDoc(
 			doc(db, "restaurants", restaurant.value.id, "menuItems", record.id),
 			record
@@ -168,9 +207,25 @@ export const useShopStore = defineStore("shop", () => {
 
 		ui.notify(`${record.name} Added Item to store!`);
 
+		localStorage.setItem(
+			`${restaurant.value.id}-itemForm`,
+			JSON.stringify({})
+		);
+
 		router.push({
 			path: `/restaurant/${record.slug}`,
 		});
+	}
+
+	async function addCategory(option, select$) {
+		console.log("addCategory", option, select$);
+
+		option.value = slug(option.label);
+
+		await updateDoc(doc(db, "restaurants", restaurant.value.id), {
+			categories: arrayUnion(option),
+		});
+		return option;
 	}
 
 	async function deleteItem(item) {
@@ -193,14 +248,7 @@ export const useShopStore = defineStore("shop", () => {
 
 		//add item to items collection within cart doc
 		await addDoc(
-			collection(
-				db,
-				"users",
-				user?.id,
-				"carts",
-				`cart_${item.belongsTo}`,
-				"items"
-			),
+			collection(db, "users", user?.id, "carts", item.belongsTo, "items"),
 			item
 		);
 
@@ -310,6 +358,7 @@ export const useShopStore = defineStore("shop", () => {
 		deleteRestaurant,
 		addItem,
 		deleteItem,
+		addCategory,
 
 		add,
 		remove,
