@@ -16,7 +16,7 @@
 
 <template>
 	<article>
-		<h1 class="loud-voice">Restaurants</h1>
+		<h1 class="attention-voice">Restaurants</h1>
 		<input-field>
 			<input
 				class="search"
