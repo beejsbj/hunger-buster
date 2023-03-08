@@ -1,7 +1,6 @@
 
 <script setup>
 	const shop = useShopStore();
-	const user = useUserStore();
 </script>
 
 
@@ -18,7 +17,7 @@
 	<!-- delete restaurant button -->
 	<button
 		class="button danger"
-		@click="shop.deleteRestaurant()"
+		@click="shop.deleteRestaurant(shop.restaurant)"
 	>
 		Delete Restaurant
 	</button>
