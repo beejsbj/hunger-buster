@@ -4,13 +4,6 @@
 </script>
 
 <template>
-	<section>
-		<Login
-			:user="user"
-			v-if="!user.current"
-		/>
-
-		<Profile v-if="user.current" />
-	</section>
+	<Profile v-if="user.current" />
 </template>
 <style scoped></style>
