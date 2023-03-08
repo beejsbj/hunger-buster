@@ -19,16 +19,19 @@
 <template>
 	<category-filter>
 		<ul>
-			<template v-for="category in categories" :key="category.id">
+			<template
+				v-for="category in categories"
+				:key="category.value"
+			>
 				<li>
 					<input-field>
 						<input
-							:id="category.id"
-							:value="category.id"
+							:id="category.value"
+							:value="category.value"
 							type="checkbox"
 							@change="$emit('update:checked', emitChecked(category))"
 						/>
-						<label :for="category.id"> {{ category.name }}</label>
+						<label :for="category.value"> {{ category.label }}</label>
 					</input-field>
 				</li>
 			</template>
