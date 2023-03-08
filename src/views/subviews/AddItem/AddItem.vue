@@ -1,16 +1,28 @@
 
 <script setup>
-	import Multiselect from "@vueform/multiselect";
 	import { useStorage } from "@vueuse/core";
 	const shop = useShopStore();
-	const tag = ref("");
-	const itemForm = useStorage("itemForm", {
+
+	const itemForm = useStorage(`${shop.restaurant.id}-itemForm`, {
 		name: "",
 		image: "",
 		price: 0,
 		description: "",
-		options: [],
 		categories: [],
+		options: [
+			{
+				name: "",
+				required: false,
+				multiSelect: false,
+				choices: [
+					{
+						name: "",
+						price: 0,
+						selected: false,
+					},
+				],
+			},
+		],
 	});
 </script>
 
@@ -62,17 +74,7 @@
 			/>
 		</input-field>
 
-		<category-field>
-			<Multiselect
-				v-model="itemForm.categories"
-				mode="tags"
-				:close-on-select="false"
-				:searchable="true"
-				:create-option="true"
-				:options="shop.restaurant.categories"
-				:on-create="shop.addCategory"
-			/>
-		</category-field>
+		<AddItemCategory :itemForm="itemForm" />
 
 		<AddItemOption :itemForm="itemForm" />
 
@@ -83,6 +85,11 @@
 </template>
 
 <style scoped>
+	form {
+		display: grid;
+		justify-content: center;
+	}
+
 	category-field {
 		background-color: hsla(120, 100%, 85%, 1);
 		display: grid;
