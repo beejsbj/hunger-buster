@@ -1,9 +1,11 @@
 
 <script setup>
+	import { useStorage } from "@vueuse/core";
+
 	import { useShopStore } from "@/stores/shop";
 	const shop = useShopStore();
 
-	const restaurantForm = reactive({
+	const restaurantForm = useStorage("restaurantForm", {
 		name: "",
 		image: "",
 		phone: "",
@@ -131,3 +133,6 @@
 		<button class="button">Add restaurant</button>
 	</form>
 </template>
+
+<style lang="scss" scoped>
+</style>
