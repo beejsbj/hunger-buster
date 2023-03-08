@@ -1,4 +1,52 @@
 
 form {
-	
+	display: grid;
+	gap: 20px;
+}
+
+input-field {
+	display: grid;
+	gap: 10px;
+	padding: 10px 0;
+}
+input-field .filter {
+	padding: 15px;
+}
+
+input-field .filter:focus {
+	outline: none;
+}
+input, textarea {
+	padding: 15px;
+}
+
+input-field {
+	display: grid;
+}
+input-field input[text] + label {
+	order: 1;
+}
+input-field :is(input[text],
+textarea) {
+	order: 2;
+}
+
+
+/* login form */
+login-form {
+	display: grid;
+	gap: 30px;
+	justify-content: center;
+	margin-top: 80px;
+}
+login-form form {
+	width: 100%;
+	max-width: 500px;
+	margin: 0 auto;
+	/* dim background color */
+	background-color: rgba(0, 0, 0, 0.1);
+	padding: 20px;
+}
+login-form button {
+	justify-self: start;
 }
