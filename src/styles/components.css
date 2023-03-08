@@ -15,23 +15,13 @@ button {
 	
 }
 
-input-field {
-	display: grid;
-	gap: 10px;
-	padding: 10px 0;
-}
+
 
 button.favorite {
 	background: salmon;
 }
 
-input-field .filter {
-	padding: 15px;
-}
 
-input-field .filter:focus {
-	outline: none;
-}
 .button.outline {
 	background-color: initial;
 	color: var(--highlight);
@@ -44,15 +34,6 @@ button.text {
 	border: none;
 }
 
-input, textarea {
-	padding: 15px;
-}
-
-form {
-	display: grid;
-	gap: 20px;
-}
-
 .buttons {
 	display: flex;
 	gap: 10px;
@@ -63,13 +44,15 @@ form {
 
 }
 
-input-field {
-	display: grid;
-}
-input-field label {
-	order: 1;
-}
-input-field :is(input,
-textarea) {
-	order: 2;
+
+
+
+nav::after {
+	--left: 0;
+	--width: 0;
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: var(--left) px;
+	width: var(--width) px;
 }
