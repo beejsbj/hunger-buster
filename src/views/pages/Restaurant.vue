@@ -1,18 +1,32 @@
 <script setup>
+	import { nextTick, onMounted } from "vue";
+
 	///////////////////////////////////////////
 	const shop = useShopStore();
 	const route = useRoute();
 
 	const user = useUserStore();
+	const ui = useInterfaceStore();
 
 	//
+	const navRef = ref(null);
+
+	watch(navRef, (newVal) => {
+		ui.navUnderline({
+			target: newVal.querySelector("a.router-link-active"),
+		});
+	});
 </script>
 
 <template>
 	<article v-if="shop.restaurant">
 		<RestaurantBanner :restaurant="shop.restaurant" />
 		<header class="restaurant">
-			<nav class="restaurant-menu">
+			<nav
+				class="restaurant-menu"
+				@click="ui.navUnderline($event)"
+				ref="navRef"
+			>
 				<RouterLink :to="'/restaurant/' + shop.restaurant.id">
 					Items
 				</RouterLink>
