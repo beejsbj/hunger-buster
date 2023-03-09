@@ -6,13 +6,14 @@ import NotFound from "../views/pages/NotFound.vue";
 import About from "../views/pages/About.vue";
 import Carts from "../views/pages/Carts.vue";
 import Home from "../views/pages/Home.vue";
-import User from "../views/pages/UserProfile.vue";
-import Business from "../views/pages/Business.vue";
+import UserProfile from "../views/pages/UserProfile.vue";
+import BusinessProfile from "../views/pages/BusinessProfile.vue";
 import Restaurants from "../views/pages/Restaurants.vue";
 import Restaurant from "../views/pages/Restaurant.vue";
 ////////////////////////
 import Favorites from "../views/modules/Favorites.vue";
 import Items from "../views/modules/Items.vue";
+import CheckoutPage from "../views/pages/CheckoutPage.vue";
 import UserAbout from "../views/modules/UserAbout.vue";
 import BusinessAbout from "../views/modules/BusinessAbout.vue";
 import Cart from "../views/modules/Cart.vue";
@@ -70,7 +71,7 @@ const router = createRouter({
 		{
 			path: "/user",
 			name: "user",
-			component: User,
+			component: UserProfile,
 			meta: { requiresUserAuth: true },
 			children: [
 				{
@@ -94,16 +95,23 @@ const router = createRouter({
 					name: "userOrders",
 					component: Orders,
 				},
-
+			],
+		},
+		{
+			path: "/business",
+			name: "business",
+			component: BusinessProfile,
+			meta: { requiresBusinessAuth: true },
+			children: [
 				{
-					path: "/user/restaurants",
+					path: "/business/restaurants",
 					name: "BusinessRestaurants",
 					component: BusinessRestaurants,
 					alias: "/business",
 					meta: { requiresBusinessAuth: true },
 				},
 				{
-					path: "/user/addRestaurant",
+					path: "/business/addRestaurant",
 					name: "addRestaurant",
 					component: AddRestaurant,
 					alias: "/business/add-restaurant",
@@ -111,6 +119,7 @@ const router = createRouter({
 				},
 			],
 		},
+
 		{
 			path: "/restaurants",
 			name: "Restaurants",
@@ -120,6 +129,7 @@ const router = createRouter({
 			path: "/carts",
 			name: "carts",
 			component: Carts,
+			meta: { requiresUserAuth: true },
 		},
 		{
 			path: "/restaurant/:restaurantSlug",
@@ -144,12 +154,18 @@ const router = createRouter({
 					meta: { transition: "slide-to-right" },
 				},
 				{
+					path: "/restaurant/:restaurantSlug/checkout",
+					name: "RestaurantCheckoutPage",
+					component: CheckoutPage,
+				},
+				{
 					path: "/restaurant/:restaurantSlug/admin",
 					name: "RestaurantAdmin",
 					component: RestaurantAdmin,
 					meta: {
 						transition: "slide-to-right",
 						requiresBusinessOwnerAuth: true,
+						requiresUserAuth: true,
 					},
 				},
 				{
@@ -159,6 +175,7 @@ const router = createRouter({
 					meta: {
 						transition: "slide-to-right",
 						requiresBusinessOwnerAuth: true,
+						requiresUserAuth: true,
 					},
 				},
 			],
@@ -172,9 +189,13 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to) => {
+	const ui = useInterfaceStore();
 	const currentUser = await getCurrentUser();
+
 	if (to.meta.requiresUserAuth) {
 		if (!currentUser) {
+			ui.notify(`Please login to see ${to.fullPath} page!`);
+
 			return {
 				path: "/login",
 				query: {
@@ -183,13 +204,22 @@ router.beforeEach(async (to) => {
 			};
 		}
 	}
+
 	if (to.meta.requiresBusinessAuth) {
+		if (!currentUser) {
+			ui.notify(`Login to a business account for ${to.fullPath}`);
+			return {
+				path: "/business-login",
+				query: {
+					redirect: to.fullPath,
+				},
+			};
+		}
+
 		const userDoc = await getDoc(doc(db, "users", currentUser.uid));
-		if (
-			!currentUser ||
-			!userDoc.data().roles.business ||
-			!userDoc.data().roles.admin
-		) {
+
+		if (!userDoc.data().roles.business || !userDoc.data().roles.admin) {
+			ui.notify(`You need a business account for ${to.fullPath}`);
 			return {
 				path: "/business-login",
 				query: {
@@ -199,18 +229,29 @@ router.beforeEach(async (to) => {
 		}
 	}
 	if (to.meta.requiresBusinessOwnerAuth) {
+		if (!currentUser) {
+			ui.notify(`Login to a business account for ${to.fullPath}`);
+			return {
+				path: "/business-login",
+				query: {
+					redirect: to.fullPath,
+				},
+			};
+		}
+
 		const userDoc = await getDoc(doc(db, "users", currentUser.uid));
 		const restaurantDoc = await getDoc(
 			doc(db, "restaurants", to.params.restaurantSlug)
 		);
+
 		if (
-			!currentUser ||
-			(!userDoc.data().roles.business &&
-				restaurantDoc.data().owner !== currentUser.uid) ||
+			restaurantDoc.data().owner !== currentUser.uid ||
 			!userDoc.data().roles.admin
 		) {
+			ui.notify(`You are not the owner of ${restaurantDoc.data().name}`);
+
 			return {
-				name: "not-found",
+				name: "home",
 				query: {
 					redirect: to.fullPath,
 				},
