@@ -1,11 +1,26 @@
 <script setup>
-	import { RouterLink, RouterView, useRoute } from "vue-router";
-	import { useUserStore } from "@/stores/user.js";
-	import { useInterfaceStore } from "@/stores/interface.js";
-	const route = useRoute();
 	const user = useUserStore();
 	const shop = useShopStore();
 	const ui = useInterfaceStore();
+
+	const navRef = ref(null);
+
+	watch(navRef, async (newVal) => {
+		await nextTick();
+		console.log(newVal);
+
+		if (newVal === null) {
+			return;
+		}
+		newVal.$el.childNodes.forEach((el) => {
+			if (el.classList.contains("router-link-active")) {
+				ui.navUnderline({
+					target: el,
+				});
+			}
+		});
+	});
+	// #fixme: this is a hacky solution to the problem of the underline not being initialized on the first page load
 </script>
 
 <template>
@@ -31,6 +46,8 @@
 						'menu-open': ui.mainMenuOpen,
 						'menu-close': !ui.mainMenuOpen,
 					}"
+					@click="ui.navUnderline($event)"
+					ref="navRef"
 				>
 					<RouterLink
 						key="home"
