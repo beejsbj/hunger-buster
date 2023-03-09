@@ -18,17 +18,15 @@
 				ref="navRef"
 				@click="ui.navUnderline($event)"
 			>
-				<RouterLink to="/user/dashboard">Dashboard</RouterLink>
-				<RouterLink to="/user/about">About</RouterLink>
-				<RouterLink to="/user/favorites">Favorties</RouterLink>
-				<RouterLink to="/user/orders">Orders</RouterLink>
-				<!-- <RouterLink to="/user/reviews">Reviews</RouterLink>
-				<RouterLink to="/user/settings">Settings</RouterLink> -->
 				<RouterLink
-					v-if="user.isBusinessOwner"
 					class="business"
-					to="/business"
-					>Business</RouterLink
+					to="/business/restaurants"
+					>Your Restaurants</RouterLink
+				>
+				<RouterLink
+					class="business"
+					to="/business/addRestaurant"
+					>Add Restaurant</RouterLink
 				>
 			</nav>
 		</header>
