@@ -34,6 +34,11 @@ button.text {
 	border: none;
 }
 
+button.text:hover {
+	background-color: var(--highlight);
+	color: var(--paper);
+}
+
 .buttons {
 	display: flex;
 	gap: 10px;
@@ -44,15 +49,38 @@ button.text {
 
 }
 
+nav :has(a.business) {
+	--highlight: brown;
+}
+
+a {
+	color: var(--highlight);
+}
+a:hover {
+	filter: brightness(1.5);
+	transition: 0.2s;
+}
+
+a.business {
+	--highlight: brown;
+
+}
 
 
-
-nav::after {
+header nav {
 	--left: 0;
 	--width: 0;
+	transition: 0.2s;
+	position: relative;
+}
+header nav::after {
 	content: "";
 	position: absolute;
-	bottom: 0;
-	left: var(--left) px;
-	width: var(--width) px;
+	bottom: -10px;
+	height: 5px;
+	left: var(--left);
+	width: var(--width);
+	background-color: var(--underline-color);
+	transition: 0.2s;
 }
+

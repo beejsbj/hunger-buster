@@ -45,14 +45,9 @@ nav a {
 	padding: 10px;
 	font-family: sans-serif;
 }
-a.router-link-exact-active {
-	border-bottom: 5px solid var(--highlight);
-	color: black;
-}
-a.business {
-	--highlight: brown;
-	background-color: var(--highlight);
-	color: var(--paper);
+
+.display-contents {
+	display: contents;
 }
 
 ul.restaurant-list {
