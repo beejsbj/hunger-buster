@@ -122,7 +122,7 @@ export const useUserStore = defineStore("user", () => {
 						favoriteItems: [],
 					},
 				}).then(() => {
-					router.push("/user/profile");
+					router.push("/user");
 				});
 			})
 			.catch((error) => {
@@ -149,7 +149,7 @@ export const useUserStore = defineStore("user", () => {
 						restaurantsOwned: [],
 					},
 				}).then(() => {
-					router.push("/user/profile");
+					router.push("/user");
 				});
 			})
 			.catch((error) => {
@@ -162,7 +162,7 @@ export const useUserStore = defineStore("user", () => {
 		signInWithEmailAndPassword(auth, form.email, form.password)
 			.then((userCredential) => {
 				const user = userCredential.user;
-				router.push(route.query.redirect || "/user/profile");
+				router.push(route.query.redirect || "/user");
 			})
 			.catch((error) => {
 				console.log(error.code, error.message);
@@ -183,7 +183,7 @@ export const useUserStore = defineStore("user", () => {
 						ui.notify("Login as a user instead");
 						return;
 					} else {
-						router.push(route.query.redirect || "/user/profile");
+						router.push(route.query.redirect || "/user");
 					}
 				});
 			})
@@ -197,6 +197,7 @@ export const useUserStore = defineStore("user", () => {
 		signOut(auth)
 			.then(() => {
 				router.push({ name: "home" });
+				ui.notify("Logged out");
 			})
 			.catch((error) => {});
 	}

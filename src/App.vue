@@ -1,11 +1,6 @@
 <script setup>
-	import { RouterLink, RouterView, useRoute } from "vue-router";
-	import { useUserStore } from "@/stores/user.js";
-	import { useInterfaceStore } from "@/stores/interface.js";
+	import { RouterView, useRoute } from "vue-router";
 	const route = useRoute();
-	const user = useUserStore();
-	const shop = useShopStore();
-	const ui = useInterfaceStore();
 </script>
 
 <template>
@@ -17,7 +12,7 @@
 	>
 		<section>
 			<inner-column>
-				<RouterView v-slot="{ Component, route }">
+				<!-- <RouterView v-slot="{ Component, route }">
 					<Transition
 						mode="out-in"
 						name="fade"
@@ -27,7 +22,9 @@
 							:key="route.params.name"
 						/>
 					</Transition>
-				</RouterView>
+				</RouterView> -->
+
+				<RouterView />
 			</inner-column>
 		</section>
 	</main>

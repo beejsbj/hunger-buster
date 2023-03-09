@@ -15,9 +15,30 @@ export const useInterfaceStore = defineStore("interface", function () {
 		});
 	}
 
+	function navUnderline(event) {
+		if (event.target.matches("a")) {
+			const a = event.target;
+			const nav = a.closest("nav");
+			const left = a.offsetLeft;
+			const width = a.offsetWidth;
+
+			nav.style.setProperty("--left", left + "px");
+			nav.style.setProperty("--width", width + "px");
+
+			// check if a has business class
+			if (a.classList.contains("business")) {
+				nav.style.setProperty("--underline-color", "brown");
+			} else {
+				nav.style.setProperty("--underline-color", "var(--highlight)");
+			}
+		}
+	}
+
 	return {
 		mainMenuOpen,
 		toggleMenu,
 		notify,
+
+		navUnderline,
 	};
 });

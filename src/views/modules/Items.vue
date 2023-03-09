@@ -57,6 +57,7 @@
 		</menu-items>
 	</restaurant-detail>
 </template>
+
 <style lang="scss" scoped>
 	restaurant-detail {
 		display: grid;
