@@ -23,7 +23,7 @@
 				<RouterLink to="/feedback">Feedback</RouterLink>
 			</nav>
 			<nav>
-				<RouterLink to="/buisness-login">Business Login</RouterLink>
+				<RouterLink to="/business-login">Business Login</RouterLink>
 				<RouterLink to="/business">Your Restaurants</RouterLink>
 				<RouterLink to="/business/add-restaurant"
 					>Add Restaurant</RouterLink
