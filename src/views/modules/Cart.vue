@@ -112,11 +112,18 @@
 		</table>
 		<div class="buttons">
 			<button
-				class="button"
+				class="button clearcart"
 				@click="shop.clearCart(cart)"
 			>
 				Clear Cart
 			</button>
+
+			<RouterLink
+				class="button"
+				:to="`/restaurant/${restaurant.id}/checkout`"
+			>
+				Checkout
+			</RouterLink>
 		</div>
 	</article>
 </template>
@@ -170,5 +177,9 @@
 
 	span.choice-price {
 		color: var(--highlight);
+	}
+
+	button.clearcart {
+		background-color: orange;
 	}
 </style>
