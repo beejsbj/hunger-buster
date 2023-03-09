@@ -25,11 +25,12 @@
 			<p class="price-level">{{ "$".repeat(restaurant.priceLevel) }}</p>
 		</text-content>
 		<div>
-			<a
+			<RouterLink
 				class="button outline"
-				:href="'/restaurant/' + restaurant.id"
-				>MORE</a
+				:to="'/restaurant/' + restaurant.id"
 			>
+				MORE
+			</RouterLink>
 			<button
 				class="button"
 				:class="{ favorite: found ? true : false }"
