@@ -7,7 +7,6 @@
 
 	watch(navRef, async (newVal) => {
 		await nextTick();
-		console.log(newVal);
 
 		if (newVal === null) {
 			return;
@@ -32,6 +31,11 @@
 					alt=""
 				/>
 			</picture>
+			<GMapAutocomplete
+				id="delivery-address"
+				@place_changed="user.setUserLocation"
+				:value="user.address?.formatted_address ?? 'Enter your address'"
+			/>
 			<site-menu>
 				<button
 					class="menu-toggle button"
@@ -63,7 +67,7 @@
 					</RouterLink>
 					<RouterLink
 						key="carts"
-						v-if="shop.carts?.length"
+						v-if="shop.carts?.length && false"
 						to="/carts"
 						class="cart"
 						>Carts</RouterLink
@@ -98,13 +102,27 @@
 
 <style lang="scss" scoped>
 	header inner-column {
-		display: flex;
+		display: grid;
+		grid-template-columns: 0.2fr 1fr;
 		justify-content: space-between;
 		.logo {
 			max-width: 60px;
 		}
+		@media (min-width: 750px) {
+			grid-template-columns: 0.2fr 0.5fr;
+			justify-content: space-between;
+		}
+
+		input {
+			align-self: center;
+		}
 	}
 	site-menu {
+		grid-column: 1 / -1;
+		@media (min-width: 750px) {
+			grid-column: 3 / -1;
+		}
+
 		overflow: hidden;
 		display: block;
 		button.menu-toggle {
@@ -122,7 +140,7 @@
 			transform: translateX(0%);
 			@media (max-width: 450px) {
 				&.menu-close {
-					transform: translateX(-100%);
+					transform: translateX(100%);
 				}
 				&.menu-open {
 					// display: none;
