@@ -1,5 +1,6 @@
 <script setup>
 	defineProps(["profile"]);
+	const user = useUserStore();
 </script>
 <template>
 	<article>
@@ -12,10 +13,11 @@
 		>
 			<li
 				:key="order.id"
-				v-for="order in orders"
+				v-for="order in user.orders"
 			>
-				<!-- cart -->
-				<!-- #TODO  -->
+				<!-- <ShowCode :code="order" /> -->
+				<OrderCard :order="order" />
+				<!-- #todo -->
 			</li>
 		</TransitionGroup>
 	</article>
@@ -26,7 +28,7 @@
 		display: grid;
 		gap: 40px;
 	}
-	orders-list {
+	.orders-list {
 		display: grid;
 		gap: 20px;
 	}
