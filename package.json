@@ -10,6 +10,7 @@
       "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
    },
    "dependencies": {
+      "@fawmi/vue-google-maps": "0.9.67",
       "@vueform/multiselect": "^2.5.8",
       "@vueuse/core": "^9.13.0",
       "firebase": "^9.17.1",
