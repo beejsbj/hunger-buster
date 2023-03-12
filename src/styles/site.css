@@ -36,6 +36,10 @@ main {
 	border-bottom-right-radius: 30px;
 }
 
+.hide {
+	display: none;
+}
+
 nav {
 	display: flex;
 	flex-wrap: wrap;
@@ -106,3 +110,12 @@ ul.restaurant-list {
 	-webkit-transform: scale(1.1);
 	transform: scale(1.1);
  }
+
+body::-webkit-scrollbar {
+	display: none;
+ }
+
+ .vue-map .gmnoprint,
+ .vue-map button {
+	display: none !important;
+}

@@ -84,3 +84,11 @@ header nav::after {
 	transition: 0.2s;
 }
 
+.button.remove {
+	--highlight: red;
+}
+
+
+label {
+	cursor: pointer;
+}
