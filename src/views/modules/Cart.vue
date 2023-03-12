@@ -1,23 +1,52 @@
 <script setup>
 	//////////////////////////////////////////
 
+	import { computed } from "vue";
+
 	const shop = useShopStore();
 	const props = defineProps(["restaurant", "cart"]);
+
+	const taxRate = ref(0.13);
+
+	const order = reactive({
+		restaurant: props.restaurant,
+		tip: 5,
+		deliveryFee: 0,
+	});
+
+	order.items = computed(() => {
+		return props.cart;
+	});
+
+	order.tax = computed(() => {
+		return shop.cartTotal * taxRate.value;
+	});
+
+	order.subtotal = computed(() => {
+		return Number(shop.cartTotal).toFixed(2);
+	});
+
+	order.total = computed(() => {
+		return (
+			Number(shop.cartTotal) +
+			Number(order.tip) +
+			Number(order.tax)
+		).toFixed(2);
+	});
 
 	//////////////////////////////////////////
 </script>
 
 <template>
 	<article v-if="cart?.length">
-		<h3 class="attention-voice">Total: ${{ shop.cartTotal }}</h3>
 		<table class="styled-table">
 			<thead>
 				<tr>
 					<th>Item</th>
 					<th>Name</th>
 					<th>Price</th>
-					<th>Quantity</th>
-					<th>Total</th>
+					<!-- <th>Quantity</th> -->
+
 					<th></th>
 				</tr>
 			</thead>
@@ -80,7 +109,7 @@
 						</p>
 					</td>
 					<td>${{ item.price.toFixed(2) }}</td>
-					<td class="quantity">
+					<!-- <td class="quantity">
 						<button
 							class="button"
 							@click="shop.decrementQuantity(item)"
@@ -94,14 +123,11 @@
 						>
 							+
 						</button>
-					</td>
-					<td class="total">
-						${{ item.totalPrice.toFixed(2) ?? item.price.toFixed(2) }}
-					</td>
+					</td> -->
 					<td>
 						<!-- <button @click="item.show = !item.show">MORE</button> -->
 						<button
-							class="button"
+							class="button remove"
 							@click="shop.remove(item)"
 						>
 							Remove
@@ -109,20 +135,28 @@
 					</td>
 				</tr>
 			</TransitionGroup>
-		</table>
-		<div class="buttons">
 			<button
 				class="button clearcart"
 				@click="shop.clearCart(cart)"
 			>
 				Clear Cart
 			</button>
+		</table>
 
+		<PaymentComponent
+			:cart="cart"
+			:order="order"
+		/>
+		<CheckoutPage
+			:cart="cart"
+			:order="order"
+		/>
+		<div class="buttons">
 			<RouterLink
-				class="button"
+				class="button hide"
 				:to="`/restaurant/${restaurant.id}/checkout`"
 			>
-				Checkout
+				Checkout • ${{ order.total }}
 			</RouterLink>
 		</div>
 	</article>
@@ -142,7 +176,7 @@
 
 	tr {
 		display: grid;
-		grid-template-columns: 1fr 1fr 1fr 1fr 1fr 0.5fr;
+		grid-template-columns: 1fr 1fr 1fr 0.5fr;
 		gap: 15px;
 		align-items: center;
 		justify-items: center;
