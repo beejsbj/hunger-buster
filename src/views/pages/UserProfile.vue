@@ -1,18 +1,22 @@
 <script setup>
+	import { onMounted } from "vue";
+
 	const user = useUserStore();
 	const ui = useInterfaceStore();
 
 	const navRef = ref(null);
 
-	watch(navRef, (newVal) => {
+	onMounted(() => {
 		ui.navUnderline({
-			target: newVal.querySelector("a.router-link-active"),
+			target: navRef.value.querySelector("a.router-link-active"),
 		});
 	});
 </script>
 
 <template>
 	<profile-view>
+		<ProfileBanner :profile="user.profile" />
+
 		<header class="profile">
 			<nav
 				ref="navRef"
@@ -20,7 +24,15 @@
 			>
 				<RouterLink to="/user/dashboard">Dashboard</RouterLink>
 				<RouterLink to="/user/about">About</RouterLink>
-				<RouterLink to="/user/favorites">Favorties</RouterLink>
+				<RouterLink
+					v-if="
+						user.profile?.favoriteRestaurants.length ||
+						user.profile?.favoriteItems.length
+					"
+					to="/user/favorites"
+				>
+					Favorties
+				</RouterLink>
 				<RouterLink to="/user/orders">Orders</RouterLink>
 				<!-- <RouterLink to="/user/reviews">Reviews</RouterLink>
 				<RouterLink to="/user/settings">Settings</RouterLink> -->
@@ -32,8 +44,6 @@
 				>
 			</nav>
 		</header>
-
-		<ProfileBanner :profile="user.profile" />
 
 		<sub-view>
 			<RouterView :profile="user.profile" />
