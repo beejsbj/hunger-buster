@@ -44,25 +44,14 @@ export const useCartsStore = defineStore("carts", (restaurant = "") => {
 		item.note = note;
 
 		//initiate cart doc and set its belongsTo property
-		await setDoc(
-			doc(db, "users", user?.id, "carts", `cart_${item.belongsTo}`),
-			{
-				belongsTo: item.belongsTo,
-				// items: [...currentItems, item],
-			}
-		);
+		await setDoc(doc(db, "users", user?.id, "carts", item.belongsTo), {
+			belongsTo: item.belongsTo,
+			// items: [...currentItems, item],
+		});
 
 		//add item to items collection within cart doc
 		await setDoc(
-			doc(
-				db,
-				"users",
-				user?.id,
-				"carts",
-				`cart_${item.belongsTo}`,
-				"items",
-				item.id
-			),
+			doc(db, "users", user?.id, "carts", item.belongsTo, "items", item.id),
 			item
 		);
 
@@ -72,15 +61,7 @@ export const useCartsStore = defineStore("carts", (restaurant = "") => {
 	// remove from cart
 	async function remove(item) {
 		await deleteDoc(
-			doc(
-				db,
-				"users",
-				user?.id,
-				"carts",
-				`cart_${item.belongsTo}`,
-				"items",
-				item.id
-			)
+			doc(db, "users", user?.id, "carts", item.belongsTo, "items", item.id)
 		);
 	}
 

@@ -8,9 +8,11 @@ import {
 	addDoc,
 	updateDoc,
 	arrayUnion,
+	setDoc,
 } from "firebase/firestore";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "./user";
+import { async } from "@firebase/util";
 ///////////////////////////////////////////////////////
 
 const db = useFirestore();
@@ -62,6 +64,13 @@ export const useShopStore = defineStore("shop", () => {
 	//current restaurant's cart
 	const cartRef = computed(() => {
 		if (restaurant.value && user.id) {
+			return doc(db, "users", user?.id, "carts", restaurant?.value.id);
+		}
+	});
+	const { data: cartDoc, promise: cartPromise } = useDocument(cartRef);
+
+	const cartItemsRef = computed(() => {
+		if (restaurant.value && user.id) {
 			return collection(
 				db,
 				"users",
@@ -73,7 +82,7 @@ export const useShopStore = defineStore("shop", () => {
 		}
 	});
 
-	const cart = useCollection(cartRef);
+	const cart = useCollection(cartItemsRef);
 
 	//cart total
 	const cartTotal = computed(() => {
@@ -119,6 +128,12 @@ export const useShopStore = defineStore("shop", () => {
 		return count;
 	});
 
+	//cart tip
+	const cartTip = computed(() => {
+		const tip = cartTotal.value * 0.15;
+		return tip.toFixed(2);
+	});
+
 	////////////////////////////////////////////
 
 	//add restaurant
@@ -128,12 +143,11 @@ export const useShopStore = defineStore("shop", () => {
 			image: form.image,
 			phone: form.phone,
 			address: form.address,
-			city: form.city,
-			state: form.state,
-			zip: form.zip,
 			website: form.website,
 			notes: form.notes,
+			owner: user.id,
 		};
+		console.log(record.address);
 		record.id = await idSlugger(slug(form.name));
 
 		await setDoc(doc(db, "restaurants", record.id), record);
@@ -161,7 +175,7 @@ export const useShopStore = defineStore("shop", () => {
 	}
 
 	//add item
-	async function addItem(form) {
+	async function createItem(form) {
 		const record = {
 			name: form.name,
 			image: form.image,
@@ -238,13 +252,10 @@ export const useShopStore = defineStore("shop", () => {
 	// add to cart
 	async function add(item) {
 		//initiate cart doc and set its belongsTo property
-		await setDoc(
-			doc(db, "users", user?.id, "carts", `cart_${item.belongsTo}`),
-			{
-				belongsTo: item.belongsTo,
-				// items: [...currentItems, item],
-			}
-		);
+		await setDoc(doc(db, "users", user?.id, "carts", item.belongsTo), {
+			belongsTo: item.belongsTo,
+			// items: [...currentItems, item],
+		});
 
 		//add item to items collection within cart doc
 		await addDoc(
@@ -262,15 +273,7 @@ export const useShopStore = defineStore("shop", () => {
 	// remove from cart
 	async function remove(item) {
 		await deleteDoc(
-			doc(
-				db,
-				"users",
-				user?.id,
-				"carts",
-				`cart_${item.belongsTo}`,
-				"items",
-				item.id
-			)
+			doc(db, "users", user?.id, "carts", item.belongsTo, "items", item.id)
 		);
 		ui.notify(`${item.name} Removed`);
 	}
@@ -295,7 +298,7 @@ export const useShopStore = defineStore("shop", () => {
 			return item;
 		});
 
-		setDoc(doc(db, "carts", `cart_${updatedItem.belongsTo}`), cart);
+		setDoc(doc(db, "carts", updatedItem.belongsTo), cart);
 	}
 
 	// decrement quantity
@@ -312,7 +315,7 @@ export const useShopStore = defineStore("shop", () => {
 			}
 		});
 
-		setDoc(doc(db, "carts", `cart_${updatedItem.belongsTo}`), cart);
+		setDoc(doc(db, "carts", updatedItem.belongsTo), cart);
 	}
 
 	///////////////////////////////////////////////////
@@ -338,6 +341,8 @@ export const useShopStore = defineStore("shop", () => {
 
 	///////////////////////////////////////////////////
 
+	// watch forchanges in cart
+
 	onMounted(function () {
 		console.log("loaded");
 	});
@@ -351,12 +356,12 @@ export const useShopStore = defineStore("shop", () => {
 		restaurant,
 		items,
 		cart,
-		cartTotal,
 		cartCount,
+		cartTotal,
 
 		addRestaurant,
 		deleteRestaurant,
-		addItem,
+		createItem,
 		deleteItem,
 		addCategory,
 
