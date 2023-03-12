@@ -14,9 +14,11 @@ import {
 	query,
 	getDoc,
 	setDoc,
+	GeoPoint,
 } from "firebase/firestore";
 import { useRoute, useRouter } from "vue-router";
 import { computed } from "vue";
+import { async } from "@firebase/util";
 ///////////////////////////////////////////////////////
 
 //setup
@@ -51,6 +53,32 @@ export const useUserStore = defineStore("user", () => {
 	const isBusinessOwner = computed(() => userDoc.value?.roles?.business);
 
 	const profile = computed(() => userDoc.value?.profile);
+
+	const address = computed(() => userDoc.value?.address);
+
+	//all user's orders
+	const ordersRef = computed(() => {
+		if (id.value) {
+			return collection(db, "users", id.value, "orders");
+		}
+	});
+	const orders = useCollection(ordersRef);
+	console.log(orders);
+
+	//current order
+	const orderSlug = computed(() => {
+		if (route.params.orderID) {
+			return route.params.orderID;
+		}
+	});
+
+	const order = computed(() => {
+		if (route.params.orderID) {
+			return orders.value.find(function (order) {
+				return order.id == route.params.orderID;
+			});
+		}
+	});
 
 	const restaurantsQuery = computed(() => {
 		if (isBusinessOwner.value) {
@@ -105,6 +133,21 @@ export const useUserStore = defineStore("user", () => {
 		}
 	}
 
+	async function placeOrder(order) {
+		const orderRef = await addDoc(
+			collection(db, "users", current.value.uid, "orders"),
+			{
+				...order,
+				placed: new Date().getTime(),
+				placedBy: current.value.uid,
+				status: "pending",
+				placedAt: { ...address.value },
+			}
+		);
+		shop.clearCart();
+		router.push("/user/orders");
+	}
+
 	/// authorization ///
 	function signUp(form) {
 		createUserWithEmailAndPassword(auth, form.email, form.password)
@@ -112,6 +155,7 @@ export const useUserStore = defineStore("user", () => {
 				const user = userCredential.user;
 				setDoc(doc(db, "users", user.uid), {
 					id: user.uid,
+					address: {},
 					roles: {},
 					profile: {
 						displayName: form.displayName ?? "Display Name",
@@ -136,6 +180,7 @@ export const useUserStore = defineStore("user", () => {
 				const user = userCredential.user;
 				setDoc(doc(db, "users", user.uid), {
 					id: user.uid,
+					address: {},
 					roles: {
 						business: true,
 					},
@@ -220,24 +265,50 @@ export const useUserStore = defineStore("user", () => {
 		{ deep: true }
 	);
 
+	async function setUserLocation(place) {
+		place.geometry.location.lat = place.geometry.location.lat();
+		place.geometry.location.lng = place.geometry.location.lng();
+
+		console.log(place);
+
+		if (id.value) {
+			await updateDoc(doc(db, "users", id.value), {
+				address: {
+					place_id: place.place_id,
+					location: {
+						lat: place.geometry.location.lat,
+						lng: place.geometry.location.lng,
+					},
+					name: place.name,
+					formatted_address: place.formatted_address,
+				},
+			});
+		}
+	}
+
 	///////////////////////////////////////////////////////
 	return {
 		current,
 		restaurants,
+		orders,
+		order,
+
 		favoriteRestaurant,
 		favoriteItem,
 		isItemFavorite,
-
 		signUp,
 		login,
 		logout,
 		businessSignUp,
 		businessLogin,
+		placeOrder,
 
 		isAdmin,
 		isBusinessOwner,
 		profile,
+		address,
 		id,
 		email,
+		setUserLocation,
 	};
 });
