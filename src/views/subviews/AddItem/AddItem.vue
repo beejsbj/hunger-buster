@@ -27,7 +27,7 @@
 </script>
 
 <template>
-	<form @submit.prevent="shop.addItem(itemForm)">
+	<form @submit.prevent="shop.createItem(itemForm)">
 		<h1 class="attention-voice">Add an Item</h1>
 		<input-field>
 			<label for="name"> Enter Item's name. </label>
@@ -79,8 +79,6 @@
 		<AddItemOption :itemForm="itemForm" />
 
 		<button class="button">Finish adding item</button>
-		<!--  -->
-		<ShowCode :code="itemForm" />
 	</form>
 </template>
 

@@ -1,6 +1,4 @@
 <script setup>
-	import { nextTick, onMounted } from "vue";
-
 	///////////////////////////////////////////
 	const shop = useShopStore();
 	const route = useRoute();
@@ -44,12 +42,12 @@
 				<RouterLink
 					v-if="user.isBusinessOwner"
 					class="business"
-					:to="'/restaurant/' + shop.restaurant.id + '/addItem'"
+					:to="'/restaurant/' + shop.restaurant.id + '/createItem'"
 					>Add Item</RouterLink
 				>
 				<!-- <RouterLink
 				v-if="user.isBusinessOwner"
-				:to="'/restaurant/' + shop.restaurant.id + '/addItem'"
+				:to="'/restaurant/' + shop.restaurant.id + '/createItem'"
 				>#todo Edit Categories</RouterLink 
 			> -->
 				<RouterLink

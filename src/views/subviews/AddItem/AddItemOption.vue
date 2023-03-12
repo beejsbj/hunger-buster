@@ -51,17 +51,19 @@
 					<input
 						type="checkbox"
 						v-model="option.required"
-						id="required"
+						:id="`required${index}`"
 					/>
-					<label for="required"> Is this option required? </label>
+					<label :for="`required${index}`">
+						Is this option required?
+					</label>
 				</input-field>
 				<input-field class="checkbox">
 					<input
 						type="checkbox"
 						v-model="option.multiSelect"
-						id="multi-select"
+						:id="`multi-select${index}`"
 					/>
-					<label for="multi-select">
+					<label :for="`multi-select${index}`">
 						Can this option be multi-selected?
 					</label>
 				</input-field>
@@ -89,6 +91,11 @@
 
 	.option-field {
 		background-color: hsla(var(--choice-hue), 91%, 90%, 1);
+	}
+
+	button {
+		background-color: hsla(24, 93%, 66%, 1);
+		color: black;
 	}
 </style>
 <style src="@vueform/multiselect/themes/default.css"></style>

@@ -12,16 +12,16 @@
 			</nav>
 			<nav>
 				<RouterLink to="/about">About</RouterLink>
-				<RouterLink to="/contact">Contact</RouterLink>
+				<!-- <RouterLink to="/contact">Contact</RouterLink>
 				<RouterLink to="/privacy">Privacy</RouterLink>
-				<RouterLink to="/terms">Terms</RouterLink>
+				<RouterLink to="/terms">Terms</RouterLink> -->
 			</nav>
-			<nav>
+			<!-- <nav>
 				<RouterLink to="/faq">FAQ</RouterLink>
 				<RouterLink to="/help">Help</RouterLink>
 				<RouterLink to="/support">Support</RouterLink>
 				<RouterLink to="/feedback">Feedback</RouterLink>
-			</nav>
+			</nav> -->
 			<nav>
 				<RouterLink to="/business-login">Business Login</RouterLink>
 				<RouterLink to="/business">Your Restaurants</RouterLink>

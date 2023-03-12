@@ -5,12 +5,19 @@
 	import slug from "slug";
 	import { useCollection, useDocument, useFirestore } from "vuefire";
 	import { collection, doc, getDoc } from "firebase/firestore";
+
+	const markers = ref([
+		{
+			position: {
+				lat: 51.093048,
+				lng: 6.84212,
+			},
+		}, // Along list of clusters
+	]);
 </script>
 
 
 
-<template>
-	<div class="about">f</div>
-</template>
+<template></template>
 
 <style></style>

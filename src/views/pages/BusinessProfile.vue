@@ -4,15 +4,17 @@
 
 	const navRef = ref(null);
 
-	watch(navRef, (newVal) => {
+	onMounted(() => {
 		ui.navUnderline({
-			target: newVal.querySelector("a.router-link-active"),
+			target: navRef.value.querySelector("a.router-link-active"),
 		});
 	});
 </script>
 
 <template>
 	<profile-view>
+		<ProfileBanner :profile="user.profile" />
+
 		<header class="profile">
 			<nav
 				ref="navRef"
@@ -30,8 +32,6 @@
 				>
 			</nav>
 		</header>
-
-		<ProfileBanner :profile="user.profile" />
 
 		<sub-view>
 			<RouterView :profile="user.profile" />

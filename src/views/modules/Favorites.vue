@@ -3,7 +3,7 @@
 </script>
 <template>
 	<article>
-		<favorites-module v-if="profile?.favoriteRestaurants">
+		<favorites-module v-if="profile?.favoriteRestaurants.length">
 			<h2 class="attention-voice">Favorite Restaurants</h2>
 			<TransitionGroup
 				name="list"
@@ -19,7 +19,7 @@
 			</TransitionGroup>
 		</favorites-module>
 
-		<favorites-module v-if="profile?.favoriteItems">
+		<favorites-module v-if="profile?.favoriteItems.length">
 			<h2 class="attention-voice">Favorite Items</h2>
 			<TransitionGroup
 				name="list"

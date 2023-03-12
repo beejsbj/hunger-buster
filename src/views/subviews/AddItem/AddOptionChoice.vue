@@ -71,6 +71,7 @@
 					</label>
 				</input-field>
 				<button
+					type="button"
 					class="button"
 					@click.prevent="removeChoice(index)"
 				>
@@ -117,5 +118,9 @@
 	form ul {
 		display: grid;
 		gap: 10px;
+	}
+
+	button {
+		background-color: hsla(0, 92%, 20%, 1);
 	}
 </style>
