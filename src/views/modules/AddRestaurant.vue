@@ -9,23 +9,33 @@
 		name: "",
 		image: "",
 		phone: "",
-		address: "",
-		city: "",
-		state: "",
-		zip: "",
+		address: {},
 		website: "",
 		notes: "",
 	});
 
 	function numberFormat(event) {
-		if (event.key == "-" && isNaN(event.key) && event.key !== "Backspace") {
-			console.log(event);
-			restaurantForm.phone = restaurantForm.phone.slice(0, -1);
-			return;
-		}
-		if (restaurantForm.phone.length == 3 || restaurantForm.phone.length == 7) {
-			restaurantForm.phone += "-";
-		}
+		// if (event.key == "-" && isNaN(event.key) && event.key !== "Backspace") {
+		// 	console.log(event);
+		// 	restaurantForm.phone = restaurantForm.phone.slice(0, -1);
+		// 	return;
+		// }
+		// if (restaurantForm.phone.length == 3 || restaurantForm.phone.length == 7) {
+		// 	restaurantForm.phone += "-";
+		// }
+	}
+
+	function setPlace(place) {
+		restaurantForm.value.address = {
+			formatted_address: place.formatted_address,
+			location: {
+				lat: place.geometry.location.lat(),
+				lng: place.geometry.location.lng(),
+			},
+			name: place.name,
+			placeId: place.place_id,
+			url: place.url,
+		};
 	}
 </script>
 
@@ -33,6 +43,7 @@
 	<form @submit.prevent="shop.addRestaurant(restaurantForm)">
 		<h1 class="attention-voice">Add a Restaurant</h1>
 		<input-field>
+			<label for="name"> Enter restaurant's name. </label>
 			<input
 				type="text"
 				:required="false"
@@ -40,20 +51,20 @@
 				id="name"
 				placeholder="Restaurant Name"
 			/>
-			<label for="name"> Enter restaurant's name. </label>
 		</input-field>
 
 		<input-field>
+			<label for="image"> Enter restaurant's image URL. </label>
 			<input
 				type="text"
 				v-model="restaurantForm.image"
 				id="image"
 				placeholder="Image URL"
 			/>
-			<label for="image"> Enter restaurant's image URL. </label>
 		</input-field>
 
 		<input-field>
+			<label for="phone"> Enter restaurant's phone number. </label>
 			<input
 				:required="false"
 				type="tel"
@@ -64,70 +75,38 @@
 				maxlength="12"
 				@keyup="numberFormat"
 			/>
-			<label for="phone"> Enter restaurant's phone number. </label>
 		</input-field>
 
 		<input-field>
-			<input
-				:required="false"
-				type="text"
-				v-model="restaurantForm.address"
-				id="address"
-				placeholder="Address"
-			/>
 			<label for="address"> Enter restaurant's address. </label>
+			<GMapAutocomplete
+				required
+				id="address"
+				:placeholder="restaurantForm.address?.formatted ?? 'Address'"
+				@place_changed="setPlace"
+				v-model="restaurantForm.address"
+			>
+				{{ restaurantForm.address?.formatted }}
+			</GMapAutocomplete>
 		</input-field>
 
 		<input-field>
-			<input
-				type="text"
-				v-model="restaurantForm.city"
-				id="city"
-				placeholder="City"
-			/>
-			<label for="city"> Enter restaurant's city. </label>
-		</input-field>
-
-		<input-field>
-			<input
-				type="text"
-				v-model="restaurantForm.state"
-				id="state"
-				placeholder="State"
-			/>
-			<label for="state"> Enter restaurant's state. </label>
-		</input-field>
-
-		<input-field>
-			<input
-				:required="false"
-				type="text"
-				v-model="restaurantForm.zip"
-				id="zip"
-				placeholder="Zip Code"
-			/>
-			<label for="zip"> Enter restaurant's zip code. </label>
-		</input-field>
-
-		<input-field>
+			<label for="website"> Enter restaurant's website. </label>
 			<input
 				type="text"
 				v-model="restaurantForm.website"
 				id="website"
 				placeholder="Website"
 			/>
-			<label for="website"> Enter restaurant's website. </label>
 		</input-field>
 
 		<input-field>
+			<label for="notes"> Describe your restaurant </label>
 			<textarea
 				v-model="restaurantForm.notes"
 				id="notes"
-				placeholder="Notes"
+				placeholder="description"
 			/>
-			<label for="notes">
-				Please enter any notes about the restaurant.
-			</label>
 		</input-field>
 
 		<button class="button">Add restaurant</button>
