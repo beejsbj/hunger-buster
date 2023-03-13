@@ -39,23 +39,25 @@
 						</span>
 					</span>
 				</RouterLink>
-				<RouterLink
-					v-if="user.isBusinessOwner"
-					class="business"
-					:to="'/restaurant/' + shop.restaurant.id + '/createItem'"
-					>Add Item</RouterLink
+
+				<template
+					v-if="
+						user.isAdmin ||
+						(user.isBusinessOwner && user.id === shop.restaurant.owner)
+					"
 				>
-				<!-- <RouterLink
-				v-if="user.isBusinessOwner"
-				:to="'/restaurant/' + shop.restaurant.id + '/createItem'"
-				>#todo Edit Categories</RouterLink 
-			> -->
-				<RouterLink
-					v-if="user.isAdmin || user.isBusinessOwner"
-					class="business"
-					:to="'/restaurant/' + shop.restaurant.id + '/admin'"
-					>Administator</RouterLink
-				>
+					<RouterLink
+						class="business"
+						:to="'/restaurant/' + shop.restaurant.id + '/createItem'"
+						>Add Item</RouterLink
+					>
+					<!-- #todo Edit Categories</RouterLink > -->
+					<RouterLink
+						class="business"
+						:to="'/restaurant/' + shop.restaurant.id + '/admin'"
+						>Administator</RouterLink
+					>
+				</template>
 			</nav>
 		</header>
 		<sub-view>
