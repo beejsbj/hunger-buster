@@ -58,7 +58,7 @@
 				</button>
 				<button
 					class="button"
-					@click="viewSignupPassword = !viewSignupPassword"
+					@click.prevent="viewSignupPassword = !viewSignupPassword"
 				>
 					<span v-if="!viewSignupPassword">Show Password</span>
 					<span v-if="viewSignupPassword">View Password</span>

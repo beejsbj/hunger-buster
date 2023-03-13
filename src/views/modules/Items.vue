@@ -11,7 +11,8 @@
 		return items.value.filter(function (item) {
 			if (checked.value.length) {
 				return checked.value.some(function (check) {
-					return item.category.includes(check.id);
+					console.log(check.value, item.category);
+					return item.category.includes(check.value);
 				});
 			}
 			return items;

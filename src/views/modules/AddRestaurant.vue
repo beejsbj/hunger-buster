@@ -2,7 +2,6 @@
 <script setup>
 	import { useStorage } from "@vueuse/core";
 
-	import { useShopStore } from "@/stores/shop";
 	const shop = useShopStore();
 
 	const restaurantForm = useStorage("restaurantForm", {
@@ -37,36 +36,46 @@
 			url: place.url,
 		};
 	}
+
+	function setImage(file) {
+		restaurantForm.value.image = file;
+	}
 </script>
 
 <template>
-	<form @submit.prevent="shop.addRestaurant(restaurantForm)">
+	<form
+		@submit.prevent="shop.addRestaurant({ ...restaurantForm })"
+		enctype="multipart/form-data"
+	>
 		<h1 class="attention-voice">Add a Restaurant</h1>
 		<input-field>
 			<label for="name"> Enter restaurant's name. </label>
 			<input
 				type="text"
-				:required="false"
+				required
 				v-model="restaurantForm.name"
 				id="name"
 				placeholder="Restaurant Name"
 			/>
 		</input-field>
 
+		<FileUpload @setImage="setImage" />
+
 		<input-field>
-			<label for="image"> Enter restaurant's image URL. </label>
-			<input
-				type="text"
-				v-model="restaurantForm.image"
-				id="image"
-				placeholder="Image URL"
+			<label for="address"> Enter restaurant's address. </label>
+			<GMapAutocomplete
+				required
+				id="address"
+				:placeholder="'Address'"
+				@place_changed="setPlace"
+				:value="restaurantForm.address?.formatted_address ?? ''"
 			/>
 		</input-field>
 
 		<input-field>
 			<label for="phone"> Enter restaurant's phone number. </label>
 			<input
-				:required="false"
+				required
 				type="tel"
 				v-model="restaurantForm.phone"
 				id="phone"
@@ -75,19 +84,6 @@
 				maxlength="12"
 				@keyup="numberFormat"
 			/>
-		</input-field>
-
-		<input-field>
-			<label for="address"> Enter restaurant's address. </label>
-			<GMapAutocomplete
-				required
-				id="address"
-				:placeholder="restaurantForm.address?.formatted ?? 'Address'"
-				@place_changed="setPlace"
-				v-model="restaurantForm.address"
-			>
-				{{ restaurantForm.address?.formatted }}
-			</GMapAutocomplete>
 		</input-field>
 
 		<input-field>

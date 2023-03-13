@@ -47,13 +47,13 @@
 				</button>
 				<button
 					class="button"
-					@click="viewLoginPassword = !viewLoginPassword"
+					@click.prevent="viewLoginPassword = !viewLoginPassword"
 				>
 					<span v-if="!viewLoginPassword">Show Password</span>
 					<span v-if="viewLoginPassword">View Password</span>
 				</button>
 			</div>
-			<RouterLink to="/signup">New? Create an account.</RouterLink>
+			<RouterLink to="/business-signup">New? Create an account.</RouterLink>
 		</form>
 	</login-form>
 </template>
