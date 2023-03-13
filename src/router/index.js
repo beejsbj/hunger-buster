@@ -7,6 +7,7 @@ import About from "../views/pages/About.vue";
 import Carts from "../views/pages/Carts.vue";
 import Home from "../views/pages/Home.vue";
 import UserProfile from "../views/pages/UserProfile.vue";
+import UserProfileEdit from "../views/pages/User/UserProfileEdit.vue";
 import BusinessProfile from "../views/pages/BusinessProfile.vue";
 import Restaurants from "../views/pages/Restaurants.vue";
 import Restaurant from "../views/pages/Restaurant.vue";
@@ -15,11 +16,12 @@ import Favorites from "../views/modules/Favorites.vue";
 import Items from "../views/modules/Items.vue";
 import CheckoutPage from "../views/pages/CheckoutPage.vue";
 import UserAbout from "../views/modules/UserAbout.vue";
+
 import BusinessAbout from "../views/modules/BusinessAbout.vue";
 import Cart from "../views/modules/Cart.vue";
 import BusinessRestaurants from "../views/modules/BusinessRestaurants.vue";
 import AddRestaurant from "../views/modules/AddRestaurant.vue";
-import AddItem from "../views/subviews/AddItem/AddItem.vue";
+import CreateItem from "../views/subviews/CreateItem/CreateItem.vue";
 import RestaurantAdmin from "../views/modules/RestaurantAdmin.vue";
 import Item from "../views/pages/Item.vue";
 
@@ -31,7 +33,7 @@ import UserSignup from "../views/modules/UserSignup.vue";
 import BusinessSignup from "../views/modules/BusinessSignup.vue";
 import BusinessLogin from "../views/modules/BusinessLogin.vue";
 
-import UserDashboard from "../views/subviews/user/UserDashboard.vue";
+import UserDashboard from "../views/pages/User/UserDashboard.vue";
 
 const db = useFirestore();
 
@@ -52,21 +54,25 @@ const router = createRouter({
 			path: "/login",
 			name: "userLogin",
 			component: UserLogin,
+			meta: { requiresGuest: true },
 		},
 		{
 			path: "/signup",
 			name: "userSignup",
 			component: UserSignup,
+			meta: { requiresGuest: true },
 		},
 		{
 			path: "/business-login",
 			name: "businessLogin",
 			component: BusinessLogin,
+			meta: { requiresGuest: true },
 		},
 		{
 			path: "/business-signup",
 			name: "businessSignup",
 			component: BusinessSignup,
+			meta: { requiresGuest: true },
 		},
 		{
 			path: "/user",
@@ -94,6 +100,11 @@ const router = createRouter({
 					path: "/user/orders",
 					name: "userOrders",
 					component: Orders,
+				},
+				{
+					path: "/user/edit",
+					name: "userEdit",
+					component: UserProfileEdit,
 				},
 			],
 		},
@@ -169,9 +180,9 @@ const router = createRouter({
 					},
 				},
 				{
-					path: "/restaurant/:restaurantSlug/AddItem",
-					name: "AddItem",
-					component: AddItem,
+					path: "/restaurant/:restaurantSlug/CreateItem",
+					name: "CreateItem",
+					component: CreateItem,
 					meta: {
 						transition: "slide-to-right",
 						requiresBusinessOwnerAuth: true,
@@ -192,17 +203,25 @@ router.beforeEach(async (to) => {
 	const ui = useInterfaceStore();
 	const currentUser = await getCurrentUser();
 
-	if (to.meta.requiresUserAuth) {
-		if (!currentUser) {
-			ui.notify(`Please login to see ${to.fullPath} page!`);
+	if (to.meta.requiresUserAuth && !currentUser) {
+		ui.notify(`Please login to see ${to.fullPath} page!`);
 
-			return {
-				path: "/login",
-				query: {
-					redirect: to.fullPath,
-				},
-			};
-		}
+		return {
+			path: "/login",
+			query: {
+				redirect: to.fullPath,
+			},
+		};
+	}
+
+	if (to.meta.requiresGuest && currentUser) {
+		ui.notify(`You are already logged in!`);
+		return {
+			path: "/user",
+			query: {
+				redirect: to.fullPath,
+			},
+		};
 	}
 
 	if (to.meta.requiresBusinessAuth) {
@@ -218,7 +237,7 @@ router.beforeEach(async (to) => {
 
 		const userDoc = await getDoc(doc(db, "users", currentUser.uid));
 
-		if (!userDoc.data().roles.business || !userDoc.data().roles.admin) {
+		if (!userDoc.data().roles.business && !userDoc.data().roles.admin) {
 			ui.notify(`You need a business account for ${to.fullPath}`);
 			return {
 				path: "/business-login",
@@ -245,7 +264,7 @@ router.beforeEach(async (to) => {
 		);
 
 		if (
-			restaurantDoc.data().owner !== currentUser.uid ||
+			restaurantDoc.data().owner !== currentUser.uid &&
 			!userDoc.data().roles.admin
 		) {
 			ui.notify(`You are not the owner of ${restaurantDoc.data().name}`);
@@ -259,5 +278,7 @@ router.beforeEach(async (to) => {
 		}
 	}
 });
+
+//////
 
 export default router;
