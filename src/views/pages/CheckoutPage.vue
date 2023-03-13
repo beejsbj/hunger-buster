@@ -50,7 +50,11 @@
 					<GMapCluster>
 						<GMapMarker
 							:position="shop.restaurant.address.location"
-							:clickable="true"
+							:clickable="false"
+							:icon="{
+								url: restaurantsIcon,
+								scaledSize: { width: 60, height: 60 },
+							}"
 						/>
 					</GMapCluster>
 				</GMapMap>
@@ -74,7 +78,7 @@
 					<GMapCluster>
 						<GMapMarker
 							:position="shop.restaurant.address.location"
-							:clickable="true"
+							:clickable="false"
 							:icon="{
 								url: restaurantsIcon,
 								scaledSize: { width: 60, height: 60 },
@@ -82,7 +86,7 @@
 						/>
 						<GMapMarker
 							:position="user.address.location"
-							:clickable="true"
+							:clickable="false"
 							:icon="{
 								url: homeIcon,
 								scaledSize: { width: 60, height: 60 },
