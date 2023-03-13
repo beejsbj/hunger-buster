@@ -63,7 +63,6 @@ export const useUserStore = defineStore("user", () => {
 		}
 	});
 	const orders = useCollection(ordersRef);
-	console.log(orders);
 
 	//current order
 	const orderSlug = computed(() => {
@@ -82,8 +81,6 @@ export const useUserStore = defineStore("user", () => {
 
 	const restaurantsQuery = computed(() => {
 		if (isBusinessOwner.value) {
-			console.log(current.value?.uid);
-
 			return query(
 				collection(db, "restaurants"),
 				where("owner", "==", current?.value.uid)
@@ -144,7 +141,7 @@ export const useUserStore = defineStore("user", () => {
 				placedAt: { ...address.value },
 			}
 		);
-		shop.clearCart();
+		shop.clearCart(order.items);
 		router.push("/user/orders");
 	}
 
@@ -241,7 +238,8 @@ export const useUserStore = defineStore("user", () => {
 	function logout() {
 		signOut(auth)
 			.then(() => {
-				router.push({ name: "home" });
+				// router.push({ name: "home" });
+				window.location.href = "/";
 				ui.notify("Logged out");
 			})
 			.catch((error) => {});
