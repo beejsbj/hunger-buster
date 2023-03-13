@@ -3,6 +3,7 @@
 
 	const user = useUserStore();
 	const ui = useInterfaceStore();
+	const route = useRoute();
 
 	const navRef = ref(null);
 
@@ -16,7 +17,6 @@
 <template>
 	<profile-view>
 		<ProfileBanner :profile="user.profile" />
-
 		<header class="profile">
 			<nav
 				ref="navRef"
@@ -34,6 +34,11 @@
 					Favorties
 				</RouterLink>
 				<RouterLink to="/user/orders">Orders</RouterLink>
+				<RouterLink
+					v-if="route.name == 'userEdit'"
+					to="/user/edit"
+					>Edit</RouterLink
+				>
 				<!-- <RouterLink to="/user/reviews">Reviews</RouterLink>
 				<RouterLink to="/user/settings">Settings</RouterLink> -->
 				<RouterLink
