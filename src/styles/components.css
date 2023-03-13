@@ -9,7 +9,8 @@ button {
 .button {
 	background-color: var(--highlight);
 	color: var(--paper);
-	font: inherit;
+	font: sans-serif;
+	
 	padding: 5px;
 	text-align: center;
 	

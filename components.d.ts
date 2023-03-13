@@ -8,10 +8,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     About: typeof import('./src/views/pages/About.vue')['default']
-    AddItem: typeof import('./src/views/subviews/AddItem/AddItem.vue')['default']
-    AddItemCategory: typeof import('./src/views/subviews/AddItem/AddItemCategory.vue')['default']
-    AddItemOption: typeof import('./src/views/subviews/AddItem/AddItemOption.vue')['default']
-    AddOptionChoice: typeof import('./src/views/subviews/AddItem/AddOptionChoice.vue')['default']
+    AddOptionChoice: typeof import('./src/views/subviews/CreateItem/AddOptionChoice.vue')['default']
     AddRestaurant: typeof import('./src/views/modules/AddRestaurant.vue')['default']
     AppFooter: typeof import('./src/views/modules/AppFooter.vue')['default']
     AppHeader: typeof import('./src/views/modules/AppHeader.vue')['default']
@@ -25,9 +22,12 @@ declare module '@vue/runtime-core' {
     Carts: typeof import('./src/views/pages/Carts.vue')['default']
     CategoryFilter: typeof import('./src/components/CategoryFilter.vue')['default']
     CheckoutPage: typeof import('./src/views/pages/CheckoutPage.vue')['default']
-    CreateItem: typeof import('./src/components/CreateItem.vue')['default']
+    CreateItem: typeof import('./src/views/subviews/CreateItem/CreateItem.vue')['default']
+    CreateItemCategory: typeof import('./src/views/subviews/CreateItem/CreateItemCategory.vue')['default']
+    CreateItemOption: typeof import('./src/views/subviews/CreateItem/CreateItemOption.vue')['default']
     CreateItemView: typeof import('./src/views/CreateItemView.vue')['default']
     Favorites: typeof import('./src/views/modules/Favorites.vue')['default']
+    FileUpload: typeof import('./src/components/FileUpload.vue')['default']
     Home: typeof import('./src/views/pages/Home.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
@@ -56,9 +56,10 @@ declare module '@vue/runtime-core' {
     SelfCheckout: typeof import('./src/components/SelfCheckout.vue')['default']
     ShowCode: typeof import('./src/components/ShowCode.vue')['default']
     UserAbout: typeof import('./src/views/modules/UserAbout.vue')['default']
-    UserDashboard: typeof import('./src/views/subviews/User/UserDashboard.vue')['default']
+    UserDashboard: typeof import('./src/views/pages/User/UserDashboard.vue')['default']
     UserLogin: typeof import('./src/views/modules/UserLogin.vue')['default']
     UserProfile: typeof import('./src/views/pages/UserProfile.vue')['default']
+    UserProfileEdit: typeof import('./src/views/pages/User/UserProfileEdit.vue')['default']
     UserSignup: typeof import('./src/views/modules/UserSignup.vue')['default']
   }
 }
