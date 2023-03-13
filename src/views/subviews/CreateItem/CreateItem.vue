@@ -24,10 +24,17 @@
 			},
 		],
 	});
+
+	function setImage(file) {
+		itemForm.value.image = file;
+	}
 </script>
 
 <template>
-	<form @submit.prevent="shop.createItem(itemForm)">
+	<form
+		@submit.prevent="shop.createItem({ ...itemForm })"
+		enctype="multipart/form-data"
+	>
 		<h1 class="attention-voice">Add an Item</h1>
 		<input-field>
 			<label for="name"> Enter Item's name. </label>
@@ -40,16 +47,7 @@
 			/>
 		</input-field>
 
-		<input-field>
-			<label for="image"> Enter Item's image URL. </label>
-			<input
-				type="text"
-				v-model="itemForm.image"
-				id="image"
-				placeholder="Image URL"
-				required
-			/>
-		</input-field>
+		<FileUpload @setImage="setImage" />
 
 		<input-field>
 			<label for="price"> Enter Item's price. </label>
@@ -74,9 +72,9 @@
 			/>
 		</input-field>
 
-		<AddItemCategory :itemForm="itemForm" />
+		<CreateItemCategory :itemForm="itemForm" />
 
-		<AddItemOption :itemForm="itemForm" />
+		<CreateItemOption :itemForm="itemForm" />
 
 		<button class="button">Finish adding item</button>
 	</form>
@@ -85,7 +83,8 @@
 <style scoped>
 	form {
 		display: grid;
-		justify-content: center;
+		/* justify-content: start; */
+		max-width: 500px;
 	}
 
 	category-field {
