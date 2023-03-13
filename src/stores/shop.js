@@ -6,16 +6,21 @@ import {
 	doc,
 	deleteDoc,
 	addDoc,
+	getDoc,
 	updateDoc,
 	arrayUnion,
 	setDoc,
 } from "firebase/firestore";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "./user";
-import { async } from "@firebase/util";
+import { getStorage } from "firebase/storage";
+import { useFirebaseStorage, useStorageFile, useStorageFileUrl } from "vuefire";
+import { ref as storageRef } from "firebase/storage";
+
 ///////////////////////////////////////////////////////
 
 const db = useFirestore();
+const storage = useFirebaseStorage();
 
 //////
 export const useShopStore = defineStore("shop", () => {
@@ -140,27 +145,43 @@ export const useShopStore = defineStore("shop", () => {
 	async function addRestaurant(form) {
 		const record = {
 			name: form.name,
-			image: form.image,
-			phone: form.phone,
 			address: form.address,
-			website: form.website,
-			notes: form.notes,
+			phone: form.phone,
+			website: form.website ?? "",
+			notes: form.notes ?? "",
 			owner: user.id,
 		};
-		console.log(record.address);
-		record.id = await idSlugger(slug(form.name));
+		record.id = await getUniqueId(slug(form.name));
 
+		//upload image
+		const imageRef = storageRef(
+			storage,
+			`images/restaurants/${record.id}/thumbnail`
+		);
+		const { upload, url, refresh } = useStorageFile(imageRef);
+		await upload(form.image);
+
+		await refresh();
+		console.log(url.value);
+		record.image = url.value;
+
+		// //add restaurant to db
 		await setDoc(doc(db, "restaurants", record.id), record);
 
+		//add restaurant  id to user's data
 		await updateDoc(doc(db, "users", user.id), {
 			restaurantsOwned: arrayUnion(record.id),
 		});
 
+		// //notify user
 		ui.notify(`${record.name} Added Restaurant to store!`);
 
+		//redirect to new restaurant
 		router.push({
 			path: `/restaurant/${record.id}`,
 		});
+
+		//clear form
 		localStorage.setItem("restaurantForm", JSON.stringify({}));
 	}
 
@@ -176,56 +197,45 @@ export const useShopStore = defineStore("shop", () => {
 
 	//add item
 	async function createItem(form) {
+		console.log(form);
 		const record = {
 			name: form.name,
-			image: form.image,
 			price: form.price,
-			description: form.description,
-			options: form.options,
-			categories: form.categories,
+			description: form.description ?? "",
+			options: form.options ?? {},
+			categories: form.categories ?? [],
 
 			id: slug(form.name),
 			slug: restaurant.value.id + "/" + slug(form.name),
 			belongsTo: restaurant.value.id,
 		};
 
-		console.log(record);
+		//upload image
+		const imageRef = storageRef(
+			storage,
+			`images/restaurants/${restaurant.value.id}/menuItems/${record.id}/thumbnail`
+		);
+		const { upload, url, refresh } = useStorageFile(imageRef);
+		await upload(form.image);
+		await refresh();
+		record.image = url.value;
 
-		// if (form.categories) {
-		// 	const newCategories = form.categories.map((category) => {
-		// 		const found = restaurant.value.categories.find(
-		// 			(cat) => cat.value === category
-		// 		);
-		// 		if (found) {
-		// 			return { ...found };
-		// 		} else {
-		// 			return {
-		// 				value: slug(category),
-		// 				label: category,
-		// 			};
-		// 		}
-		// 	});
-
-		// 	console.log(newCategories);
-		// 	record.categories = newCategories;
-		// }
-
-		// await updateDoc(doc(db, "restaurants", restaurant.value.id), {
-		// 	categories: record.categories,
-		// });
-
+		//add item to db
 		await setDoc(
 			doc(db, "restaurants", restaurant.value.id, "menuItems", record.id),
 			record
 		);
 
+		//notify user
 		ui.notify(`${record.name} Added Item to store!`);
 
+		//clear form and local storage
 		localStorage.setItem(
 			`${restaurant.value.id}-itemForm`,
 			JSON.stringify({})
 		);
 
+		//redirect to new item
 		router.push({
 			path: `/restaurant/${record.slug}`,
 		});
@@ -321,7 +331,7 @@ export const useShopStore = defineStore("shop", () => {
 	///////////////////////////////////////////////////
 
 	//helper functions
-	async function idSlugger(id, i = 0, originalId = id) {
+	async function getUniqueId(id, i = 0, originalId = id) {
 		const { data: found, promise } = useDocument(doc(db, "restaurants", id));
 		const foundID = ref(null);
 
@@ -330,7 +340,7 @@ export const useShopStore = defineStore("shop", () => {
 				console.log(found.value.id, "exists");
 				i++;
 				var newId = originalId + "-" + i;
-				foundID.value = await idSlugger(newId, i, originalId);
+				foundID.value = await getUniqueId(newId, i, originalId);
 			})
 			.catch(() => {
 				foundID.value = id;
