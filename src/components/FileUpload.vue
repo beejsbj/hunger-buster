@@ -2,8 +2,9 @@
 	import { useFileDialog } from "@vueuse/core";
 
 	const emit = defineEmits(["setImage"]);
+	const props = defineProps(["image"]);
 
-	const previewedImage = ref(null);
+	const previewedImage = ref(props.image ?? null);
 
 	const { files, open, reset } = useFileDialog({
 		accept: ".jpg, .jpeg, .png",
@@ -52,12 +53,6 @@
 					@click.prevent="resetImage()"
 				>
 					Reset
-				</button>
-				<button
-					class="button"
-					@click.prevent="uploadImage()"
-				>
-					Upload
 				</button>
 			</div>
 			<template v-if="files">
