@@ -49,7 +49,7 @@
 						:value="true"
 						@input="clearSelections(option.choices)"
 						v-model="choice.selected"
-						required
+						:required="option.required"
 					/>
 					<input
 						v-if="option.multiSelect"

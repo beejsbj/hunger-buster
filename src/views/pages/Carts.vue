@@ -8,6 +8,9 @@
 			}, 0)
 			.toFixed(2);
 	}
+
+
+	
 </script>
 <template>
 	<article>

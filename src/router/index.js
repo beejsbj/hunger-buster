@@ -2,38 +2,41 @@ import { createRouter, createWebHistory } from "vue-router";
 import { getCurrentUser, useFirestore } from "vuefire";
 import { getDoc, doc } from "firebase/firestore";
 ////////////////////////
-import NotFound from "../views/pages/NotFound.vue";
-import About from "../views/pages/About.vue";
-import Carts from "../views/pages/Carts.vue";
-import Home from "../views/pages/Home.vue";
-import UserProfile from "../views/pages/UserProfile.vue";
-import UserProfileEdit from "../views/pages/User/UserProfileEdit.vue";
-import BusinessProfile from "../views/pages/BusinessProfile.vue";
-import Restaurants from "../views/pages/Restaurants.vue";
-import Restaurant from "../views/pages/Restaurant.vue";
-////////////////////////
-import Favorites from "../views/modules/Favorites.vue";
-import Items from "../views/modules/Items.vue";
-import CheckoutPage from "../views/pages/CheckoutPage.vue";
-import UserAbout from "../views/modules/UserAbout.vue";
+import NotFound from "@/views/pages/NotFound.vue";
+import About from "@/views/pages/About.vue";
+import Carts from "@/views/pages/Carts.vue";
+import Home from "@/views/pages/Home.vue";
+import Restaurants from "@/views/pages/Restaurants.vue";
 
-import BusinessAbout from "../views/modules/BusinessAbout.vue";
-import Cart from "../views/modules/Cart.vue";
-import BusinessRestaurants from "../views/modules/BusinessRestaurants.vue";
-import AddRestaurant from "../views/modules/AddRestaurant.vue";
-import CreateItem from "../views/subviews/CreateItem/CreateItem.vue";
-import RestaurantAdmin from "../views/modules/RestaurantAdmin.vue";
-import Item from "../views/pages/Item.vue";
+import UserLogin from "@/views/pages/UserLogin.vue";
+import UserSignup from "@/views/pages/UserSignup.vue";
+import BusinessSignup from "@/views/pages/BusinessSignup.vue";
+import BusinessLogin from "@/views/pages/BusinessLogin.vue";
 
-import Orders from "../views/modules/Orders.vue";
+//User
+import UserView from "@/views/pages/UserView/UserView.vue";
+import UserDashboard from "@/views/pages/UserView/subviews/UserDashboard.vue";
+import UserFavorites from "@/views/pages/UserView/subviews/UserFavorites.vue";
+import UserAbout from "@/views/pages/UserView/subviews/UserAbout.vue";
+import UserOrders from "@/views/pages/UserView/subviews/UserOrders.vue";
+import UserProfileEdit from "@/views/pages/UserView/subviews/UserProfileEdit.vue";
 
-import UserLogin from "../views/modules/UserLogin.vue";
-import UserSignup from "../views/modules/UserSignup.vue";
+//Business
+import BusinessView from "@/views/pages/BusinessView/BusinessView.vue";
+import BusinessAbout from "@/views/pages/BusinessView/subviews/BusinessAbout.vue";
+import BusinessRestaurants from "@/views/pages/BusinessView/subviews/BusinessRestaurants.vue";
+import AddRestaurant from "@/views/pages/BusinessView/subviews/AddRestaurant.vue";
 
-import BusinessSignup from "../views/modules/BusinessSignup.vue";
-import BusinessLogin from "../views/modules/BusinessLogin.vue";
+//Restaurant
+import RestaurantView from "@/views/pages/RestaurantView/RestaurantView.vue";
+import RestaurantItems from "@/views/pages/RestaurantView/subviews/RestaurantItems.vue";
+import RestaurantItem from "@/views/pages/RestaurantView/subviews/RestaurantItem.vue";
 
-import UserDashboard from "../views/pages/User/UserDashboard.vue";
+import RestaurantCart from "@/views/pages/RestaurantView/subviews/RestaurantCart.vue";
+import RestaurantCheckout from "@/views/pages/RestaurantView/subviews/RestaurantCheckout.vue";
+
+import CreateItem from "@/views/pages/RestaurantView/subviews/CreateItem/CreateItem.vue";
+import RestaurantAdmin from "@/views/pages/RestaurantView/subviews/RestaurantAdmin.vue";
 
 const db = useFirestore();
 
@@ -77,7 +80,7 @@ const router = createRouter({
 		{
 			path: "/user",
 			name: "user",
-			component: UserProfile,
+			component: UserView,
 			meta: { requiresUserAuth: true },
 			children: [
 				{
@@ -94,12 +97,12 @@ const router = createRouter({
 				{
 					path: "/user/favorites",
 					name: "userFavorites",
-					component: Favorites,
+					component: UserFavorites,
 				},
 				{
 					path: "/user/orders",
 					name: "userOrders",
-					component: Orders,
+					component: UserOrders,
 				},
 				{
 					path: "/user/edit",
@@ -111,7 +114,7 @@ const router = createRouter({
 		{
 			path: "/business",
 			name: "business",
-			component: BusinessProfile,
+			component: BusinessView,
 			meta: { requiresBusinessAuth: true },
 			children: [
 				{
@@ -126,6 +129,12 @@ const router = createRouter({
 					name: "addRestaurant",
 					component: AddRestaurant,
 					alias: "/business/add-restaurant",
+					meta: { requiresBusinessAuth: true },
+				},
+				{
+					path: "/business/about",
+					name: "BusinessAbout",
+					component: BusinessAbout,
 					meta: { requiresBusinessAuth: true },
 				},
 			],
@@ -145,29 +154,29 @@ const router = createRouter({
 		{
 			path: "/restaurant/:restaurantSlug",
 			name: "Restaurant",
-			component: Restaurant,
+			component: RestaurantView,
 			children: [
 				{
 					path: "/restaurant/:restaurantSlug",
-					name: "Items",
-					component: Items,
+					name: "RestaurantItems",
+					component: RestaurantItems,
 					meta: { transition: "slide-to-left" },
 				},
 				{
 					path: "/restaurant/:restaurantSlug/:itemSlug",
 					name: "RestaurantItem",
-					component: Item,
+					component: RestaurantItem,
 				},
 				{
 					path: "/restaurant/:restaurantSlug/cart",
 					name: "RestaurantCart",
-					component: Cart,
+					component: RestaurantCart,
 					meta: { transition: "slide-to-right" },
 				},
 				{
 					path: "/restaurant/:restaurantSlug/checkout",
-					name: "RestaurantCheckoutPage",
-					component: CheckoutPage,
+					name: "RestaurantRestaurantCheckout",
+					component: RestaurantCheckout,
 				},
 				{
 					path: "/restaurant/:restaurantSlug/admin",

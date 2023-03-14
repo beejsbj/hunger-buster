@@ -33,9 +33,13 @@
 	font-size: 14px;
 }
 
+.small-voice {
+	font-family: sans-serif;
+	font-size: 12px;
+}
+
 .calm-voice,
-p,
-li {
+p {
 	font-family: sans-serif;
 	font-size: 1rem;
 	line-height: 1.4;

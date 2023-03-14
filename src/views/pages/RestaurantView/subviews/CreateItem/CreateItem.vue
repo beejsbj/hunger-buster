@@ -28,11 +28,15 @@
 	function setImage(file) {
 		itemForm.value.image = file;
 	}
+	function submit() {
+		const record = { ...itemForm.value };
+		shop.createItem(record);
+	}
 </script>
 
 <template>
 	<form
-		@submit.prevent="shop.createItem({ ...itemForm })"
+		@submit.prevent="submit()"
 		enctype="multipart/form-data"
 	>
 		<h1 class="attention-voice">Add an Item</h1>

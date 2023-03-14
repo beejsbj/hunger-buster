@@ -101,8 +101,8 @@ export const useShopStore = defineStore("shop", () => {
 			let itemTotal = item.price;
 
 			if (!item.options) {
-				item.totalPrice = itemTotal;
-				total += itemTotal;
+				item.totalPrice = itemTotal * item.quantity;
+				total += item.totalPrice;
 				return;
 			}
 
@@ -117,8 +117,8 @@ export const useShopStore = defineStore("shop", () => {
 				itemTotal += optionTotal;
 			});
 
-			item.totalPrice = itemTotal;
-			total += itemTotal;
+			item.totalPrice = itemTotal * item.quantity;
+			total += item.totalPrice;
 		});
 
 		return total.toFixed(2);
@@ -127,9 +127,8 @@ export const useShopStore = defineStore("shop", () => {
 	//cart count
 	const cartCount = computed(function () {
 		const count = cart?.value.reduce(function (total, item) {
-			return total + (item.quantity ? item.quantity : 1);
+			return total + Number(item.quantity ? item.quantity : 1);
 		}, 0);
-
 		return count;
 	});
 
@@ -143,6 +142,7 @@ export const useShopStore = defineStore("shop", () => {
 
 	//add restaurant
 	async function addRestaurant(form) {
+		console.log(form);
 		const record = {
 			name: form.name,
 			address: form.address,
@@ -270,7 +270,7 @@ export const useShopStore = defineStore("shop", () => {
 		//add item to items collection within cart doc
 		await addDoc(
 			collection(db, "users", user?.id, "carts", item.belongsTo, "items"),
-			item
+			{ ...item, quantity: 1 }
 		);
 
 		ui.notify(`${item.name} Added to Cart`);
@@ -296,36 +296,17 @@ export const useShopStore = defineStore("shop", () => {
 		ui.notify(`Cart Cleared`);
 	}
 
-	// increment quantity
-	function incrementQuantity(updatedItem) {
-		var foundCart = getCart(updatedItem.belongsTo);
-
-		const cart = { ...foundCart.value };
-		cart.items = cart.items.map(function (item) {
-			if (updatedItem.id == item.id) {
-				item.quantity += 1;
-			}
-			return item;
-		});
-
-		setDoc(doc(db, "carts", updatedItem.belongsTo), cart);
-	}
-
-	// decrement quantity
-	function decrementQuantity(updatedItem) {
-		var foundCart = getCart(updatedItem.belongsTo);
-
-		const cart = { ...foundCart.value };
-		cart.items = cart.items.map(function (item) {
-			if (updatedItem.id == item.id) {
-				item.quantity -= 1;
-			}
-			if (item.quantity > 0) {
-				return item;
-			}
-		});
-
-		setDoc(doc(db, "carts", updatedItem.belongsTo), cart);
+	//update quantity
+	async function updateQuantity(item) {
+		if (item.quantity < 1) {
+			remove(item);
+			return;
+		}
+		await setDoc(
+			doc(db, "users", user?.id, "carts", item.belongsTo, "items", item.id),
+			item
+		);
+		ui.notify(`${item.name} Quantity Updated`);
 	}
 
 	///////////////////////////////////////////////////
@@ -378,7 +359,6 @@ export const useShopStore = defineStore("shop", () => {
 		add,
 		remove,
 		clearCart,
-		decrementQuantity,
-		incrementQuantity,
+		updateQuantity,
 	};
 });

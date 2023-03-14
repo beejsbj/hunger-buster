@@ -40,11 +40,17 @@
 	function setImage(file) {
 		restaurantForm.value.image = file;
 	}
+
+	function submit() {
+		const record = { ...restaurantForm.value };
+		record.image = restaurantForm.value.image;
+		shop.addRestaurant(record);
+	}
 </script>
 
 <template>
 	<form
-		@submit.prevent="shop.addRestaurant({ ...restaurantForm })"
+		@submit.prevent="submit()"
 		enctype="multipart/form-data"
 	>
 		<h1 class="attention-voice">Add a Restaurant</h1>

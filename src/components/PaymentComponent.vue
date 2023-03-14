@@ -2,7 +2,7 @@
 	//////////////////////////////////////////
 
 	const user = useUserStore();
-	const props = defineProps(["restaurant", "cart", "order"]);
+	const props = defineProps([ "cart", "order"]);
 
 	const tipPercent = ref(5);
 
