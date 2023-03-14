@@ -17,6 +17,8 @@ declare module '@vue/runtime-core' {
     BusinessRestaurants: typeof import('./src/views/pages/BusinessView/subviews/BusinessRestaurants.vue')['default']
     BusinessSignup: typeof import('./src/views/pages/BusinessSignup.vue')['default']
     BusinessView: typeof import('./src/views/pages/BusinessView/BusinessView.vue')['default']
+    CartItemCard: typeof import('./src/views/modules/CartItemCard.vue')['default']
+    CartItemCardOptions: typeof import('./src/views/modules/CartItemCard/CartItemCardOptions.vue')['default']
     CartModule: typeof import('./src/views/modules/CartModule.vue')['default']
     Carts: typeof import('./src/views/pages/Carts.vue')['default']
     CategoryFilter: typeof import('./src/components/CategoryFilter.vue')['default']
