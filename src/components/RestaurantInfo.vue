@@ -35,7 +35,11 @@
 							{{ restaurant.phone }}
 						</p>
 						<p v-if="restaurant.address">
-							{{ restaurant.address.formatted_address }}
+							<a
+								:target="restaurant.id"
+								:href="restaurant.address.url"
+								>{{ restaurant.address.formatted_address }}</a
+							>
 						</p>
 						<p v-if="restaurant.website">
 							<a
@@ -44,11 +48,11 @@
 								>{{ restaurant.name }}</a
 							>
 						</p>
-						<TimesView
-							v-if="restaurant.times"
-							:times="restaurant.times"
-						/>
 					</paragraph-content>
+					<TimesView
+						v-if="restaurant.times"
+						:times="restaurant.times"
+					/>
 				</text-content>
 			</info-box>
 		</div>

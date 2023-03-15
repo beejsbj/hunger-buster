@@ -3,18 +3,27 @@
 	const showInfo = ref(false);
 </script>
 
-
 <template>
 	<restaurant-banner>
 		<text-content>
 			<h2 class="loud-voice">
 				{{ restaurant.name }}
 			</h2>
+			<p class="whisper-voice">
+				{{ restaurant.description }}
+			</p>
 			<p>
-				★
-				<span v-if="restaurant.ratings">{{ restaurant.ratings }}</span>
-				(<span v-if="restaurant.reviews">{{ restaurant.reviews }}</span
-				>+ reviews) · {{ "$".repeat(restaurant.priceLevel) }} ·
+				<span v-if="restaurant.ratings">
+					★ {{ restaurant.ratings ?? 4.7 }}
+				</span>
+
+				<span v-if="restaurant.reviews">
+					({{ restaurant.reviews ?? 170 }}+ reviews) ·
+				</span>
+
+				<span v-if="restaurant.priceLevel">
+					{{ "$".repeat(restaurant.priceLevel ?? 2) }} ·
+				</span>
 				<button
 					class="text"
 					@click="showInfo = !showInfo"
