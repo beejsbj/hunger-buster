@@ -13,6 +13,7 @@
       "@fawmi/vue-google-maps": "0.9.67",
       "@vueform/multiselect": "^2.5.8",
       "@vueuse/core": "^9.13.0",
+      "extract-colors": "^2.0.5",
       "firebase": "^9.17.1",
       "pinia": "^2.0.28",
       "slug": "^8.2.2",
