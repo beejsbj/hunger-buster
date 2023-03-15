@@ -1,7 +1,6 @@
 <script setup>
 	//////////////////////////////////////////
 
-
 	const shop = useShopStore();
 	const props = defineProps(["restaurant", "cart"]);
 
@@ -33,23 +32,11 @@
 		).toFixed(2);
 	});
 
-	function optionSelected(option) {
-		return option.choices.some(function (choice) {
-			return choice.selected;
-		});
-	}
-
-
 	//////////////////////////////////////////
-
-	function clog(item) {
-		console.log(item);
-	}
 </script>
 
 <template>
 	<article v-if="cart?.length">
-		
 		<CartModule />
 
 		<PaymentComponent
@@ -76,5 +63,4 @@
 		display: grid;
 		gap: 20px;
 	}
-
 </style>
