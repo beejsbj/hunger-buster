@@ -1,4 +1,3 @@
-
 <script setup>
 	const props = defineProps(["itemForm"]);
 
@@ -10,8 +9,18 @@
 			choices: [],
 		};
 
+		console.log(props.itemForm);
+
+		if (!props.itemForm.options) {
+			props.itemForm.options = [];
+		}
+
 		props.itemForm.options.push(option);
 		reFocus();
+	}
+
+	function removeOption(index) {
+		props.itemForm.options.splice(index, 1);
 	}
 
 	//to refocus
@@ -34,7 +43,7 @@
 				v-for="(option, index) in itemForm.options"
 				:key="index"
 				class="option-field"
-				:style="true ? `--choice-hue: ${index * 20}` : ''"
+				:style="true ? `--option-hue: ${index * 36}deg` : ''"
 			>
 				<input-field>
 					<label for="options"> Enter Option's Name </label>
@@ -69,6 +78,12 @@
 				</input-field>
 
 				<AddOptionChoice :option="option" />
+				<button
+					@click.prevent="removeOption(index)"
+					class="button"
+				>
+					Remove Option
+				</button>
 			</li>
 		</ul>
 
@@ -90,12 +105,11 @@
 	}
 
 	.option-field {
-		background-color: hsla(var(--choice-hue), 91%, 90%, 1);
-	}
+		border: 2px dashed var(--highlight);
 
-	button {
-		background-color: hsla(24, 93%, 66%, 1);
-		color: black;
+		filter: hue-rotate(var(--option-hue));
+		padding: 10px;
+		display: grid;
 	}
 </style>
 <style src="@vueform/multiselect/themes/default.css"></style>

@@ -1,4 +1,3 @@
-
 <script setup>
 	const props = defineProps(["option"]);
 
@@ -85,10 +84,6 @@
 </template>
 
 <style scoped>
-	form.add-choice ul {
-		border: 2px dashed blue;
-		padding: 10px;
-	}
 	input-field.checkbox {
 		display: flex;
 		gap: 10px;
@@ -98,12 +93,15 @@
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		gap: 10px;
-		border: 2px dashed red;
-		background-color: hsla(48, 52%, 86%, 1);
+		border: 2px dashed var(--highlight);
+
+		padding: 10px;
+
+		filter: hue-rotate(var(--choice-hue));
 	}
 
 	.choice-field:nth-of-type(odd) {
-		background-color: hsla(48, 92%, 76%, 1);
+		filter: hue-rotate(180deg);
 	}
 
 	input-field {
@@ -121,6 +119,6 @@
 	}
 
 	button {
-		background-color: hsla(0, 92%, 20%, 1);
+		filter: brightness(1.5);
 	}
 </style>

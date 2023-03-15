@@ -1,6 +1,4 @@
 <script setup>
-	import { computed } from "vue";
-
 	const user = useUserStore();
 	const route = useRoute();
 	const shop = useShopStore();
@@ -10,14 +8,22 @@
 			return item.id == route.params.itemSlug;
 		});
 	});
+
+	const editing = ref(false);
 </script>
 
 <template>
-	<item-detail v-if="item">
+	<item-detail v-if="item && !editing">
 		<item-banner>
 			<text-content>
 				<h1 class="attention-voice">{{ item.name }}</h1>
 				<p>${{ item.price }}</p>
+				<p
+					class="whisper-voice"
+					v-if="item.description"
+				>
+					{{ item.description }}
+				</p>
 
 				<button
 					class="button outline"
@@ -46,16 +52,34 @@
 			</input-field>
 			<div class="buttons">
 				<button class="button outline">Add Item to Cart</button>
-				<button
+				<div
+					class="buttons"
 					v-if="user.isBusinessOwner"
-					class="button danger"
-					@click.prevent="shop.delete(item)"
 				>
-					Permanantly Delete Item
-				</button>
+					<button
+						class="button"
+						@click.prevent="editing = true"
+					>
+						Edit Item
+					</button>
+
+					<button
+						class="button danger"
+						@click.prevent="shop.delete(item)"
+					>
+						Permanantly Delete Item
+					</button>
+				</div>
 			</div>
 		</form>
 	</item-detail>
+
+	<CreateItem
+		v-if="item && editing"
+		:item="item"
+		:editing="editing"
+		@close="editing = false"
+	/>
 </template>
 
 <style lang="scss" scoped>

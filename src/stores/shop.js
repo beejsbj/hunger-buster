@@ -6,16 +6,16 @@ import {
 	doc,
 	deleteDoc,
 	addDoc,
-	getDoc,
 	updateDoc,
 	arrayUnion,
 	setDoc,
 } from "firebase/firestore";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "./user";
-import { getStorage } from "firebase/storage";
-import { useFirebaseStorage, useStorageFile, useStorageFileUrl } from "vuefire";
+import { useFirebaseStorage, useStorageFile } from "vuefire";
 import { ref as storageRef } from "firebase/storage";
+import { extractColors } from "extract-colors";
+import { watch } from "vue";
 
 ///////////////////////////////////////////////////////
 
@@ -49,6 +49,28 @@ export const useShopStore = defineStore("shop", () => {
 	});
 	const { data: restaurant, promise: restaurantPromise } =
 		useDocument(restaurantDocRef);
+
+	// const colors = computed(async () => {
+	// 	if (restaurant.value) {
+	// 		return await extractColors(restaurant.value.image, {
+	// 			crossOrigin: "anonymous",
+	// 			numberOfColors: 5,
+	// 		});
+	// 	}
+	// });
+
+	const colors = ref([]);
+	watch(restaurant, async (after) => {
+		if (after) {
+			let unmapped = await extractColors(after.image, {
+				crossOrigin: "anonymous",
+				numberOfColors: 5,
+			});
+			colors.value = unmapped.map((color) => {
+				return color.hex;
+			});
+		}
+	});
 
 	//current restaurant's items
 	const itemsRef = computed(() => {
@@ -132,38 +154,36 @@ export const useShopStore = defineStore("shop", () => {
 		return count;
 	});
 
-	//cart tip
-	const cartTip = computed(() => {
-		const tip = cartTotal.value * 0.15;
-		return tip.toFixed(2);
-	});
-
 	////////////////////////////////////////////
 
 	//add restaurant
 	async function addRestaurant(form) {
-		console.log(form);
+		console.log(typeof form.image);
 		const record = {
 			name: form.name,
 			address: form.address,
 			phone: form.phone,
+			image: form.image,
 			website: form.website ?? "",
-			notes: form.notes ?? "",
+			description: form.description ?? "",
 			owner: user.id,
+			times: form.times ?? "",
 		};
-		record.id = await getUniqueId(slug(form.name));
+		record.id = form.id ?? (await getUniqueId(slug(form.name)));
 
 		//upload image
-		const imageRef = storageRef(
-			storage,
-			`images/restaurants/${record.id}/thumbnail`
-		);
-		const { upload, url, refresh } = useStorageFile(imageRef);
-		await upload(form.image);
+		if (typeof form.image == "object") {
+			const imageRef = storageRef(
+				storage,
+				`images/restaurants/${record.id}/thumbnail`
+			);
+			const { upload, url, refresh } = useStorageFile(imageRef);
+			await upload(form.image);
 
-		await refresh();
-		console.log(url.value);
-		record.image = url.value;
+			await refresh();
+			console.log(url.value);
+			record.image = url.value;
+		}
 
 		// //add restaurant to db
 		await setDoc(doc(db, "restaurants", record.id), record);
@@ -174,7 +194,13 @@ export const useShopStore = defineStore("shop", () => {
 		});
 
 		// //notify user
-		ui.notify(`${record.name} Added Restaurant to store!`);
+		ui.notify(`${record.name} Added to store!`);
+
+		if (route.params.restaurantSlug == record.id) {
+			ui.notify(`Finished editing ${record.name}`);
+		} else {
+			ui.notify(`${record.name} Added to site!`);
+		}
 
 		//redirect to new restaurant
 		router.push({
@@ -182,7 +208,7 @@ export const useShopStore = defineStore("shop", () => {
 		});
 
 		//clear form
-		localStorage.setItem("restaurantForm", JSON.stringify({}));
+		localStorage.removeItem("restaurantForm");
 	}
 
 	//delete restaurant
@@ -211,14 +237,16 @@ export const useShopStore = defineStore("shop", () => {
 		};
 
 		//upload image
-		const imageRef = storageRef(
-			storage,
-			`images/restaurants/${restaurant.value.id}/menuItems/${record.id}/thumbnail`
-		);
-		const { upload, url, refresh } = useStorageFile(imageRef);
-		await upload(form.image);
-		await refresh();
-		record.image = url.value;
+		if (typeof form.image == "object") {
+			const imageRef = storageRef(
+				storage,
+				`images/restaurants/${restaurant.value.id}/menuItems/${record.id}/thumbnail`
+			);
+			const { upload, url, refresh } = useStorageFile(imageRef);
+			await upload(form.image);
+			await refresh();
+			record.image = url.value;
+		}
 
 		//add item to db
 		await setDoc(
@@ -227,13 +255,15 @@ export const useShopStore = defineStore("shop", () => {
 		);
 
 		//notify user
-		ui.notify(`${record.name} Added Item to store!`);
+
+		if (route.params.itemSlug == record.id) {
+			ui.notify(`Finished editing ${record.name}!`);
+		} else {
+			ui.notify(`Item ${record.name} Added to store!`);
+		}
 
 		//clear form and local storage
-		localStorage.setItem(
-			`${restaurant.value.id}-itemForm`,
-			JSON.stringify({})
-		);
+		localStorage.removeItem(`${restaurant.value.id}-itemForm`);
 
 		//redirect to new item
 		router.push({
@@ -345,6 +375,7 @@ export const useShopStore = defineStore("shop", () => {
 		carts,
 
 		restaurant,
+		colors,
 		items,
 		cart,
 		cartCount,
