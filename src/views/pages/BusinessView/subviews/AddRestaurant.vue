@@ -1,17 +1,49 @@
-
 <script setup>
 	import { useStorage } from "@vueuse/core";
 
 	const shop = useShopStore();
+	const props = defineProps(["editing"]);
 
-	const restaurantForm = useStorage("restaurantForm", {
-		name: "",
-		image: "",
-		phone: "",
-		address: {},
-		website: "",
-		notes: "",
-	});
+	const restaurantForm = props.editing
+		? shop.restaurant
+		: useStorage("restaurantForm", {
+				name: "",
+				image: "",
+				phone: "",
+				address: {},
+				website: "",
+				description: "",
+				times: {
+					Monday: {
+						open: "",
+						close: "",
+					},
+					Tuesday: {
+						open: "",
+						close: "",
+					},
+					Wednesday: {
+						open: "",
+						close: "",
+					},
+					Thursday: {
+						open: "",
+						close: "",
+					},
+					Friday: {
+						open: "",
+						close: "",
+					},
+					Saturday: {
+						open: "",
+						close: "",
+					},
+					Sunday: {
+						open: "",
+						close: "",
+					},
+				},
+		  });
 
 	function numberFormat(event) {
 		// if (event.key == "-" && isNaN(event.key) && event.key !== "Backspace") {
@@ -38,12 +70,17 @@
 	}
 
 	function setImage(file) {
-		restaurantForm.value.image = file;
+		restaurantImage.value = file;
 	}
 
+	const restaurantImage = ref(null);
+
 	function submit() {
-		const record = { ...restaurantForm.value };
-		record.image = restaurantForm.value.image;
+		const record = props.editing
+			? restaurantForm
+			: { ...restaurantForm.value };
+		record.image = restaurantImage.value ?? restaurantForm.image;
+
 		shop.addRestaurant(record);
 	}
 </script>
@@ -53,9 +90,11 @@
 		@submit.prevent="submit()"
 		enctype="multipart/form-data"
 	>
-		<h1 class="attention-voice">Add a Restaurant</h1>
+		<h1 class="attention-voice">
+			{{ props.editing ? "Edit" : "Add" }} a Restaurant
+		</h1>
 		<input-field>
-			<label for="name"> Enter restaurant's name. </label>
+			<label for="name"> name. </label>
 			<input
 				type="text"
 				required
@@ -65,10 +104,13 @@
 			/>
 		</input-field>
 
-		<FileUpload @setImage="setImage" />
+		<FileUpload
+			@setImage="setImage"
+			:image="restaurantForm.image"
+		/>
 
 		<input-field>
-			<label for="address"> Enter restaurant's address. </label>
+			<label for="address"> address. </label>
 			<GMapAutocomplete
 				required
 				id="address"
@@ -79,7 +121,7 @@
 		</input-field>
 
 		<input-field>
-			<label for="phone"> Enter restaurant's phone number. </label>
+			<label for="phone"> phone number. </label>
 			<input
 				required
 				type="tel"
@@ -93,7 +135,7 @@
 		</input-field>
 
 		<input-field>
-			<label for="website"> Enter restaurant's website. </label>
+			<label for="website"> website. </label>
 			<input
 				type="text"
 				v-model="restaurantForm.website"
@@ -103,17 +145,20 @@
 		</input-field>
 
 		<input-field>
-			<label for="notes"> Describe your restaurant </label>
+			<label for="description"> Describe your restaurant </label>
 			<textarea
-				v-model="restaurantForm.notes"
-				id="notes"
+				v-model="restaurantForm.description"
+				id="description"
 				placeholder="description"
 			/>
 		</input-field>
 
-		<button class="button">Add restaurant</button>
+		<TimesForm :restaurantForm="restaurantForm" />
+
+		<button class="button">
+			Finish {{ props.editing ? "editing" : "adding" }} restaurant
+		</button>
 	</form>
 </template>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
