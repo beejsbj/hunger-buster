@@ -1,14 +1,31 @@
 <script setup>
 	import { RouterView, useRoute } from "vue-router";
 	const route = useRoute();
+	const shop = useShopStore();
+
+	onUpdated(() => {
+		// let $body = document.querySelector("body");
+		// if (shop.colors[5]) {
+		// 	$body.style.setProperty("--highlight", shop.colors[5] ?? "inherit");
+		// }
+	});
+
+	const styles = computed(() => {
+		if (route.params.restaurantSlug) {
+			return {
+				"--highlight": shop.colors[5] ?? "inherit",
+			};
+		}
+	});
 </script>
 
 <template>
-	<AppHeader />
+	<AppHeader :style="styles" />
 
 	<main
 		class="outlet"
 		:class="route.name"
+		:style="styles"
 	>
 		<section>
 			<inner-column>
@@ -28,8 +45,7 @@
 			</inner-column>
 		</section>
 	</main>
-	<AppFooter />
+	<AppFooter :style="styles" />
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>
