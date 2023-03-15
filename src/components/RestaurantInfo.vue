@@ -1,4 +1,3 @@
-
 <script setup>
 	defineProps(["restaurant", "show"]);
 </script>
@@ -45,9 +44,10 @@
 								>{{ restaurant.name }}</a
 							>
 						</p>
-						<p v-if="restaurant.hours">
-							{{ restaurant.hours }}
-						</p>
+						<TimesView
+							v-if="restaurant.times"
+							:times="restaurant.times"
+						/>
 					</paragraph-content>
 				</text-content>
 			</info-box>
