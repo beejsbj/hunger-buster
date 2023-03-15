@@ -1,5 +1,37 @@
 <script setup>
 	const props = defineProps(["restaurantForm"]);
+	if (!props.restaurantForm.times) {
+		props.restaurantForm.times = {
+			Monday: {
+				open: "",
+				close: "",
+			},
+			Tuesday: {
+				open: "",
+				close: "",
+			},
+			Wednesday: {
+				open: "",
+				close: "",
+			},
+			Thursday: {
+				open: "",
+				close: "",
+			},
+			Friday: {
+				open: "",
+				close: "",
+			},
+			Saturday: {
+				open: "",
+				close: "",
+			},
+			Sunday: {
+				open: "",
+				close: "",
+			},
+		};
+	}
 </script>
 <template>
 	<times-form>
@@ -41,7 +73,7 @@
 <style scoped>
 	times-form {
 		display: grid;
-		gap: 20px;
+		gap: 30px;
 		/* justify-content: start; */
 		padding: 20px 0;
 	}
@@ -55,5 +87,9 @@
 	}
 	input-field.radio {
 		display: flex;
+	}
+
+	times-form input-field {
+		padding: 0;
 	}
 </style>
