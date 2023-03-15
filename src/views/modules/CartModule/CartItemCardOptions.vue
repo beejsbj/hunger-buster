@@ -31,11 +31,12 @@
 							v-if="choice.selected"
 							class="small-voice"
 						>
-							- {{ choice.name }}
+							－ {{ choice.name }}
 							<span
 								class="price"
 								v-if="choice.price"
-								>{{ choice.price }}</span
+							>
+								- {{ choice.price }}</span
 							>
 						</li>
 					</template>

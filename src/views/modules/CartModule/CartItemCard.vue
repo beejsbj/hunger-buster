@@ -7,6 +7,21 @@
 
 <template>
 	<li class="item">
+		<div class="item-info">
+			<h2 class="firm-voice">
+				{{ item.name }} —
+				<span class="price small-voice">${{ item.totalPrice }}</span>
+			</h2>
+
+			<CartItemCardOptions :options="item.options" />
+
+			<p
+				class="small-voice"
+				v-if="item.note"
+			>
+				{{ item.note }}
+			</p>
+		</div>
 		<div>
 			<picture>
 				<img
@@ -15,21 +30,7 @@
 				/>
 			</picture>
 		</div>
-		<div class="name">
-			<h2 class="firm-voice">
-				{{ item.name }} -
-				<span class="price small-voice">${{ item.totalPrice }}</span>
-			</h2>
 
-			<CartItemCardOptions :options="item.options" />
-
-			<p
-				class="note"
-				v-if="item.note"
-			>
-				{{ item.note }}
-			</p>
-		</div>
 		<div>
 			<select
 				@change="shop.updateQuantity(item)"
@@ -49,33 +50,28 @@
 <style scoped>
 	li.item {
 		display: grid;
-		grid-template-columns: 0.5fr 1fr 0.5fr;
+		grid-template-columns: 1fr 0.5fr;
 		gap: 15px;
-		align-items: center;
 		justify-items: center;
 	}
 
 	li.item + li.item {
 		border-top: 1px solid hsla(0, 0%, 0%, 0.4);
-		padding-top: 10px;
+		padding: 20px 0;
 	}
 
-	div.name {
+	div.item-info {
 		display: grid;
-		gap: 5px;
-	}
-
-	.note {
-		font-size: 12px;
+		gap: 10px;
+		grid-row: span 2;
+		justify-self: start;
 	}
 
 	span.price {
-		--highlight: green;
 		color: var(--highlight);
 	}
 
 	select {
-		--highlight: orange;
 		background-color: var(--highlight);
 		color: white;
 		border: none;

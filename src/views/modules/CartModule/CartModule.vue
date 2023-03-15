@@ -2,12 +2,6 @@
 	//////////////////////////////////////////
 
 	const shop = useShopStore();
-
-	function optionSelected(option) {
-		return option.choices.some(function (choice) {
-			return choice.selected;
-		});
-	}
 </script>
 
 <template>
@@ -44,9 +38,10 @@
 		/*		width: 100%;*/
 		display: grid;
 		gap: 20px;
+		justify-content: start;
 	}
 
 	button.clearcart {
-		background-color: orange;
+		background-color: var(--highlight);
 	}
 </style>
