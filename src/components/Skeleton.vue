@@ -1,12 +1,25 @@
 <script setup>
 	import { Skeletor } from "vue-skeletor";
 	const ui = useInterfaceStore();
-	const props = defineProps(["pill"]);
+	const props = defineProps(["pill", "duration"]);
+
+	const duration = computed(() => {
+		return props.duration ?? 1000;
+	});
+
+	const seletonLoading = ref(true);
+	onMounted(() => {
+		seletonLoading.value = true;
+
+		setTimeout(() => {
+			seletonLoading.value = false;
+		}, duration.value);
+	});
 </script>
 
 <template>
 	<Skeletor
-		v-if="ui.seletonLoading"
+		v-if="seletonLoading"
 		size="100%"
 		:pill="pill"
 	/>
@@ -21,7 +34,7 @@
 			left: 0;
 			top: 0;
 			z-index: 11;
-			background-color: hsla(0, 0%, 76%, 1);
+			background-color: hsla(0, 0%, 80%, 1);
 		}
 		&:has(> .vue-skeletor) {
 			position: relative;
