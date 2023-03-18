@@ -17,14 +17,16 @@
 				"
 				alt="https://peprojects.dev/images/square.jpg"
 			/>
+			<Skeleton :pill="true" />
 		</picture>
 		<text-content>
 			<h2 class="solid-voice">
 				{{ restaurant.name }}
 			</h2>
 			<p class="price-level">{{ "$".repeat(restaurant.priceLevel) }}</p>
+			<Skeleton :pill="true" />
 		</text-content>
-		<div>
+		<div class="buttons">
 			<RouterLink
 				class="button outline"
 				:to="'/restaurant/' + restaurant.id"
@@ -38,6 +40,7 @@
 			>
 				♡
 			</button>
+			<Skeleton :pill="true" />
 		</div>
 	</restaurant-card>
 </template>
@@ -46,10 +49,9 @@
 	restaurant-card {
 		display: grid;
 		gap: 10px;
-		background-color: rgba(0, 0, 0, 0.1);
-		aspect-ratio: 1/1;
+		background-color: rgba(0, 0, 0, 0.01);
 	}
-	restaurant-card div {
+	restaurant-card div.buttons {
 		display: grid;
 		grid-template-columns: 1fr 0.3fr;
 		align-items: center;
@@ -57,10 +59,13 @@
 		gap: 20px;
 	}
 
+	restaurant-card picture {
+		aspect-ratio: 1 / 1;
+	}
 	restaurant-card img {
 		object-fit: cover;
-		/* object-position: 0 100%; */
-		max-height: 100%;
+		height: 100%;
+		width: 100%;
 	}
 
 	text-content {

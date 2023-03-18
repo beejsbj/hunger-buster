@@ -7,12 +7,17 @@
 	<restaurant-banner>
 		<text-content>
 			<h2 class="loud-voice">
-				{{ restaurant.name }}
+				<span>
+					{{ restaurant.name }}
+				</span>
+				<Skeleton :pill="true" />
 			</h2>
 			<p class="whisper-voice">
-				{{ restaurant.description }}
+				<span>{{ restaurant.description }}</span>
+				<Skeleton :pill="true" />
 			</p>
 			<p>
+				<Skeleton :pill="true" />
 				<span v-if="restaurant.ratings">
 					★ {{ restaurant.ratings ?? 4.7 }}
 				</span>
@@ -47,6 +52,7 @@
 				"
 				alt="https://peprojects.dev/images/square.jpg"
 			/>
+			<Skeleton :pill="true" />
 		</picture>
 	</restaurant-banner>
 </template>
@@ -55,8 +61,17 @@
 	restaurant-banner {
 		display: grid;
 		grid-template-columns: 1fr 0.2fr;
+		gap: 30px;
 		picture {
 			grid-row: span 2;
 		}
+	}
+	restaurant-banner picture {
+		aspect-ratio: 1 / 1;
+	}
+	restaurant-banner text-content {
+		display: grid;
+		gap: 5px;
+		justify-content: start;
 	}
 </style>

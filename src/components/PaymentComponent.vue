@@ -2,7 +2,7 @@
 	//////////////////////////////////////////
 
 	const user = useUserStore();
-	const props = defineProps([ "cart", "order"]);
+	const props = defineProps(["cart", "order"]);
 
 	const tipPercent = ref(5);
 
@@ -21,15 +21,18 @@
 			<div class="subtotal">
 				<p>Subtotal</p>
 				<p>${{ order.subtotal }}</p>
+				<Skeleton :pill="true" />
 			</div>
 			<div class="deliveryfee">
 				<p>Delivery Fee</p>
 				<p>${{ order.deliveryFee }}</p>
+				<Skeleton :pill="true" />
 			</div>
 
 			<div class="tax">
 				<p>Taxes and Other fees</p>
 				<p>${{ order.tax.toFixed(2) }}</p>
+				<Skeleton :pill="true" />
 			</div>
 			<div class="tip">
 				<p>Tip</p>
@@ -62,11 +65,13 @@
 						<label for="tip15">15%</label>
 					</input-field>
 				</radio-list>
+				<Skeleton :pill="true" />
 			</div>
 
 			<div class="order-total">
 				<p>Total</p>
 				<p>${{ order.total }}</p>
+				<Skeleton :pill="true" />
 			</div>
 
 			<!-- add a tip -->

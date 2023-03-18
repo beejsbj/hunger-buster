@@ -60,25 +60,7 @@
 </template>
 
 <style scoped>
-	.modal-mask {
-		position: fixed;
-		z-index: 9998;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0, 0, 0, 0.5);
-		transition: opacity 0.3s ease;
-	}
 	info-box {
-		position: absolute;
-		width: clamp(300px, 90vw, 500px);
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-
-		background-color: var(--paper);
-
 		display: grid;
 		grid-template-rows: 1fr 0.1fr;
 	}

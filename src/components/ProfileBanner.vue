@@ -3,18 +3,11 @@
 	const user = useUserStore();
 </script>
 
-
 <template>
 	<profile-banner>
 		<h1 class="loud-voice">
-			{{ profile?.displayName }}
-			<span class="calm-voice">
-				<RouterLink
-					class="button"
-					to="/user/edit"
-					>Edit</RouterLink
-				>
-			</span>
+			<span>{{ profile?.displayName }}</span>
+			<Skeleton :pill="true" />
 		</h1>
 
 		<picture class="profile-picture">
@@ -22,6 +15,7 @@
 				:src="profile?.image"
 				alt=""
 			/>
+			<Skeleton :pill="true" />
 		</picture>
 		<!-- <button class="edit outline">Edit Image</button> -->
 	</profile-banner>
@@ -30,15 +24,21 @@
 <style lang="scss" scoped>
 	profile-banner {
 		display: grid;
-		grid-template-columns: 1fr 0.3fr;
+		grid-template-columns: 1fr 0.2fr;
 	}
 	h1 {
 		position: relative;
 		display: grid;
 		align-content: start;
 		justify-items: start;
+		justify-self: start;
+		align-self: start;
 		a {
 			font-size: 14px;
 		}
+	}
+
+	profile-banner picture {
+		aspect-ratio: 1 / 1;
 	}
 </style>
