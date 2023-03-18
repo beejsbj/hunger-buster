@@ -1,12 +1,23 @@
-import { ref, computed } from "vue";
+import { ref, computed, onUpdated } from "vue";
 import { defineStore } from "pinia";
+import { useLoading } from "vue-loading-overlay";
 
 export const useInterfaceStore = defineStore("interface", function () {
-	const mainMenuOpen = ref(false);
+	const shop = useShopStore();
+	const user = useUserStore();
 
+	const mainMenuOpen = ref(false);
 	function toggleMenu() {
 		mainMenuOpen.value = !mainMenuOpen.value;
 	}
+
+	const isMobile = computed(() => {
+		return window.innerWidth < 450;
+	});
+
+	const $loading = useLoading({
+		canCancel: true, // default false
+	});
 
 	function notify(message) {
 		toast(message, {
@@ -17,6 +28,7 @@ export const useInterfaceStore = defineStore("interface", function () {
 
 	function navUnderline(event) {
 		if (event.target.matches("a")) {
+			// console.log("event.target", event.target);
 			const a = event.target;
 			const nav = a.closest("nav");
 			const left = a.offsetLeft;
@@ -34,11 +46,22 @@ export const useInterfaceStore = defineStore("interface", function () {
 		}
 	}
 
+	const seletonLoading = ref(true);
+	onUpdated(() => {
+		seletonLoading.value = true;
+		setTimeout(() => {
+			seletonLoading.value = false;
+		}, 2500);
+	});
+
 	return {
 		mainMenuOpen,
 		toggleMenu,
 		notify,
+		isMobile,
 
 		navUnderline,
+		$loading,
+		seletonLoading,
 	};
 });
