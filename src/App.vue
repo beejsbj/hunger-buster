@@ -3,49 +3,52 @@
 	const route = useRoute();
 	const shop = useShopStore();
 
-	onUpdated(() => {
-		// let $body = document.querySelector("body");
-		// if (shop.colors[5]) {
-		// 	$body.style.setProperty("--highlight", shop.colors[5] ?? "inherit");
-		// }
-	});
+	// onUpdated(() => {
+	// let $body = document.querySelector("body");
+	// if (shop.colors[5]) {
+	// 	$body.style.setProperty("--highlight", shop.colors[5] ?? "inherit");
+	// }
+	// });
 
 	const styles = computed(() => {
 		if (route.params.restaurantSlug) {
 			return {
-				"--highlight": shop.colors[5] ?? "inherit",
+				color: shop.colors[5] ?? "var(--blue)",
 			};
 		}
 	});
 </script>
 
 <template>
-	<AppHeader :style="styles" />
+	<AppHeader />
 
 	<main
 		class="outlet"
 		:class="route.name"
-		:style="styles"
 	>
 		<section>
 			<inner-column>
-				<!-- <RouterView v-slot="{ Component, route }">
+				<RouterView
+					v-slot="{ Component, route }"
+					appear
+				>
 					<Transition
 						mode="out-in"
 						name="fade"
 					>
-						<Component
-							:is="Component"
-							:key="route.params.name"
-						/>
+						<Component :is="Component" />
 					</Transition>
-				</RouterView> -->
+				</RouterView>
 
-				<RouterView />
+				<!-- <RouterView /> -->
 			</inner-column>
 		</section>
 	</main>
-	<AppFooter :style="styles" />
+	<AppFooter />
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+	body > * {
+		--highlight: v-bind("shop.colors[5] ?? 'var(--blue)'");
+	}
+</style>
