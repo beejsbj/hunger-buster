@@ -53,7 +53,6 @@ export const useUserStore = defineStore("user", () => {
 	const isBusinessOwner = computed(() => userDoc.value?.roles?.business);
 
 	const profile = computed(() => userDoc.value?.profile);
-
 	const address = computed(() => userDoc.value?.address);
 
 	//all user's orders
