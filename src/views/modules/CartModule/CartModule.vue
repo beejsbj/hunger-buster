@@ -38,7 +38,6 @@
 		/*		width: 100%;*/
 		display: grid;
 		gap: 20px;
-		justify-content: start;
 	}
 
 	button.clearcart {

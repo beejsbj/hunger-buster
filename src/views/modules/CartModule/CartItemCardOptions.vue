@@ -24,6 +24,7 @@
 				<p class="whisper-voice">
 					{{ option.name }}
 				</p>
+				<Skeleton :pill="true" />
 				<ul class="choices">
 					<template v-for="choice in option.choices">
 						<li

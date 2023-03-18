@@ -16,8 +16,9 @@
 </script>
 
 <template>
-	<Transition name="fade">
-		<item-wrapper
+	<Transition name="modal">
+		<div
+			class="modal-mask"
 			v-if="item.show"
 			@click.self="item.show = !item.show"
 		>
@@ -66,7 +67,7 @@
 					</div>
 				</form>
 			</item-detail>
-		</item-wrapper>
+		</div>
 	</Transition>
 </template>
 
@@ -110,25 +111,14 @@
 		width: 100%;
 	}
 
-	item-wrapper {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: hsla(212, 23%, 11%, 0.6);
-		overflow-x: hidden;
-		padding: 10px;
-
+	div {
 		@media (min-width: 600px) {
-			padding: 100px;
 			button.close {
 				display: none;
 			}
 		}
 
 		@media (min-width: 900px) {
-			padding: 60px 30vw;
 		}
 	}
 

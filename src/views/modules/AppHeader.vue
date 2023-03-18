@@ -1,25 +1,8 @@
 <script setup>
+	import AppHeaderNav from "./AppHeaderNav.vue";
+
 	const user = useUserStore();
-	const shop = useShopStore();
 	const ui = useInterfaceStore();
-
-	const navRef = ref(null);
-
-	watch(navRef, async (newVal) => {
-		await nextTick();
-
-		if (newVal === null) {
-			return;
-		}
-		newVal.$el.childNodes.forEach((el) => {
-			if (el.classList.contains("router-link-active")) {
-				ui.navUnderline({
-					target: el,
-				});
-			}
-		});
-	});
-	// #fixme: this is a hacky solution to the problem of the underline not being initialized on the first page load
 </script>
 
 <template>
@@ -31,71 +14,37 @@
 					alt=""
 				/>
 			</picture>
-			<GMapAutocomplete
-				id="delivery-address"
-				@place_changed="user.setUserLocation"
-				:value="user.address?.formatted_address ?? 'Enter your address'"
-			/>
 			<site-menu>
-				<button
-					class="menu-toggle button"
-					@click="ui.toggleMenu"
-				>
-					{{ ui.mainMenuOpen ? "close" : "open" }}
-				</button>
-				<TransitionGroup
-					name="list"
-					tag="nav"
-					:class="{
-						'menu-open': ui.mainMenuOpen,
-						'menu-close': !ui.mainMenuOpen,
-					}"
-					@click="ui.navUnderline($event)"
-					ref="navRef"
-				>
-					<RouterLink
-						key="home"
-						to="/"
-					>
-						Home
-					</RouterLink>
-					<RouterLink
-						key="restaurants"
-						to="/restaurants"
-					>
-						Restaurants
-					</RouterLink>
-					<RouterLink
-						key="carts"
-						v-if="shop.carts?.length && false"
-						to="/carts"
-						class="cart"
-						>Carts</RouterLink
-					>
-					<RouterLink
-						key="user"
-						to="/user"
-						v-if="user.current"
-					>
-						Profile
-					</RouterLink>
-					<RouterLink
-						key="login"
-						to="/login"
-						v-if="!user.current"
-					>
-						Login
-					</RouterLink>
+				<template v-if="ui.isMobile">
 					<button
-						class="button"
-						key="logout"
-						@click="user.logout()"
-						v-if="user.current"
+						class="menu-toggle button"
+						@click="ui.toggleMenu"
 					>
-						Logout
+						Menu
 					</button>
-				</TransitionGroup>
+					<Teleport to="body">
+						<div
+							class="modal-mask"
+							@click.self="ui.toggleMenu"
+							v-if="ui.mainMenuOpen"
+						>
+							<AppHeaderNav />
+						</div>
+					</Teleport>
+				</template>
+				<template v-else>
+					<AppHeaderNav />
+				</template>
 			</site-menu>
+
+			<div class="gmap-auto-complete">
+				<GMapAutocomplete
+					id="delivery-address"
+					@place_changed="user.setUserLocation"
+					:value="user.address?.formatted_address ?? 'Enter your address'"
+				/>
+				<Skeleton :pill="true" />
+			</div>
 		</inner-column>
 	</header>
 </template>
@@ -104,24 +53,21 @@
 	header inner-column {
 		display: grid;
 		grid-template-columns: 0.2fr 1fr;
-		justify-content: space-between;
+		gap: 20px;
+		align-items: center;
+
 		.logo {
 			max-width: 60px;
 		}
-		@media (min-width: 750px) {
-			grid-template-columns: 0.2fr 0.5fr;
-			justify-content: space-between;
-		}
 
-		input {
+		div.gmap-auto-complete {
 			align-self: center;
+			grid-column: 1 / -1;
+			display: grid;
 		}
 	}
 	site-menu {
-		grid-column: 1 / -1;
-		@media (min-width: 750px) {
-			grid-column: 3 / -1;
-		}
+		justify-self: end;
 
 		overflow: hidden;
 		display: block;
@@ -136,17 +82,8 @@
 			position: relative;
 			flex-wrap: wrap;
 			gap: 10px;
-			transition: 0.2s;
+			transition: 0.2s 0.2s;
 			transform: translateX(0%);
-			@media (max-width: 450px) {
-				&.menu-close {
-					transform: translateX(100%);
-				}
-				&.menu-open {
-					// display: none;
-					transform: translateX(0%);
-				}
-			}
 		}
 	}
 </style>

@@ -7,10 +7,13 @@
 
 <template>
 	<li class="item">
+		<!--  <Skeleton :pill="true" /> -->
+
 		<div class="item-info">
 			<h2 class="firm-voice">
-				{{ item.name }} —
+				<span>{{ item.name }} —</span>
 				<span class="price small-voice">${{ item.totalPrice }}</span>
+				<Skeleton :pill="true" />
 			</h2>
 
 			<CartItemCardOptions :options="item.options" />
@@ -26,9 +29,9 @@
 			<picture>
 				<img
 					:src="item.image"
-					alt=""
-				/>
-			</picture>
+					alt="" />
+				<Skeleton
+			/></picture>
 		</div>
 
 		<div>
@@ -36,7 +39,12 @@
 				@change="shop.updateQuantity(item)"
 				v-model="item.quantity"
 			>
-				<option class="remove">remove</option>
+				<option
+					class="remove"
+					value="0"
+				>
+					remove
+				</option>
 				<option>1</option>
 				<option>2</option>
 				<option>3</option>
@@ -53,6 +61,11 @@
 		grid-template-columns: 1fr 0.5fr;
 		gap: 15px;
 		justify-items: center;
+		align-items: center;
+	}
+
+	li.item picture {
+		aspect-ratio: 1 / 1;
 	}
 
 	li.item + li.item {
