@@ -47,8 +47,11 @@ export const useShopStore = defineStore("shop", () => {
 			return doc(db, "restaurants", slugID.value);
 		}
 	});
-	const { data: restaurant, promise: restaurantPromise } =
-		useDocument(restaurantDocRef);
+	const {
+		data: restaurant,
+		promise: restaurantPromise,
+		pending: restaurantPending,
+	} = useDocument(restaurantDocRef);
 
 	// const colors = computed(async () => {
 	// 	if (restaurant.value) {
@@ -60,17 +63,17 @@ export const useShopStore = defineStore("shop", () => {
 	// });
 
 	const colors = ref([]);
-	watch(restaurant, async (after) => {
-		if (after) {
-			let unmapped = await extractColors(after.image, {
-				crossOrigin: "anonymous",
-				numberOfColors: 5,
-			});
-			colors.value = unmapped.map((color) => {
-				return color.hex;
-			});
-		}
-	});
+	// watch(restaurant, async (after) => {
+	// 	if (after) {
+	// 		let unmapped = await extractColors(after.image, {
+	// 			crossOrigin: "Anonymous",
+	// 			numberOfColors: 5,
+	// 		});
+	// 		colors.value = unmapped.map((color) => {
+	// 			return color.hex;
+	// 		});
+	// 	}
+	// });
 
 	//current restaurant's items
 	const itemsRef = computed(() => {
@@ -78,7 +81,7 @@ export const useShopStore = defineStore("shop", () => {
 			return collection(db, "restaurants", restaurant.value.id, "menuItems");
 		}
 	});
-	const items = useCollection(itemsRef);
+	const { data: items, promise: itemsPromise } = useCollection(itemsRef);
 
 	//all user's carts
 	const cartsRef = computed(() => {
@@ -377,6 +380,7 @@ export const useShopStore = defineStore("shop", () => {
 		restaurant,
 		colors,
 		items,
+		itemsPromise,
 		cart,
 		cartCount,
 		cartTotal,
