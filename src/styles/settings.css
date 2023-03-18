@@ -4,8 +4,12 @@ html {
 
 	--neutral-stuffs: gray;
 
+
+	--blue: hsla(209, 90%, 50%, 1);
+
+
 	--color: hsla(206, 66%, 77%, 1);
-	--highlight: hsla(209, 90%, 50%, 1);
+	--highlight: var(--blue);
 
 	--shadow: rgba(0, 0, 0, 0.8);
 
