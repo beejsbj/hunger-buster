@@ -21,6 +21,12 @@
 				@click="ui.navUnderline($event)"
 			>
 				<RouterLink
+					to="/user"
+					class="user"
+					>Profile</RouterLink
+				>
+
+				<RouterLink
 					class="business"
 					to="/business/restaurants"
 					>Your Restaurants</RouterLink
@@ -43,5 +49,9 @@
 	profile-view {
 		display: grid;
 		gap: 20px;
+	}
+
+	a.user {
+		color: var(--highlight);
 	}
 </style>
