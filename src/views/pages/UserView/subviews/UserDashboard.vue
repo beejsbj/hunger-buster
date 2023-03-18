@@ -1,6 +1,5 @@
-
 <template>
-	<h1 class="attention-voice">UserDashboard</h1>
+	<h1 class="attention-voice">Dashboard</h1>
 	<!-- <button
 		class="button"
 		@click="user.editUser"

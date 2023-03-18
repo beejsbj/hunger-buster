@@ -95,6 +95,7 @@
 					</GMapCluster>
 				</GMapMap>
 			</map-view>
+			<Skeleton :pill="true" />
 		</delivery-module>
 	</checkout-module>
 	<div class="buttons">
@@ -109,6 +110,7 @@
 		>
 			Place Order
 		</button>
+		<Skeleton :pill="true" />
 	</div>
 </template>
 
@@ -139,4 +141,3 @@
 		gap: 20px;
 	}
 </style>
-

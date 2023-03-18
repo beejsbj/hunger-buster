@@ -34,11 +34,7 @@
 					Favorties
 				</RouterLink>
 				<RouterLink to="/user/orders">Orders</RouterLink>
-				<RouterLink
-					v-if="route.name == 'userEdit'"
-					to="/user/edit"
-					>Edit</RouterLink
-				>
+				<RouterLink to="/user/edit">Edit</RouterLink>
 				<!-- <RouterLink to="/user/reviews">Reviews</RouterLink>
 				<RouterLink to="/user/settings">Settings</RouterLink> -->
 				<RouterLink
@@ -47,6 +43,7 @@
 					to="/business"
 					>Business</RouterLink
 				>
+				<Skeleton :pill="true" />
 			</nav>
 		</header>
 

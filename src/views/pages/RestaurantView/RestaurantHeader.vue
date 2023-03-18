@@ -1,4 +1,6 @@
 <script setup>
+	import { onUpdated } from "vue";
+
 	///////////////////////////////////////////
 	const shop = useShopStore();
 	const user = useUserStore();
@@ -7,9 +9,9 @@
 	//
 	const navRef = ref(null);
 
-	watch(navRef, (newVal) => {
+	onMounted(() => {
 		ui.navUnderline({
-			target: newVal.querySelector("a.router-link-active"),
+			target: navRef.value.querySelector("a.router-link-active"),
 		});
 	});
 
@@ -33,6 +35,7 @@
 			@click="ui.navUnderline($event)"
 			ref="navRef"
 		>
+			<Skeleton :pill="true" />
 			<RouterLink :to="'/restaurant/' + shop.restaurant.id">
 				Items
 			</RouterLink>

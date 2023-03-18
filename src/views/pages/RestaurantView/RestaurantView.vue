@@ -22,27 +22,27 @@
 		<RestaurantHeader />
 
 		<sub-view>
-			<RouterView
-				:restaurant="shop.restaurant"
-				:cart="shop.cart"
-			/>
 			<!-- <RouterView
 				:restaurant="shop.restaurant"
 				:cart="shop.cart"
+			/> -->
+			<RouterView
+				:restaurant="shop.restaurant"
+				:cart="shop.cart"
 				v-slot="{ Component, route }"
+				appear
 			>
-				#todo add transition
+				<!-- #todo add transition -->
 				<Transition
 					mode="out-in"
-					appear
-					name="fade"
+					:name="true ? 'fade' : route.meta.transition"
 				>
 					<Component
 						:is="Component"
 						:key="route.name"
 					/>
 				</Transition>
-			</RouterView> -->
+			</RouterView>
 		</sub-view>
 	</article>
 </template>
