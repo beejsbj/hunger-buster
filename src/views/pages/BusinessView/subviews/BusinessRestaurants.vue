@@ -15,7 +15,7 @@
 </script>
 
 <template>
-	<article>
+	<restaurants-module>
 		<h1 class="attention-voice">Restaurants</h1>
 		<input-field>
 			<input
@@ -38,11 +38,11 @@
 				<RestaurantCard :restaurant="restaurant" />
 			</li>
 		</TransitionGroup>
-	</article>
+	</restaurants-module>
 </template>
 
 <style scoped>
-	article {
+	restaurants-module {
 		display: grid;
 		gap: 20px;
 	}

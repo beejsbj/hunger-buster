@@ -8,12 +8,9 @@
 			}, 0)
 			.toFixed(2);
 	}
-
-
-	
 </script>
 <template>
-	<article>
+	<carts-module>
 		<h1 class="loud-voice">Carts</h1>
 		<ul>
 			<template v-for="restaurant in shop.restaurants">
@@ -49,11 +46,11 @@
 				</li>
 			</template>
 		</ul>
-	</article>
+	</carts-module>
 </template>
 <style scoped>
 	restaurant-cart,
-	article {
+	carts-module {
 		display: grid;
 		gap: 15px;
 	}

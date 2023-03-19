@@ -2,7 +2,7 @@
 	defineProps(["profile"]);
 </script>
 <template>
-	<article>
+	<favorites-list>
 		<favorites-module v-if="profile?.favoriteRestaurants.length">
 			<h2 class="attention-voice">Favorite Restaurants</h2>
 			<TransitionGroup
@@ -34,11 +34,11 @@
 				</li>
 			</TransitionGroup>
 		</favorites-module>
-	</article>
+	</favorites-list>
 </template>
 
 <style scoped>
-	article {
+	favorites-list {
 		display: grid;
 		gap: 40px;
 	}
