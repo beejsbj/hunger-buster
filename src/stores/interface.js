@@ -15,9 +15,15 @@ export const useInterfaceStore = defineStore("interface", function () {
 		return window.innerWidth < 450;
 	});
 
-	const $loading = useLoading({
-		canCancel: true, // default false
-	});
+	function loader() {
+		const loader = useLoading().show({
+			// Optional parameters
+		});
+
+		setTimeout(() => {
+			loader.hide();
+		}, 2000);
+	}
 
 	function notify(message) {
 		toast(message, {
@@ -61,7 +67,7 @@ export const useInterfaceStore = defineStore("interface", function () {
 		isMobile,
 
 		navUnderline,
-		$loading,
+		loader,
 		seletonLoading,
 	};
 });
