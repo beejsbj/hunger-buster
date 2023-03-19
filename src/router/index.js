@@ -6,7 +6,12 @@ import NotFound from "@/views/pages/NotFound.vue";
 import About from "@/views/pages/About.vue";
 import Carts from "@/views/pages/Carts.vue";
 import Home from "@/views/pages/Home.vue";
-import Restaurants from "@/views/pages/Restaurants.vue";
+import ContactView from "@/views/pages/ContactView.vue";
+import FAQView from "@/views/pages/FAQView.vue";
+import TermsView from "@/views/pages/TermsView.vue";
+import PrivacyView from "@/views/pages/PrivacyView.vue";
+import SupportView from "@/views/pages/SupportView.vue";
+import FeedbackView from "@/views/pages/FeedbackView.vue";
 
 import UserLogin from "@/views/pages/UserLogin.vue";
 import UserSignup from "@/views/pages/UserSignup.vue";
@@ -28,6 +33,7 @@ import BusinessRestaurants from "@/views/pages/BusinessView/subviews/BusinessRes
 import AddRestaurant from "@/views/pages/BusinessView/subviews/AddRestaurant.vue";
 
 //Restaurant
+import Restaurants from "@/views/pages/Restaurants.vue";
 import RestaurantView from "@/views/pages/RestaurantView/RestaurantView.vue";
 import RestaurantItems from "@/views/pages/RestaurantView/subviews/RestaurantItems.vue";
 import RestaurantItem from "@/views/pages/RestaurantView/subviews/RestaurantItem.vue";
@@ -53,6 +59,37 @@ const router = createRouter({
 			name: "about",
 			component: About,
 		},
+		{
+			path: "/contact",
+			name: "contact",
+			component: ContactView,
+		},
+		{
+			path: "/faq",
+			name: "faq",
+			component: FAQView,
+		},
+		{
+			path: "/terms",
+			name: "terms",
+			component: TermsView,
+		},
+		{
+			path: "/privacy",
+			name: "privacy",
+			component: PrivacyView,
+		},
+		{
+			path: "/support",
+			name: "support",
+			component: SupportView,
+		},
+		{
+			path: "/feedback",
+			name: "feedback",
+			component: FeedbackView,
+		},
+
 		{
 			path: "/login",
 			name: "userLogin",
