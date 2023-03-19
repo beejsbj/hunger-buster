@@ -4,6 +4,7 @@ import { firebaseApp } from "./firebase.js";
 import { VueFire, VueFireAuth } from "vuefire";
 import VueGoogleMaps from "@fawmi/vue-google-maps";
 import "vue-skeletor/dist/vue-skeletor.css";
+import "vue-loading-overlay/dist/css/index.css";
 
 import "vue3-toastify/dist/index.css";
 

@@ -1,21 +1,21 @@
 <script setup>
 	import { RouterView, useRoute } from "vue-router";
+
 	const route = useRoute();
 	const shop = useShopStore();
 
-	// onUpdated(() => {
-	// let $body = document.querySelector("body");
-	// if (shop.colors[5]) {
-	// 	$body.style.setProperty("--highlight", shop.colors[5] ?? "inherit");
-	// }
-	// });
-
 	const styles = computed(() => {
-		if (route.params.restaurantSlug) {
+		if (route.params.restaurantSlug && shop.colors[0]) {
+			let color = shop.colors.find(
+				(color) => color.lightness > 0.2 && color.lightness < 0.8
+			);
 			return {
-				color: shop.colors[5] ?? "var(--blue)",
+				color: color.hex,
 			};
 		}
+		return {
+			color: "var(--blue)",
+		};
 	});
 </script>
 
@@ -28,10 +28,7 @@
 	>
 		<section>
 			<inner-column>
-				<RouterView
-					v-slot="{ Component, route }"
-					appear
-				>
+				<RouterView v-slot="{ Component, route }">
 					<Transition
 						mode="out-in"
 						name="fade"
@@ -49,6 +46,6 @@
 
 <style lang="scss">
 	body > * {
-		--highlight: v-bind("shop.colors[5] ?? 'var(--blue)'");
+		--highlight: v-bind("styles.color");
 	}
 </style>
