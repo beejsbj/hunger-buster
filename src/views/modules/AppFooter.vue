@@ -12,23 +12,33 @@
 				</nav>
 				<nav>
 					<RouterLink to="/about">About</RouterLink>
-					<!-- <RouterLink to="/contact">Contact</RouterLink>
-				<RouterLink to="/privacy">Privacy</RouterLink>
-				<RouterLink to="/terms">Terms</RouterLink> -->
+
+					<RouterLink to="/contact">Contact</RouterLink>
+					<RouterLink to="/feedback">Feedback</RouterLink>
 				</nav>
-				<!-- <nav>
-				<RouterLink to="/faq">FAQ</RouterLink>
-				<RouterLink to="/help">Help</RouterLink>
-				<RouterLink to="/support">Support</RouterLink>
-				<RouterLink to="/feedback">Feedback</RouterLink>
-			</nav> -->
 				<nav>
-					<RouterLink to="/business-login">Business Login</RouterLink>
+					<RouterLink to="/faq">FAQ</RouterLink>
+					<RouterLink to="/support">Support</RouterLink>
+					<RouterLink to="/privacy">Privacy</RouterLink>
+					<RouterLink to="/terms">Terms</RouterLink>
+				</nav>
+				<nav>
+					<RouterLink to="/business-signup">Business Signup</RouterLink>
 					<RouterLink to="/business">Your Restaurants</RouterLink>
 					<RouterLink to="/business/add-restaurant"
 						>Add Restaurant</RouterLink
 					>
-					<a href="https://burooj.dev">Visit Website</a>
+					<a
+						target="site"
+						href="https://burooj.dev"
+						>Visit Website</a
+					>
+					<a
+						href="https://github.com/beejsbj/hunger-buster"
+						target="github"
+					>
+						Github Source Code
+					</a>
 				</nav>
 			</footer-menu>
 		</inner-column>
@@ -49,6 +59,7 @@
 	footer-menu nav {
 		display: grid;
 		gap: 5px;
+		align-content: start;
 	}
 	footer-menu nav a {
 		color: white;
