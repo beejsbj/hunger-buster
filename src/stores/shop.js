@@ -63,17 +63,18 @@ export const useShopStore = defineStore("shop", () => {
 	// });
 
 	const colors = ref([]);
-	// watch(restaurant, async (after) => {
-	// 	if (after) {
-	// 		let unmapped = await extractColors(after.image, {
-	// 			crossOrigin: "Anonymous",
-	// 			numberOfColors: 5,
-	// 		});
-	// 		colors.value = unmapped.map((color) => {
-	// 			return color.hex;
-	// 		});
-	// 	}
-	// });
+	watch(restaurant, async (after) => {
+		if (after) {
+			let unmapped = await extractColors(after.image, {
+				crossOrigin: "Anonymous",
+			});
+			colors.value = unmapped
+				.map((color) => {
+					return color;
+				})
+				.sort((a, b) => b.area - a.area);
+		}
+	});
 
 	//current restaurant's items
 	const itemsRef = computed(() => {
