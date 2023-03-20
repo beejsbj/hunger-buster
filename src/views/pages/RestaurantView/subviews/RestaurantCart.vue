@@ -7,13 +7,13 @@
 	const taxRate = ref(0.13);
 
 	const order = reactive({
-		restaurant: props.restaurant,
+		restaurant: { ...props.restaurant },
 		tip: 5,
-		deliveryFee: 0,
+		deliveryFee: 2,
 	});
 
 	order.items = computed(() => {
-		return props.cart;
+		return { ...props.cart };
 	});
 
 	order.tax = computed(() => {
@@ -28,7 +28,8 @@
 		return (
 			Number(shop.cartTotal) +
 			Number(order.tip) +
-			Number(order.tax)
+			Number(order.tax) +
+			(order.deliveryMethod == "delivery" ? Number(order.deliveryFee) : 0)
 		).toFixed(2);
 	});
 
