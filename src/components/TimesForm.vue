@@ -70,20 +70,30 @@
 	</times-form>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 	times-form {
 		display: grid;
-		gap: 30px;
-		/* justify-content: start; */
+		gap: 20px;
 		padding: 20px 0;
 	}
 
 	times-form day-field {
-		/* border: 4px solid red; */
 		display: grid;
 		gap: 20px;
-		grid-template-columns: 0.3fr 0.3fr 1fr 1fr;
 		align-items: center;
+
+		@media (min-width: 450px) {
+			grid-template-columns: 1fr 1fr;
+		}
+
+		@media (min-width: 850px) {
+			grid-template-columns: 0.3fr 0.3fr 1fr 1fr;
+		}
+	}
+
+	day-field + day-field {
+		border-top: 1px solid var(--highlight);
+		padding-top: 20px;
 	}
 	input-field.radio {
 		display: flex;
