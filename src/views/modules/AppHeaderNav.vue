@@ -22,6 +22,7 @@
 		<Skeleton
 			:pill="true"
 			key="skeleton"
+			v-if="!ui.isMobile"
 		/>
 		<RouterLink
 			key="home"
@@ -72,6 +73,7 @@
 		display: grid;
 		gap: 10px;
 		transition: 0.2s;
+		padding: 20px;
 		@media (min-width: 450px) {
 			display: flex;
 		}

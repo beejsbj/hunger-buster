@@ -80,6 +80,13 @@
 		nav {
 			align-content: start;
 
+			@media (max-width: 450px) {
+				font-size: clamp(14px, 1.5vw, 1em);
+				gap: 0px;
+				justify-content: space-between;
+				flex-wrap: nowrap;
+			}
+
 			a {
 				&.cart {
 					position: relative;

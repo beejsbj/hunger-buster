@@ -16,7 +16,7 @@
 </script>
 
 <template>
-	<article v-if="shop.restaurant">
+	<restaurant-module v-if="shop.restaurant">
 		<RestaurantBanner :restaurant="shop.restaurant" />
 
 		<RestaurantHeader />
@@ -44,11 +44,11 @@
 				</Transition>
 			</RouterView>
 		</sub-view>
-	</article>
+	</restaurant-module>
 </template>
 
 <style lang="scss" scoped>
-	article {
+	restaurant-module {
 		display: grid;
 		gap: 20px;
 	}

@@ -17,6 +17,11 @@
 			color: "var(--blue)",
 		};
 	});
+
+	watch(styles, (newVal) => {
+		console.log(document.documentElement);
+		document.documentElement.style.setProperty("--highlight", newVal.color);
+	});
 </script>
 
 <template>
@@ -44,8 +49,4 @@
 	<AppFooter />
 </template>
 
-<style lang="scss">
-	body > * {
-		--highlight: v-bind("styles.color");
-	}
-</style>
+<style lang="scss"></style>

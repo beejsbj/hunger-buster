@@ -45,16 +45,25 @@
 	</footer>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 	footer {
 		background-color: gray;
 		color: white;
 		padding: 10px 0;
+		inner-column {
+			display: grid;
+			gap: 20px;
+		}
 	}
 	footer-menu {
-		display: flex;
+		display: grid;
 		justify-content: space-between;
-		padding: 20px;
+		gap: 30px;
+		grid-template-columns: repeat(2, 1fr);
+
+		@media (min-width: 450px) {
+			grid-template-columns: repeat(4, 1fr);
+		}
 	}
 	footer-menu nav {
 		display: grid;

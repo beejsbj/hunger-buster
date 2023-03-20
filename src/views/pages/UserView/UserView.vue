@@ -58,4 +58,15 @@
 		display: grid;
 		gap: 20px;
 	}
+	nav {
+		@media (max-width: 450px) {
+			font-size: clamp(12px, 1.5vw, 1em);
+			justify-content: space-between;
+			flex-wrap: nowrap;
+			gap: 0;
+			a {
+				padding: 5px;
+			}
+		}
+	}
 </style>

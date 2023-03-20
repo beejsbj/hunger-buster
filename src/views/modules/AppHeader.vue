@@ -23,13 +23,15 @@
 						Menu
 					</button>
 					<Teleport to="body">
-						<div
-							class="modal-mask"
-							@click.self="ui.toggleMenu"
-							v-if="ui.mainMenuOpen"
-						>
-							<AppHeaderNav />
-						</div>
+						<Transition name="fade">
+							<div
+								class="modal-mask"
+								@click="ui.toggleMenu"
+								v-if="ui.mainMenuOpen"
+							>
+								<AppHeaderNav />
+							</div>
+						</Transition>
 					</Teleport>
 				</template>
 				<template v-else>
