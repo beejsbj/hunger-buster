@@ -39,6 +39,9 @@
 			<RouterLink :to="'/restaurant/' + shop.restaurant.id">
 				Items
 			</RouterLink>
+			<RouterLink :to="'/restaurant/' + shop.restaurant.id + '/reviews'"
+				>Reviews</RouterLink
+			>
 			<RouterLink
 				:to="'/restaurant/' + shop.restaurant.id + '/cart'"
 				class="cart"

@@ -37,6 +37,7 @@ import Restaurants from "@/views/pages/Restaurants.vue";
 import RestaurantView from "@/views/pages/RestaurantView/RestaurantView.vue";
 import RestaurantItems from "@/views/pages/RestaurantView/subviews/RestaurantItems.vue";
 import RestaurantItem from "@/views/pages/RestaurantView/subviews/RestaurantItem.vue";
+import RestaurantReviews from "@/views/pages/RestaurantView/subviews/RestaurantReviews.vue";
 
 import RestaurantCart from "@/views/pages/RestaurantView/subviews/RestaurantCart.vue";
 import RestaurantCheckout from "@/views/pages/RestaurantView/subviews/RestaurantCheckout.vue";
@@ -209,6 +210,11 @@ const router = createRouter({
 					name: "RestaurantCart",
 					component: RestaurantCart,
 					meta: { transition: "slide-to-right" },
+				},
+				{
+					path: "/restaurant/:restaurantSlug/reviews",
+					name: "RestaurantReviews",
+					component: RestaurantReviews,
 				},
 				{
 					path: "/restaurant/:restaurantSlug/checkout",
