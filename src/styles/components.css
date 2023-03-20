@@ -6,6 +6,8 @@
 button {
 	cursor: pointer;
 }
+
+
 .button {
 	background-color: var(--highlight);
 	color: var(--paper);
@@ -13,12 +15,13 @@ button {
 	
 	padding: 5px;
 	text-align: center;
+	border-radius: var(--corners);
 	
 }
 
 
 
-button.favorite {
+button.favorited {
 	background: salmon;
 }
 
@@ -33,12 +36,13 @@ button.text {
 	background-color: initial;
 	color: var(--highlight);
 	border: none;
-	padding: 0;
+	padding: 5px;
+	border-radius: var(--corners);
 }
 
 button.text:hover {
 	background-color: var(--highlight);
-	color: var(--paper);
+
 }
 
 .buttons {
@@ -57,10 +61,17 @@ nav :has(a.business) {
 
 a {
 	color: var(--highlight);
+	padding: 10px;
 }
+
 a:hover {
 	filter: brightness(1.5);
 	transition: 0.2s;
+	background-color: var(--highlight);
+	color: var(--paper);
+	border-radius: var(--corners);
+	
+
 }
 
 a.business {
@@ -93,4 +104,11 @@ header nav::after {
 
 label {
 	cursor: pointer;
+}
+
+
+
+button.dropdown {
+	text-overflow: ellipsis;
+
 }
