@@ -84,6 +84,14 @@ export const useShopStore = defineStore("shop", () => {
 	});
 	const { data: items, promise: itemsPromise } = useCollection(itemsRef);
 
+	//current restaurant's reviews
+	const reviewsRef = computed(() => {
+		if (restaurant.value) {
+			return collection(db, "restaurants", restaurant.value.id, "reviews");
+		}
+	});
+	const { data: reviews, promise: reviewsPromise } = useCollection(reviewsRef);
+
 	//all user's carts
 	const cartsRef = computed(() => {
 		if (user.id) {
@@ -156,6 +164,19 @@ export const useShopStore = defineStore("shop", () => {
 			return total + Number(item.quantity ? item.quantity : 1);
 		}, 0);
 		return count;
+	});
+
+	//reviews rating average
+	const ratingAverage = computed(() => {
+		if (!reviews.value || !reviews.value.length) {
+			return 0;
+		}
+
+		const total = reviews.value.reduce((acc, review) => {
+			return acc + review.rating;
+		}, 0);
+
+		return (total / reviews.value.length).toFixed(1);
 	});
 
 	////////////////////////////////////////////
@@ -286,6 +307,27 @@ export const useShopStore = defineStore("shop", () => {
 		return option;
 	}
 
+	async function addReview(review) {
+		const record = { ...review };
+
+		await setDoc(
+			doc(
+				db,
+				"restaurants",
+				record.order.restaurant.id,
+				"reviews",
+				record.id
+			),
+			record
+		);
+
+		ui.notify(`Review Added!`);
+
+		router.push({
+			path: `/restaurant/${record.order.restaurant.id}/reviews`,
+		});
+	}
+
 	async function deleteItem(item) {
 		await deleteDoc(
 			doc(db, "restaurants", restaurant.value.id, "menuItems", item.id)
@@ -310,7 +352,7 @@ export const useShopStore = defineStore("shop", () => {
 		ui.notify(`${item.name} Added to Cart`);
 
 		router.push({
-			path: `/restaurant/${slugID.value}/cart`,
+			path: `/restaurant/${item.belongsTo}/cart`,
 		});
 	}
 
@@ -372,6 +414,24 @@ export const useShopStore = defineStore("shop", () => {
 		console.log("loaded");
 	});
 
+	// watch ratings and update restaurant rating
+	watch(
+		reviews,
+		(newVal) => {
+			console.log("reviews changed");
+			if (newVal) {
+				console.log("newVal", newVal);
+				const ratings = newVal.map((review) => review.rating);
+				const average = ratings.reduce((a, b) => a + b, 0) / ratings.length;
+				updateDoc(doc(db, "restaurants", restaurant.value.id), {
+					ratings: average,
+					reviews: newVal.length,
+				});
+			}
+		},
+		{ once: true }
+	);
+
 	///////////////////////////////////////////////////
 
 	return {
@@ -379,12 +439,14 @@ export const useShopStore = defineStore("shop", () => {
 		carts,
 
 		restaurant,
+		reviews,
 		colors,
 		items,
 		itemsPromise,
 		cart,
 		cartCount,
 		cartTotal,
+		ratingAverage,
 
 		addRestaurant,
 		deleteRestaurant,
@@ -396,5 +458,7 @@ export const useShopStore = defineStore("shop", () => {
 		remove,
 		clearCart,
 		updateQuantity,
+
+		addReview,
 	};
 });

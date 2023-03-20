@@ -15,7 +15,6 @@
 	}
 </script>
 
-
 <template>
 	<category-filter>
 		<ul>
@@ -51,7 +50,7 @@
 		cursor: pointer;
 		background: white;
 		border: 1px solid black;
-		border-radius: 5px;
+		border-radius: var(--corners);
 		padding: 5px 10px;
 	}
 	input:checked + label {

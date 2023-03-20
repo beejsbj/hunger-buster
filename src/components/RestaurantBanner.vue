@@ -1,4 +1,6 @@
 <script setup>
+	import FavoriteButton from "./FavoriteButton.vue";
+
 	const props = defineProps(["restaurant"]);
 	const showInfo = ref(false);
 </script>
@@ -10,6 +12,7 @@
 				<span>
 					{{ restaurant.name }}
 				</span>
+
 				<Skeleton :pill="true" />
 			</h2>
 			<p class="whisper-voice">
@@ -23,7 +26,7 @@
 				</span>
 
 				<span v-if="restaurant.reviews">
-					({{ restaurant.reviews ?? 170 }}+ reviews) ·
+					· ({{ restaurant.reviews ?? 170 }} reviews) ·
 				</span>
 
 				<span v-if="restaurant.priceLevel">
@@ -44,6 +47,7 @@
 					@toggle="showInfo = !showInfo"
 				/>
 			</Teleport>
+			<FavoriteButton :restaurant="restaurant" />
 		</text-content>
 		<picture>
 			<img

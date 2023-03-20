@@ -27,6 +27,12 @@
 
 <style lang="scss">
 	* {
+		&:has(> .vue-skeletor) {
+			position: relative;
+			& > :not(.vue-skeletor) {
+				opacity: 0;
+			}
+		}
 		& > .vue-skeletor {
 			position: absolute;
 			width: 100%;
@@ -35,12 +41,6 @@
 			top: 0;
 			z-index: 11;
 			background-color: hsla(0, 0%, 80%, 1);
-		}
-		&:has(> .vue-skeletor) {
-			position: relative;
-			& > :not(.vue-skeletor) {
-				opacity: 0;
-			}
 		}
 	}
 </style>

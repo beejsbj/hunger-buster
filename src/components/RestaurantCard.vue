@@ -1,4 +1,7 @@
 <script setup>
+	import FavoriteButton from "./FavoriteButton.vue";
+	import IconHeart from "./icons/IconHeart.vue";
+
 	const user = useUserStore();
 	const props = defineProps(["restaurant"]);
 	const found = computed(() =>
@@ -24,6 +27,7 @@
 				{{ restaurant.name }}
 			</h2>
 			<p class="price-level">{{ "$".repeat(restaurant.priceLevel) }}</p>
+
 			<Skeleton :pill="true" />
 		</text-content>
 		<div class="buttons">
@@ -33,19 +37,13 @@
 			>
 				MORE
 			</RouterLink>
-			<button
-				class="button"
-				:class="{ favorite: found ? true : false }"
-				@click="user.favoriteRestaurant(restaurant)"
-			>
-				♡
-			</button>
 			<Skeleton :pill="true" />
 		</div>
+		<FavoriteButton :restaurant="restaurant" />
 	</restaurant-card>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 	restaurant-card {
 		display: grid;
 		gap: 10px;
@@ -53,9 +51,7 @@
 	}
 	restaurant-card div.buttons {
 		display: grid;
-		grid-template-columns: 1fr 0.3fr;
-		align-items: center;
-		justify-content: space-between;
+		align-items: end;
 		gap: 20px;
 	}
 
@@ -75,5 +71,36 @@
 
 	.price-level {
 		color: yellowgreen;
+	}
+
+	restaurant-card {
+		position: relative;
+
+		button.favorite {
+			position: absolute;
+			top: 0px;
+			right: 0px;
+
+			width: 35px;
+			height: 35px;
+			border-radius: 50%;
+
+			padding-top: 6px;
+
+			@media (min-width: 450px) {
+				top: 10px;
+				right: 10px;
+				box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+			}
+		}
+	}
+
+	@media (max-width: 450px) {
+		restaurant-card {
+			grid-template-columns: 0.4fr 1fr;
+		}
+		restaurant-card picture {
+			grid-row: span 2;
+		}
 	}
 </style>

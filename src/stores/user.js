@@ -94,7 +94,7 @@ export const useUserStore = defineStore("user", () => {
 		const found = profile.value.favoriteRestaurants.find(function (favorite) {
 			return favorite.id == restaurant.id;
 		});
-		if (found) {
+		if (isRestaurantFavorite(restaurant)) {
 			let index = profile.value.favoriteRestaurants.indexOf(restaurant);
 			profile.value.favoriteRestaurants.splice(index, 1);
 			ui.notify(`${restaurant.name} removed from favorites`);
@@ -108,7 +108,7 @@ export const useUserStore = defineStore("user", () => {
 		const found = profile.value.favoriteItems.find(function (favorite) {
 			return favorite.id == item.id;
 		});
-		if (found) {
+		if (isItemFavorite(item)) {
 			let index = profile.value.favoriteItems.indexOf(item);
 			profile.value.favoriteItems.splice(index, 1);
 			ui.notify(`${item.name} removed from favorites`);
@@ -118,10 +118,25 @@ export const useUserStore = defineStore("user", () => {
 		}
 	}
 
+	function isRestaurantFavorite(restaurant) {
+		const found = profile?.value?.favoriteRestaurants.find(function (
+			favorite
+		) {
+			return favorite.id == restaurant.id;
+		});
+
+		if (found) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	function isItemFavorite(item) {
-		const found = profile.value.favoriteItems.find(function (favorite) {
+		const found = profile?.value?.favoriteItems.find(function (favorite) {
 			return favorite.id == item.id;
 		});
+
 		if (found) {
 			return true;
 		} else {
@@ -307,5 +322,6 @@ export const useUserStore = defineStore("user", () => {
 		id,
 		email,
 		setUserLocation,
+		isRestaurantFavorite,
 	};
 });

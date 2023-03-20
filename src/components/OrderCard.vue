@@ -1,25 +1,45 @@
 <script setup>
 	const props = defineProps(["order"]);
+	const showModal = ref(false);
+	const shop = useShopStore();
+
+	function reorderCart(order) {
+		Object.values(order.items).forEach((value) => {
+			console.log(value);
+			shop.add(value);
+		});
+	}
 </script>
 
 <template>
 	<order-card>
-		<h1 class="solid-voice">Order #{{ order.id }}</h1>
-		<p>
-			{{ order.restaurant.name }}
-		</p>
+		<header>
+			<h1 class="solid-voice">Order #{{ order.id }}</h1>
+			<p>
+				{{ order.restaurant.name }}
+			</p>
+			<Skeleton :pill="true" />
+		</header>
 		<p>----------------------------------------------</p>
 		<p>
-			{{ order.restaurant.address.formatted_address }}
+			<span>{{ order.restaurant.address.formatted_address }}</span>
+			<Skeleton :pill="true" />
 		</p>
 		<template v-if="order.deliveryMethod == 'delivery'">
-			<p>Delivered to {{ order.placedAt.formatted_address }}</p>
+			<p>
+				<span>Delivered to {{ order.placedAt.formatted_address }}</span>
+				<Skeleton :pill="true" />
+			</p>
 		</template>
 
 		<p>----------------------------------------------</p>
 
 		<details>
-			<summary class="firm-voice">Items</summary>
+			<summary class="firm-voice">
+				<span>Items</span>
+
+				<Skeleton :pill="true" />
+			</summary>
 			<ul>
 				<li
 					v-for="item in order.items"
@@ -34,7 +54,10 @@
 		<p>----------------------------------------------</p>
 
 		<details class="price">
-			<summary class="firm-voice">Total: ${{ order.total }}</summary>
+			<summary class="firm-voice">
+				<span>Total: ${{ order.total }}</span>
+				<Skeleton :pill="true" />
+			</summary>
 			<text-content>
 				<p class="whisper-voice">Subtotal: ${{ order.subtotal }}</p>
 				<p class="whisper-voice">Tax: ${{ order.tax }}</p>
@@ -57,6 +80,31 @@
 				</p>
 			</text-content>
 		</details>
+		<div class="buttons">
+			<Skeleton :pill="true" />
+			<RouterLink
+				class="button hide"
+				:to="`/order/${order.id}`"
+			>
+				Order Details
+			</RouterLink>
+			<button
+				class="button"
+				@click="reorderCart(order)"
+			>
+				Reorder
+			</button>
+			<button
+				class="button"
+				@click="showModal = !showModal"
+			>
+				Review
+			</button>
+			<AddReviewForm
+				:show="showModal"
+				:order="order"
+			/>
+		</div>
 	</order-card>
 </template>
 

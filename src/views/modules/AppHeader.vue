@@ -1,7 +1,6 @@
 <script setup>
 	import AppHeaderNav from "./AppHeaderNav.vue";
 
-	const user = useUserStore();
 	const ui = useInterfaceStore();
 </script>
 
@@ -39,14 +38,7 @@
 				</template>
 			</site-menu>
 
-			<div class="gmap-auto-complete">
-				<GMapAutocomplete
-					id="delivery-address"
-					@place_changed="user.setUserLocation"
-					:value="user.address?.formatted_address ?? 'Enter your address'"
-				/>
-				<Skeleton :pill="true" />
-			</div>
+			<AddressAutoFill />
 		</inner-column>
 	</header>
 </template>
@@ -60,12 +52,6 @@
 
 		.logo {
 			max-width: 60px;
-		}
-
-		div.gmap-auto-complete {
-			align-self: center;
-			grid-column: 1 / -1;
-			display: grid;
 		}
 	}
 	site-menu {

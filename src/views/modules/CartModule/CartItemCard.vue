@@ -7,8 +7,6 @@
 
 <template>
 	<li class="item">
-		<!--  <Skeleton :pill="true" /> -->
-
 		<div class="item-info">
 			<h2 class="firm-voice">
 				<span>{{ item.name }} —</span>
@@ -29,9 +27,10 @@
 			<picture>
 				<img
 					:src="item.image"
-					alt="" />
-				<Skeleton
-			/></picture>
+					alt=""
+				/>
+				<Skeleton :pill="true" />
+			</picture>
 		</div>
 
 		<div>
@@ -51,6 +50,7 @@
 				<option>4</option>
 				<option>5</option>
 			</select>
+			<Skeleton :pill="true" />
 		</div>
 	</li>
 </template>
@@ -81,6 +81,7 @@
 	}
 
 	span.price {
+		--highlight: green;
 		color: var(--highlight);
 	}
 
@@ -89,7 +90,7 @@
 		color: white;
 		border: none;
 		padding: 5px;
-		border-radius: 5px;
+		border-radius: var(--corners);
 		/* justify-self: stretch; */
 	}
 </style>

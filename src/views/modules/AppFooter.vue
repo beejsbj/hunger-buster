@@ -61,7 +61,7 @@
 		gap: 30px;
 		grid-template-columns: repeat(2, 1fr);
 
-		@media (min-width: 450px) {
+		@media (min-width: 500px) {
 			grid-template-columns: repeat(4, 1fr);
 		}
 	}
@@ -69,9 +69,9 @@
 		display: grid;
 		gap: 5px;
 		align-content: start;
+		justify-content: start;
 	}
 	footer-menu nav a {
-		color: white;
-		padding: 5px 0;
+		color: var(--paper);
 	}
 </style>

@@ -17,24 +17,23 @@
 	<payment-module>
 		<h2 class="solid-voice">Payment</h2>
 
-		<payment-table>
-			<div class="subtotal">
+		<TransitionGroup
+			name="list"
+			tag="ul"
+			class="payment-list"
+		>
+			<li class="subtotal">
 				<p>Subtotal</p>
 				<p>${{ order.subtotal }}</p>
 				<Skeleton :pill="true" />
-			</div>
-			<div class="deliveryfee">
-				<p>Delivery Fee</p>
-				<p>${{ order.deliveryFee }}</p>
-				<Skeleton :pill="true" />
-			</div>
+			</li>
 
-			<div class="tax">
+			<li class="tax">
 				<p>Taxes and Other fees</p>
 				<p>${{ order.tax.toFixed(2) }}</p>
 				<Skeleton :pill="true" />
-			</div>
-			<div class="tip">
+			</li>
+			<li class="tip">
 				<p>Tip</p>
 				<radio-list>
 					<input-field>
@@ -44,7 +43,7 @@
 							value="5"
 							id="tip5"
 						/>
-						<label for="tip5">5%</label>
+						<label for="tip5">05%</label>
 					</input-field>
 					<input-field>
 						<input
@@ -66,16 +65,33 @@
 					</input-field>
 				</radio-list>
 				<Skeleton :pill="true" />
-			</div>
+			</li>
 
-			<div class="order-total">
+			<li class="deliveryfee">
+				<p>Delivery Fee</p>
+				<Transition name="list">
+					<p v-if="order.deliveryMethod == 'delivery'">
+						$<span>{{ order.deliveryFee }}</span>
+						<Skeleton :pill="true" />
+					</p>
+					<p v-else>$<s>0</s> <Skeleton :pill="true" /></p
+				></Transition>
+			</li>
+
+			<li class="order-total">
 				<p>Total</p>
-				<p>${{ order.total }}</p>
-				<Skeleton :pill="true" />
-			</div>
+				<Transition name="list">
+					<p v-if="order.deliveryMethod == 'delivery'">
+						$<span>{{ order.total }}</span>
+						<Skeleton :pill="true" />
+					</p>
+					<p v-else>
+						$<span>{{ order.total }}</span> <Skeleton :pill="true" /></p
+				></Transition>
+			</li>
 
 			<!-- add a tip -->
-		</payment-table>
+		</TransitionGroup>
 
 		<payment-method>
 			<h2 class="firm-voice">Payment Method</h2>
@@ -93,34 +109,44 @@
 	</payment-module>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 	payment-module {
 		display: grid;
 		gap: 10px;
 	}
 
-	payment-table {
+	ul {
 		display: grid;
-		gap: 10px;
-	}
-	payment-table div {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-	}
+		gap: 15px;
 
-	payment-table radio-list {
-		display: flex;
-		gap: 10px;
-	}
+		li {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+		}
 
-	payment-table radio-list input-field {
-		padding: 0;
-	}
+		radio-list {
+			display: flex;
+			gap: 10px;
 
-	payment-table radio-list input {
-		display: none;
-	}
-	payment-table radio-list input:checked + label {
-		background-color: var(--highlight);
+			input-field {
+				padding: 0;
+
+				input {
+					display: none;
+
+					&:checked + label {
+						background-color: var(--highlight);
+						filter: invert(1);
+					}
+				}
+
+				label {
+					display: block;
+					padding: 5px;
+					border: 1px solid var(--highlight);
+					border-radius: var(--corners);
+				}
+			}
+		}
 	}
 </style>

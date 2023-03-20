@@ -42,9 +42,21 @@
 	</restaurants-module>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 	restaurants-module {
 		display: grid;
 		gap: 20px;
+
+		ul.restaurant-list {
+			display: grid;
+
+			grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+
+			gap: 30px;
+
+			@media (min-width: 450px) {
+				grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+			}
+		}
 	}
 </style>

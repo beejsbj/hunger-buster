@@ -91,7 +91,7 @@
 		enctype="multipart/form-data"
 	>
 		<h1 class="attention-voice">
-			{{ props.editing ? "Edit" : "Add" }} a Restaurant
+			{{ props.editing ? "Edit" : "Add" }} Restaurant
 		</h1>
 		<input-field>
 			<label for="name"> name. </label>

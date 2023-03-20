@@ -21,7 +21,7 @@
 		</TransitionGroup>
 		<button
 			class="button clearcart"
-			@click="shop.clearCart(cart)"
+			@click="shop.clearCart(shop.cart)"
 		>
 			Clear Cart
 		</button>

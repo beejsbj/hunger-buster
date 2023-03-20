@@ -1,9 +1,11 @@
 <script setup>
 	import { useRouter } from "vue-router";
+	import FavoriteButton from "./FavoriteButton.vue";
 
 	const router = useRouter();
 	const props = defineProps(["item"]);
 	const ui = useInterfaceStore();
+	const user = useUserStore();
 
 	function redirect() {
 		router.push({
@@ -30,8 +32,8 @@
 			<h4 class="firm-voice">
 				{{ item.name }}
 			</h4>
-			<p>${{ item.price }}</p></text-content
-		>
+			<p>${{ item.price }}</p>
+		</text-content>
 
 		<div class="buttons">
 			<Skeleton :pill="true" />
@@ -48,13 +50,14 @@
 				Detail page
 			</button>
 		</div>
+		<FavoriteButton :item="item" />
 	</item-card>
 	<Teleport to="body">
 		<ItemModal :item="item" />
 	</Teleport>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 	item-card {
 		display: grid;
 		gap: 10px;
@@ -78,5 +81,27 @@
 		display: grid;
 		gap: 10px;
 		/* padding: 0 10px; */
+	}
+
+	item-card {
+		position: relative;
+
+		button.favorite {
+			position: absolute;
+			top: 0px;
+			right: 0px;
+
+			width: 35px;
+			height: 35px;
+			border-radius: 50%;
+
+			padding-top: 6px;
+
+			@media (min-width: 450px) {
+				top: 10px;
+				right: 10px;
+				box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+			}
+		}
 	}
 </style>

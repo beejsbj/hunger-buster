@@ -25,13 +25,10 @@
 					{{ item.description }}
 				</p>
 
-				<button
-					class="button outline"
-					@click="user.favoriteItem(item)"
-					:class="{ favorite: user.isItemFavorite(item) }"
-				>
-					Add to Favorite ♡
-				</button>
+				<FavoriteButton
+					:position="'static'"
+					:item="item"
+				/>
 			</text-content>
 			<picture>
 				<img
@@ -106,9 +103,7 @@
 	.options > *:nth-child(odd) {
 		background-color: rgba(0, 0, 0, 0.4);
 	}
-	.button.favorite {
-		background: yellow;
-	}
+
 	label {
 		display: grid;
 		.price {

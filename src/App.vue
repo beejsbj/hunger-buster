@@ -19,7 +19,6 @@
 	});
 
 	watch(styles, (newVal) => {
-		console.log(document.documentElement);
 		document.documentElement.style.setProperty("--highlight", newVal.color);
 	});
 </script>
