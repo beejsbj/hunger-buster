@@ -83,7 +83,7 @@
 	</form>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 	input-field.checkbox {
 		display: flex;
 		gap: 10px;
@@ -91,13 +91,16 @@
 	}
 	.choice-field {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
 		gap: 10px;
 		border: 2px dashed var(--highlight);
 
 		padding: 10px;
 
 		filter: hue-rotate(var(--choice-hue));
+
+		@media (min-width: 450px) {
+			grid-template-columns: 1fr 1fr;
+		}
 	}
 
 	.choice-field:nth-of-type(odd) {
