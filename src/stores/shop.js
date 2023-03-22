@@ -420,7 +420,6 @@ export const useShopStore = defineStore("shop", () => {
 		(newVal) => {
 			console.log("reviews changed");
 			if (newVal) {
-				console.log("newVal", newVal);
 				const ratings = newVal.map((review) => review.rating);
 				const average = ratings.reduce((a, b) => a + b, 0) / ratings.length;
 				updateDoc(doc(db, "restaurants", restaurant.value.id), {

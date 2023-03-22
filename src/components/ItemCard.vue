@@ -5,7 +5,6 @@
 	const router = useRouter();
 	const props = defineProps(["item"]);
 	const ui = useInterfaceStore();
-	const user = useUserStore();
 
 	function redirect() {
 		router.push({

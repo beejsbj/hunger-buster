@@ -28,6 +28,7 @@
 		<picture>
 			<IconHeart />
 		</picture>
+		<Skeleton :pill="true" />
 	</button>
 </template>
 
