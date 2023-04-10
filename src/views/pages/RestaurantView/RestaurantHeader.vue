@@ -56,8 +56,9 @@
 
 			<template
 				v-if="
-					user.isAdmin ||
-					(user.isBusinessOwner && user.id === shop.restaurant.owner)
+					!ui.isMobile &&
+					(user.isAdmin ||
+						(user.isBusinessOwner && user.id === shop.restaurant.owner))
 				"
 			>
 				<RouterLink

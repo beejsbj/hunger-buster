@@ -43,6 +43,7 @@ declare module '@vue/runtime-core' {
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     ItemCard: typeof import('./src/components/ItemCard.vue')['default']
     ItemModal: typeof import('./src/views/modules/ItemModal.vue')['default']
+    LandingPage: typeof import('./src/views/modules/LandingPage.vue')['default']
     NotFound: typeof import('./src/views/pages/NotFound.vue')['default']
     Options: typeof import('./src/components/Options.vue')['default']
     OrderCard: typeof import('./src/components/OrderCard.vue')['default']

@@ -3,14 +3,16 @@
 </script>
 
 <template>
-	<landing-page v-if="!user.address">
+	<landing-page v-if="user.auth && !user.address">
 		<RouterLink
 			class="position-button button text attention-voice"
-			to="signin"
+			to="login"
 			v-if="!user.current"
 			>Sign In</RouterLink
 		>
-		<div class="heading"><h1 class="loud-voice">HUNGER BUSTER</h1></div>
+		<div class="heading">
+			<h1 class="booming-voice">HUNGER <span>BUSTER</span></h1>
+		</div>
 		<div class="address">
 			<div>
 				<h1 class="attention-voice">Get Food to You</h1>
@@ -43,6 +45,10 @@
 		align-items: center;
 		padding: 30px;
 		text-align: center;
+
+		span {
+			color: black;
+		}
 	}
 	.address {
 		background-color: black;

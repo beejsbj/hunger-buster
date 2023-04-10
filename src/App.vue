@@ -32,16 +32,16 @@
 	>
 		<section>
 			<inner-column>
-				<RouterView v-slot="{ Component, route }">
+				<!-- <RouterView v-slot="{ Component, route }">
 					<Transition
 						mode="out-in"
 						name="fade"
 					>
 						<Component :is="Component" />
 					</Transition>
-				</RouterView>
+				</RouterView> -->
 
-				<!-- <RouterView /> -->
+				<RouterView />
 			</inner-column>
 		</section>
 	</main>

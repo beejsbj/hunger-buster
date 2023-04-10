@@ -48,6 +48,13 @@
 		display: grid;
 		gap: 10px;
 		background-color: rgba(0, 0, 0, 0.01);
+
+		h2 {
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+			width: 140px;
+		}
 	}
 	restaurant-card div.buttons {
 		display: grid;

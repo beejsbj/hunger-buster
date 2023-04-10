@@ -40,13 +40,13 @@
 				class="button"
 				@click="item.show = !item.show"
 			>
-				Quick Add
+				Add
 			</button>
 			<button
 				class="button"
 				@click="redirect()"
 			>
-				Detail page
+				More
 			</button>
 		</div>
 		<FavoriteButton :item="item" />
@@ -62,6 +62,15 @@
 		gap: 10px;
 		height: 100%;
 	}
+	@media (max-width: 450px) {
+		item-card {
+			grid-template-columns: 0.2fr 1fr;
+		}
+		item-card picture {
+			grid-row: span 2;
+		}
+	}
+
 	item-card div {
 		align-items: center;
 		justify-content: space-between;

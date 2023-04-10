@@ -1,8 +1,6 @@
 <template>
 	<footer>
 		<inner-column>
-			<h2 class="attention-voice">footer</h2>
-
 			<footer-menu>
 				<nav>
 					<RouterLink to="/">Home</RouterLink>
@@ -47,8 +45,7 @@
 
 <style lang="scss" scoped>
 	footer {
-		background-color: gray;
-		color: white;
+		background-color: var(--color);
 		padding: 10px 0;
 		inner-column {
 			display: grid;
@@ -72,6 +69,7 @@
 		justify-content: start;
 	}
 	footer-menu nav a {
-		color: var(--paper);
+		--ink: black;
+		color: var(--ink);
 	}
 </style>

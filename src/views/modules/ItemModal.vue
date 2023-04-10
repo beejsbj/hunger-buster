@@ -23,30 +23,27 @@
 			@click.self="item.show = !item.show"
 		>
 			<item-detail>
-				<h1 class="loud-voice">{{ item.name }}</h1>
-				<div>
-					<p>${{ item.price }}</p>
+				<item-banner>
+					<text-content>
+						<h1 class="firm-voice">{{ item.name }}</h1>
+						<p>${{ item.price }}</p></text-content
+					>
 
-					<button
-						class="button"
-						@click="user.favoriteItem(item)"
-						:class="{ favorite: isFavorite }"
-					>
-						♡
-					</button>
-					<button
-						class="button close"
-						@click="item.show = false"
-					>
-						Close
-					</button>
-				</div>
-				<picture>
-					<img
-						:src="item.image"
-						alt=""
-					/>
-				</picture>
+					<FavoriteButton :item="item" />
+					<!-- <button
+					class="button close"
+					@click="item.show = false"
+				>
+					Close
+				</button> -->
+
+					<picture>
+						<img
+							:src="item.image"
+							alt=""
+						/>
+					</picture>
+				</item-banner>
 
 				<form
 					@submit.prevent="
@@ -62,7 +59,7 @@
 							placeholder="Add notes for your order"
 						></textarea>
 					</input-field>
-					<div>
+					<div class="buttons">
 						<button class="button">Add Item to Cart</button>
 					</div>
 				</form>
@@ -76,6 +73,12 @@
 		display: grid;
 		/*	grid-template-columns: 1fr 0.3fr;*/
 		gap: 10px;
+
+		item-banner {
+			display: grid;
+			grid-template-columns: 1fr 0.3fr;
+			gap: 10px;
+		}
 	}
 
 	item-detail > div {
@@ -87,12 +90,6 @@
 		color: var(--highlight);
 	}
 
-	.options > *:nth-child(odd) {
-		background-color: rgba(0, 0, 0, 0.4);
-	}
-	button.favorite {
-		background: yellow;
-	}
 	label {
 		display: grid;
 		.price {
@@ -100,39 +97,12 @@
 		}
 	}
 
-	.choice {
-		display: flex;
-		justify-content: space-between;
-		input {
-			width: 20px;
-		}
-	}
 	textarea {
 		width: 100%;
-	}
-
-	div {
-		@media (min-width: 600px) {
-			button.close {
-				display: none;
-			}
-		}
-
-		@media (min-width: 900px) {
-		}
 	}
 
 	item-detail {
 		padding: 20px;
 		background: var(--paper);
-	}
-
-	.fade-enter-active,
-	.fade-leave-active {
-		transition: opacity 0.5s ease;
-	}
-	.fade-enter-from,
-	.fade-leave-to {
-		opacity: 0;
 	}
 </style>

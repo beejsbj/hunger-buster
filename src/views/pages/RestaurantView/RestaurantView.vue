@@ -1,18 +1,6 @@
 <script setup>
 	///////////////////////////////////////////
 	const shop = useShopStore();
-
-	// watch(
-	// 	shop.restaurant,
-	// 	() => {
-	// 		console.log("watching shop.colors", shop.colors);
-	// 		let $body = document.querySelector("body");
-	// 		if (shop.colors[5]) {
-	// 			$body.style.setProperty("--highlight", shop.colors[5]);
-	// 		}
-	// 	},
-	// 	{ deep: true }
-	// );
 </script>
 
 <template>
@@ -32,7 +20,6 @@
 				v-slot="{ Component, route }"
 				appear
 			>
-				<!-- #todo add transition -->
 				<Transition
 					mode="out-in"
 					:name="true ? 'fade' : route.meta.transition"

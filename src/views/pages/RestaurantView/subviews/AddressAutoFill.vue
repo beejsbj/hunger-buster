@@ -7,7 +7,7 @@
 		<GMapAutocomplete
 			id="delivery-address"
 			@place_changed="user.setUserLocation"
-			:value="user.address?.formatted_address ?? 'Enter your address'"
+			:placeholder="user.address?.formatted_address ?? 'Enter your address'"
 		/>
 		<Skeleton :pill="true" />
 	</div>

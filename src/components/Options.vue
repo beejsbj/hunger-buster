@@ -1,4 +1,3 @@
-
 <script setup>
 	const props = defineProps(["options"]);
 
@@ -33,7 +32,7 @@
 					class="choice"
 					v-for="choice in option.choices"
 				>
-					<label for="">
+					<label :for="choice.name">
 						<span>{{ choice.name }}</span>
 						<span
 							class="price"
@@ -50,11 +49,13 @@
 						@input="clearSelections(option.choices)"
 						v-model="choice.selected"
 						:required="option.required"
+						:id="choice.name"
 					/>
 					<input
 						v-if="option.multiSelect"
 						type="checkbox"
 						v-model="choice.selected"
+						:id="choice.name"
 					/>
 				</li>
 			</ul>
@@ -82,6 +83,7 @@
 	.choice {
 		display: flex;
 		justify-content: space-between;
+		padding: 5px;
 		input {
 			width: 20px;
 		}

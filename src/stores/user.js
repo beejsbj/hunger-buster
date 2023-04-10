@@ -300,6 +300,7 @@ export const useUserStore = defineStore("user", () => {
 
 	///////////////////////////////////////////////////////
 	return {
+		auth,
 		current,
 		restaurants,
 		orders,

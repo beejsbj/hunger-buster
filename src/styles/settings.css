@@ -8,15 +8,15 @@ html {
 	--blue: hsla(209, 90%, 50%, 1);
 
 
-	--color: hsla(206, 66%, 77%, 1);
+	--color: hsla(49, 91%, 66%, 1.00);
 	--highlight: var(--blue);
 
 	--shadow: rgba(0, 0, 0, 0.8);
 
 	--corners: 5px; /* or whatevers */
 
-	--paper: whitesmoke; /*shadier dodgerblue*/
-	--ink: black;
+	--paper: black; /*shadier dodgerblue*/
+	--ink: white;
 }
 
 @media (prefers-color-scheme: dark) {

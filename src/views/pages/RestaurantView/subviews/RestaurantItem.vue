@@ -25,16 +25,14 @@
 					{{ item.description }}
 				</p>
 
-				<FavoriteButton
-					:position="'static'"
-					:item="item"
-				/>
+				<FavoriteButton :item="item" />
 			</text-content>
 			<picture>
 				<img
 					:src="item.image"
 					alt=""
 				/>
+				<Skeleton :pill="true" />
 			</picture>
 		</item-banner>
 
@@ -80,15 +78,16 @@
 </template>
 
 <style lang="scss" scoped>
-	item-banner {
-		display: grid;
-		grid-template-columns: 1fr 0.3fr;
-		gap: 10px;
-	}
 	item-detail {
 		display: grid;
 		/*	grid-template-columns: 1fr 0.3fr;*/
 		gap: 10px;
+
+		item-banner {
+			display: grid;
+			grid-template-columns: 1fr 0.3fr;
+			gap: 10px;
+		}
 	}
 
 	item-detail > div {
@@ -100,22 +99,10 @@
 		color: var(--highlight);
 	}
 
-	.options > *:nth-child(odd) {
-		background-color: rgba(0, 0, 0, 0.4);
-	}
-
 	label {
 		display: grid;
 		.price {
 			color: green;
-		}
-	}
-
-	.choice {
-		display: flex;
-		justify-content: space-between;
-		input {
-			width: 20px;
 		}
 	}
 	textarea {
@@ -130,5 +117,14 @@
 	.buttons {
 		display: flex;
 		justify-content: space-between;
+	}
+
+	picture {
+		aspect-ratio: 1/1;
+	}
+	picture img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
 	}
 </style>

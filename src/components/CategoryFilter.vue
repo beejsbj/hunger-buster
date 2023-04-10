@@ -42,13 +42,25 @@
 	category-filter ul {
 		display: flex;
 		gap: 10px;
+		overflow-x: scroll;
+	}
+	@media (max-width: 450px) {
+		category-filter {
+			padding: 10px;
+			background-color: white;
+			max-width: 90vw;
+			border-radius: var(--corners);
+		}
+		category-filter ul {
+		}
 	}
 	input {
 		display: none;
 	}
 	label {
 		cursor: pointer;
-		background: white;
+		background: var(--color);
+		color: black;
 		border: 1px solid black;
 		border-radius: var(--corners);
 		padding: 5px 10px;

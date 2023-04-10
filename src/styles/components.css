@@ -32,7 +32,8 @@ button.favorited {
 	border: solid 2px var(--highlight);
 }
 
-button.text {
+button.text,
+.button.text {
 	background-color: initial;
 	color: var(--highlight);
 	border: none;
@@ -111,4 +112,12 @@ label {
 button.dropdown {
 	text-overflow: ellipsis;
 
+}
+
+
+
+
+
+p a {
+	padding: 0;
 }

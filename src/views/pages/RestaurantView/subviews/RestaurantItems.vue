@@ -63,4 +63,12 @@
 		display: grid;
 		gap: 20px;
 	}
+	.items-list {
+		display: grid;
+		gap: 20px;
+
+		@media (min-width: 450px) {
+			grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+		}
+	}
 </style>
