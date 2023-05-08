@@ -58,7 +58,7 @@
 			Login
 		</RouterLink>
 		<button
-			class="button"
+			class="button logout"
 			key="logout"
 			@click="user.logout()"
 			v-if="user.current"
@@ -77,5 +77,10 @@
 		@media (min-width: 450px) {
 			display: flex;
 		}
+	}
+
+	button.logout {
+		background-color: white;
+		filter: invert(1);
 	}
 </style>

@@ -14,7 +14,7 @@
 			};
 		}
 		return {
-			color: "var(--blue)",
+			color: "var(--color)",
 		};
 	});
 

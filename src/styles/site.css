@@ -26,7 +26,6 @@
 body {
 	background-color: var(--paper);
 	color: var(--ink);
-	
 }
 main {
 	overflow-x: hidden;
@@ -54,9 +53,6 @@ nav a {
 	display: contents;
 }
 
-
-
-
 article {
 	padding: 20px;
 	display: grid;
@@ -67,7 +63,6 @@ article section {
 	display: grid;
 	gap: 1rem;
 }
-
 
 .fade-enter-active,
 .fade-leave-active {
@@ -80,46 +75,40 @@ article section {
 
 .list-move,
 .list-enter-active {
-  transition: 0.5s ease;
+	transition: 0.5s ease;
 }
 
 .list-enter-from {
-  opacity: 0; 
-  transform: translateX(30px);
+	opacity: 0;
+	transform: translateX(30px);
 }
-
 
 .list-leave-active {
-  transition: 0s;
+	transition: 0s;
 }
-
-
-
-.modal-enter-from {
-	opacity: 0;
- }
- 
- .modal-leave-to {
-	opacity: 0;
- }
- 
- .modal-enter-from .modal-container,
- .modal-leave-to .modal-container {
-	-webkit-transform: scale(1.1);
-	transform: scale(1.1);
- }
 
 body::-webkit-scrollbar {
 	display: none;
- }
+}
 
- .vue-map .gmnoprint,
- .vue-map button {
+.vue-map .gmnoprint,
+.vue-map button {
 	display: none !important;
 }
 
+.modal-enter-from {
+	opacity: 0;
+}
 
+.modal-leave-to {
+	opacity: 0;
+}
 
+.modal-enter-from .modal-container,
+.modal-leave-to .modal-container {
+	-webkit-transform: scale(1.1);
+	transform: scale(1.1);
+}
 
 .modal-mask {
 	position: fixed;
@@ -135,8 +124,7 @@ body::-webkit-scrollbar {
 }
 .modal-mask > * {
 	width: clamp(300px, 90vw, 500px);
-	margin:  auto;
+	margin: auto;
 
 	background-color: var(--paper);
-
 }

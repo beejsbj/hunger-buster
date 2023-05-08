@@ -177,7 +177,7 @@ export const useUserStore = defineStore("user", () => {
 						favoriteItems: [],
 					},
 				}).then(() => {
-					router.push("/user");
+					window.location.href = "/user";
 				});
 			})
 			.catch((error) => {
@@ -205,7 +205,7 @@ export const useUserStore = defineStore("user", () => {
 						restaurantsOwned: [],
 					},
 				}).then(() => {
-					router.push("/user");
+					window.location.href = "/user";
 				});
 			})
 			.catch((error) => {
@@ -218,7 +218,8 @@ export const useUserStore = defineStore("user", () => {
 		signInWithEmailAndPassword(auth, form.email, form.password)
 			.then((userCredential) => {
 				const user = userCredential.user;
-				router.push(route.query.redirect || "/user");
+
+				window.location.href = route.query.redirect || "/user";
 			})
 			.catch((error) => {
 				console.log(error.code, error.message);
@@ -239,7 +240,7 @@ export const useUserStore = defineStore("user", () => {
 						ui.notify("Login as a user instead");
 						return;
 					} else {
-						router.push(route.query.redirect || "/user");
+						window.location.href = route.query.redirect || "/user";
 					}
 				});
 			})

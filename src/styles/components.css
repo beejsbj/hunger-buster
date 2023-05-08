@@ -2,34 +2,28 @@
 
 @import "forms.css";
 
-
 button {
 	cursor: pointer;
 }
-
 
 .button {
 	background-color: var(--highlight);
 	color: var(--paper);
 	font: sans-serif;
-	
+
 	padding: 5px;
 	text-align: center;
 	border-radius: var(--corners);
-	
 }
-
-
 
 button.favorited {
 	background: salmon;
 }
 
-
 .button.outline {
 	background-color: initial;
-	color: var(--highlight);
-	border: solid 2px var(--highlight);
+	color: var(--ink);
+	border: solid 2px var(--ink);
 }
 
 button.text,
@@ -43,7 +37,6 @@ button.text,
 
 button.text:hover {
 	background-color: var(--highlight);
-
 }
 
 .buttons {
@@ -53,7 +46,6 @@ button.text:hover {
 
 .button.danger {
 	--highlight: red;
-
 }
 
 nav :has(a.business) {
@@ -71,15 +63,11 @@ a:hover {
 	background-color: var(--highlight);
 	color: var(--paper);
 	border-radius: var(--corners);
-	
-
 }
 
 a.business {
 	--highlight: brown;
-
 }
-
 
 header nav {
 	--left: 0;
@@ -102,21 +90,13 @@ header nav::after {
 	--highlight: red;
 }
 
-
 label {
 	cursor: pointer;
 }
 
-
-
 button.dropdown {
 	text-overflow: ellipsis;
-
 }
-
-
-
-
 
 p a {
 	padding: 0;
