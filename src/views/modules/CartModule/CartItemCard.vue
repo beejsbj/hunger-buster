@@ -11,7 +11,7 @@
 			<h2 class="firm-voice">
 				<span>{{ item.name }} —</span>
 				<span class="price small-voice">${{ item.totalPrice }}</span>
-				<Skeleton :pill="true" />
+				<Skeleton />
 			</h2>
 
 			<CartItemCardOptions :options="item.options" />
@@ -29,7 +29,7 @@
 					:src="item.image"
 					alt=""
 				/>
-				<Skeleton :pill="true" />
+				<Skeleton />
 			</picture>
 		</div>
 
@@ -50,7 +50,7 @@
 				<option>4</option>
 				<option>5</option>
 			</select>
-			<Skeleton :pill="true" />
+			<Skeleton />
 		</div>
 	</li>
 </template>

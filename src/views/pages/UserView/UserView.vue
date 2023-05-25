@@ -43,7 +43,7 @@
 					to="/business"
 					>Business</RouterLink
 				>
-				<Skeleton :pill="true" />
+				<Skeleton />
 			</nav>
 		</header>
 

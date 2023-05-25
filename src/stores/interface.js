@@ -45,9 +45,9 @@ export const useInterfaceStore = defineStore("interface", function () {
 
 			// check if a has business class
 			if (a.classList.contains("business")) {
-				nav.style.setProperty("--underline-color", "brown");
+				nav.style.setProperty("--underline-color", "var(--color-shade");
 			} else {
-				nav.style.setProperty("--underline-color", "var(--highlight)");
+				nav.style.setProperty("--underline-color", "var(--color)");
 			}
 		}
 	}

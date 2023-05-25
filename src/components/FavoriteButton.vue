@@ -28,7 +28,7 @@
 		<picture>
 			<IconHeart />
 		</picture>
-		<Skeleton :pill="true" />
+		<Skeleton />
 	</button>
 </template>
 
@@ -48,6 +48,12 @@
 
 				padding-top: 6px;
 				box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+				&.favorited {
+					svg {
+						mix-blend-mode: soft-light;
+					}
+				}
 
 				@media (min-width: 450px) {
 					top: 10px;

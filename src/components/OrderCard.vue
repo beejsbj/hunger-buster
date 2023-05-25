@@ -18,17 +18,17 @@
 			<p>
 				{{ order.restaurant.name }}
 			</p>
-			<Skeleton :pill="true" />
+			<Skeleton />
 		</header>
 		<p>----------------------------------------------</p>
 		<p>
 			<span>{{ order.restaurant.address.formatted_address }}</span>
-			<Skeleton :pill="true" />
+			<Skeleton />
 		</p>
 		<template v-if="order.deliveryMethod == 'delivery'">
 			<p>
 				<span>Delivered to {{ order.placedAt.formatted_address }}</span>
-				<Skeleton :pill="true" />
+				<Skeleton />
 			</p>
 		</template>
 
@@ -38,7 +38,7 @@
 			<summary class="firm-voice">
 				<span>Items</span>
 
-				<Skeleton :pill="true" />
+				<Skeleton />
 			</summary>
 			<ul>
 				<li
@@ -56,7 +56,7 @@
 		<details class="price">
 			<summary class="firm-voice">
 				<span>Total: ${{ order.total }}</span>
-				<Skeleton :pill="true" />
+				<Skeleton />
 			</summary>
 			<text-content>
 				<p class="whisper-voice">Subtotal: ${{ order.subtotal }}</p>
@@ -81,7 +81,7 @@
 			</text-content>
 		</details>
 		<div class="buttons">
-			<Skeleton :pill="true" />
+			<Skeleton />
 			<RouterLink
 				class="button hide"
 				:to="`/order/${order.id}`"

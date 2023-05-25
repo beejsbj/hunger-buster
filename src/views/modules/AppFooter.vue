@@ -29,8 +29,9 @@
 					<a
 						target="site"
 						href="https://burooj.dev"
-						>Visit Website</a
 					>
+						Visit Website
+					</a>
 					<a
 						href="https://github.com/beejsbj/hunger-buster"
 						target="github"
@@ -40,16 +41,25 @@
 				</nav>
 			</footer-menu>
 		</inner-column>
+		<BackgroundDecor />
 	</footer>
 </template>
 
 <style lang="scss" scoped>
 	footer {
-		background-color: var(--color);
-		padding: 10px 0;
+		position: relative;
+
+		background: var(--color);
+		background-image: url("@/assets/images/pizza.jpg");
+		background-size: 15%;
+
 		inner-column {
 			display: grid;
 			gap: 20px;
+			z-index: 3;
+			position: relative;
+
+			background: hsla(60, 95%, 50%, 0.9);
 		}
 	}
 	footer-menu {

@@ -25,13 +25,13 @@
 			<li class="subtotal">
 				<p>Subtotal</p>
 				<p>${{ order.subtotal }}</p>
-				<Skeleton :pill="true" />
+				<Skeleton />
 			</li>
 
 			<li class="tax">
 				<p>Taxes and Other fees</p>
 				<p>${{ order.tax.toFixed(2) }}</p>
-				<Skeleton :pill="true" />
+				<Skeleton />
 			</li>
 			<li class="tip">
 				<p>Tip</p>
@@ -64,7 +64,7 @@
 						<label for="tip15">15%</label>
 					</input-field>
 				</radio-list>
-				<Skeleton :pill="true" />
+				<Skeleton />
 			</li>
 
 			<li class="deliveryfee">
@@ -72,9 +72,9 @@
 				<Transition name="list">
 					<p v-if="order.deliveryMethod == 'delivery'">
 						$<span>{{ order.deliveryFee }}</span>
-						<Skeleton :pill="true" />
+						<Skeleton />
 					</p>
-					<p v-else>$<s>0</s> <Skeleton :pill="true" /></p
+					<p v-else>$<s>0</s> <Skeleton /></p
 				></Transition>
 			</li>
 
@@ -83,10 +83,10 @@
 				<Transition name="list">
 					<p v-if="order.deliveryMethod == 'delivery'">
 						$<span>{{ order.total }}</span>
-						<Skeleton :pill="true" />
+						<Skeleton />
 					</p>
 					<p v-else>
-						$<span>{{ order.total }}</span> <Skeleton :pill="true" /></p
+						$<span>{{ order.total }}</span> <Skeleton /></p
 				></Transition>
 			</li>
 

@@ -7,23 +7,23 @@
 		<header>
 			<picture>
 				<img :src="review.user.image" />
-				<Skeleton :pill="true" />
+				<Skeleton />
 			</picture>
 			<text-content>
 				<h3 class="firm-voice">{{ review.user.displayName }}</h3>
 				<p>
 					{{ new Date(review.date.seconds * 1000).toLocaleString() }}
 				</p>
-				<Skeleton :pill="true" />
+				<Skeleton />
 			</text-content>
 		</header>
 		<p>
 			<span>{{ "★".repeat(review?.rating) }}</span>
-			<Skeleton :pill="true" />
+			<Skeleton />
 		</p>
 		<p>
 			<span>{{ review?.content }}</span>
-			<Skeleton :pill="true" />
+			<Skeleton />
 		</p>
 	</review-card>
 </template>
@@ -34,7 +34,8 @@
 		background: white;
 		color: black;
 		padding: 20px;
-		box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+		box-shadow: var(--shadow);
+		border-radius: 10px;
 
 		header {
 			display: grid;

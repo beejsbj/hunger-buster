@@ -13,14 +13,14 @@
 					{{ restaurant.name }}
 				</span>
 
-				<Skeleton :pill="true" />
+				<Skeleton />
 			</h2>
 			<p class="whisper-voice">
 				<span>{{ restaurant.description }}</span>
-				<Skeleton :pill="true" />
+				<Skeleton />
 			</p>
 			<p>
-				<Skeleton :pill="true" />
+				<Skeleton />
 				<span v-if="restaurant.ratings">
 					★ {{ restaurant.ratings ?? 4.7 }}
 				</span>
@@ -56,7 +56,7 @@
 				"
 				alt="https://peprojects.dev/images/square.jpg"
 			/>
-			<Skeleton :pill="true" />
+			<Skeleton />
 		</picture>
 	</restaurant-banner>
 </template>

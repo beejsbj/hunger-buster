@@ -35,7 +35,7 @@
 			@click="ui.navUnderline($event)"
 			ref="navRef"
 		>
-			<Skeleton :pill="true" />
+			<Skeleton />
 			<RouterLink :to="'/restaurant/' + shop.restaurant.id">
 				Items
 			</RouterLink>

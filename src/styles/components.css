@@ -7,13 +7,21 @@ button {
 }
 
 .button {
-	background-color: var(--highlight);
-	color: var(--paper);
-	font: sans-serif;
+	font-family: var(--font);
 
-	padding: 5px;
+	background: var(--color);
+	color: var(--paper);
+
+	padding: 0.5rem 1rem;
 	text-align: center;
+
 	border-radius: var(--corners);
+	transition: transform ease 0.2s, box-shadow ease 0.2s;
+}
+
+.button:hover {
+	transform: translateY(-3px);
+	box-shadow: var(--shadow);
 }
 
 button.favorited {
@@ -22,24 +30,28 @@ button.favorited {
 
 .button.outline {
 	background-color: initial;
-	color: var(--ink);
-	border: solid 2px var(--ink);
+	color: var(--color);
+	border: solid 2px var(--color);
+}
+.button.outline:hover {
+	background-color: var(--color);
+	color: var(--paper);
 }
 
 button.text,
-.button.text {
+.button.text,
+a {
 	background-color: initial;
 	color: var(--highlight);
 	border: none;
-	padding: 5px;
+	padding: 1rem;
 	border-radius: var(--corners);
 }
 
 button.text:hover {
 	background-color: var(--highlight);
 }
-
-.buttons {
+z .buttons {
 	display: flex;
 	gap: 10px;
 }
@@ -49,41 +61,16 @@ button.text:hover {
 }
 
 nav :has(a.business) {
-	--highlight: brown;
-}
-
-a {
-	color: var(--highlight);
-	padding: 10px;
+	--highlight: var(--color-shade);
 }
 
 a:hover {
 	filter: brightness(1.5);
 	transition: 0.2s;
-	background-color: var(--highlight);
-	color: var(--paper);
-	border-radius: var(--corners);
 }
 
 a.business {
-	--highlight: brown;
-}
-
-header nav {
-	--left: 0;
-	--width: 0;
-	transition: 0.2s;
-	position: relative;
-}
-header nav::after {
-	content: "";
-	position: absolute;
-	bottom: -10px;
-	height: 5px;
-	left: var(--left);
-	width: var(--width);
-	background-color: var(--underline-color);
-	transition: 0.2s;
+	--highlight: var(--color-shade);
 }
 
 .button.remove {
@@ -100,4 +87,9 @@ button.dropdown {
 
 p a {
 	padding: 0;
+}
+
+div.buttons {
+	display: flex;
+	gap: 1rem;
 }

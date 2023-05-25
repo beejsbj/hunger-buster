@@ -32,7 +32,7 @@
 					:src="item.image"
 					alt=""
 				/>
-				<Skeleton :pill="true" />
+				<Skeleton />
 			</picture>
 		</item-banner>
 

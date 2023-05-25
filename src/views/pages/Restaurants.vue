@@ -102,5 +102,14 @@
 				grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
 			}
 		}
+
+		input.search {
+			width: 25%;
+			transition: 0.2s;
+
+			&:focus {
+				width: 100%;
+			}
+		}
 	}
 </style>

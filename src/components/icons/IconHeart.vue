@@ -26,8 +26,4 @@
 	</svg>
 </template>
 
-<style scoped>
-	svg {
-		mix-blend-mode: soft-light;
-	}
-</style>
+<style scoped></style>

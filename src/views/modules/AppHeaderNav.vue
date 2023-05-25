@@ -20,19 +20,13 @@
 		ref="navRef"
 	>
 		<Skeleton
-			:pill="true"
 			key="skeleton"
 			v-if="!ui.isMobile"
 		/>
 		<RouterLink
-			key="home"
-			to="/"
-		>
-			Home
-		</RouterLink>
-		<RouterLink
 			key="restaurants"
 			to="/restaurants"
+			class="text"
 		>
 			Restaurants
 		</RouterLink>
@@ -40,12 +34,13 @@
 			key="carts"
 			v-if="shop.carts?.length && false"
 			to="/carts"
-			class="cart"
+			class="text cart"
 			>Carts</RouterLink
 		>
 		<RouterLink
 			key="user"
 			to="/user"
+			class="text"
 			v-if="user.current"
 		>
 			Profile
@@ -53,10 +48,12 @@
 		<RouterLink
 			key="login"
 			to="/login"
+			class="button"
 			v-if="!user.current"
 		>
 			Login
 		</RouterLink>
+
 		<button
 			class="button logout"
 			key="logout"
@@ -71,16 +68,28 @@
 <style lang="scss" scoped>
 	nav {
 		display: grid;
-		gap: 10px;
-		transition: 0.2s;
-		padding: 20px;
+		gap: 2rem;
+		// transition: 0.2s;
+		// padding: 20px;
 		@media (min-width: 450px) {
 			display: flex;
 		}
-	}
 
-	button.logout {
-		background-color: white;
-		filter: invert(1);
+		--left: 0;
+		--width: 0;
+		transition: 0.2s;
+		position: relative;
+
+		&::after {
+			content: "";
+			position: absolute;
+			bottom: -10px;
+			height: 5px;
+			left: var(--left);
+			width: var(--width);
+			background-color: var(--underline-color);
+			border-radius: var(--corners);
+			transition: 0.2s;
+		}
 	}
 </style>

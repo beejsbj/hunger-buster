@@ -19,15 +19,11 @@
 			<img
 				:src="item.image ?? 'https://peprojects.dev/images/square.jpg'"
 				alt="https://peprojects.dev/images/square.jpg"
-				v-show="!ui.seletonLoading"
 			/>
-			<Skeleton
-				:pill="true"
-				duration="2000"
-			/>
+			<Skeleton duration="2000" />
 		</picture>
 		<text-content>
-			<Skeleton :pill="true" />
+			<Skeleton />
 			<h4 class="firm-voice">
 				{{ item.name }}
 			</h4>
@@ -35,7 +31,7 @@
 		</text-content>
 
 		<div class="buttons">
-			<Skeleton :pill="true" />
+			<Skeleton />
 			<button
 				class="button"
 				@click="item.show = !item.show"
@@ -43,7 +39,7 @@
 				Add
 			</button>
 			<button
-				class="button"
+				class="button outline"
 				@click="redirect()"
 			>
 				More
@@ -77,6 +73,8 @@
 	}
 	item-card picture {
 		aspect-ratio: 1 / 1;
+		border-radius: var(--corners);
+		overflow: hidden;
 	}
 
 	item-card picture img {

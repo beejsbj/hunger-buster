@@ -2,25 +2,6 @@
 	import { RouterView, useRoute } from "vue-router";
 
 	const route = useRoute();
-	const shop = useShopStore();
-
-	const styles = computed(() => {
-		if (route.params.restaurantSlug && shop.colors[0]) {
-			let color = shop.colors.find(
-				(color) => color.lightness > 0.2 && color.lightness < 0.8
-			);
-			return {
-				color: color.hex,
-			};
-		}
-		return {
-			color: "var(--color)",
-		};
-	});
-
-	watch(styles, (newVal) => {
-		document.documentElement.style.setProperty("--highlight", newVal.color);
-	});
 </script>
 
 <template>

@@ -31,6 +31,7 @@
 		height: 100vh;
 		width: 100vw;
 		grid-template-rows: 0.4fr 1fr;
+		z-index: 5;
 
 		@media (min-width: 600px) {
 			grid-template-columns: 1fr 1fr;

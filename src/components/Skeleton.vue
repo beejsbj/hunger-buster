@@ -21,7 +21,6 @@
 	<Skeletor
 		v-if="seletonLoading"
 		size="100%"
-		:pill="pill"
 	/>
 </template>
 
@@ -41,6 +40,7 @@
 			top: 0;
 			z-index: 11;
 			background-color: hsla(0, 0%, 80%, 1);
+			border-radius: var(--corners);
 		}
 	}
 </style>

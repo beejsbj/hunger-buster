@@ -7,7 +7,7 @@
 	<profile-banner>
 		<h1 class="loud-voice">
 			<span>{{ profile?.displayName }}</span>
-			<Skeleton :pill="true" />
+			<Skeleton />
 		</h1>
 
 		<picture class="profile-picture">
@@ -15,7 +15,7 @@
 				:src="profile?.image"
 				alt=""
 			/>
-			<Skeleton :pill="true" />
+			<Skeleton />
 		</picture>
 		<!-- <button class="edit outline">Edit Image</button> -->
 	</profile-banner>

@@ -1,16 +1,23 @@
 html {
-	--black: #111111;
+	--black: hsla(0, 0%, 0%, 1);
 	--white: #efefef;
+	--hue: 60;
+
+	--gray: hsla(var(--hue), 0%, 51%, 1);
+	--gray-light: hsla(var(--hue), 0%, 71%, 1);
+	--gray-lighter: hsla(var(--hue), 0%, 90%, 1);
 
 	--neutral-stuffs: gray;
 
-	--color: hsla(60, 97%, 52%, 1);
-	--highlight: black;
+	--color: hsla(var(--hue), 95%, 50%, 1);
+	--color-shade: hsla(var(--hue), 50%, 40%, 1);
 
-	--shadow: rgba(0, 0, 0, 0.8);
+	--highlight: hsla(var(--hue), 0%, 95%, 1);
 
-	--corners: 5px; /* or whatevers */
+	--shadow: 0 20px 80px -10px var(--color);
 
-	--paper: hsla(50, 10%, 10%, 1);
+	--corners: 8px;
+
+	--paper: hsla(0, 0%, 0%, 1);
 	--ink: white;
 }

@@ -95,7 +95,7 @@
 					</GMapCluster>
 				</GMapMap>
 			</map-view>
-			<Skeleton :pill="true" />
+			<Skeleton />
 		</delivery-module>
 	</checkout-module>
 	<div class="buttons">
@@ -110,7 +110,7 @@
 		>
 			Place Order
 		</button>
-		<Skeleton :pill="true" />
+		<Skeleton />
 	</div>
 </template>
 
